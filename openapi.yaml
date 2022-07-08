@@ -1392,6 +1392,7 @@ components:
       - es
       - fr
       - ja
+      - it
       example: de
     GlossaryTargetLanguage:
       type: string
@@ -1402,6 +1403,7 @@ components:
       - es
       - fr
       - ja
+      - it
       example: en
     SourceLanguage:
       type: string
