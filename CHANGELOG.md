@@ -10,6 +10,14 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.2.0]
+### Added
+* Add support for EN (English) ←→ PL (Polish) glossaries.
+### Fixed
+* EN (English) ←→ IT (Italian) was missing from the list of supported glossary
+  language pairs in the JSON OpenAPI spec. 
+
+
 ## [2.1.0]
 ### Added
 * Add CSV entries format for creating glossaries.
@@ -24,5 +32,6 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.2.0]: https://github.com/DeepLcom/openapi/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/DeepLcom/openapi/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/DeepLcom/openapi/releases/tag/v2.0.0

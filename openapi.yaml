@@ -7,7 +7,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 2.1.0
+  version: 2.2.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro?cta=header-prices/
@@ -50,6 +50,8 @@ tags:
     - JA (Japanese) → EN (English)
     - EN (English) → IT (Italian)
     - IT (Italian) → EN (English)
+    - EN (English) → PL (Polish)
+    - PL (Polish) → EN (English)
     - DE (German) → FR (French)
     - FR (French) → DE (German)
 
@@ -1379,6 +1381,7 @@ components:
       - fr
       - ja
       - it
+      - pl
       example: de
     GlossaryTargetLanguage:
       type: string
@@ -1390,6 +1393,7 @@ components:
       - fr
       - ja
       - it
+      - pl
       example: en
     SourceLanguage:
       type: string
