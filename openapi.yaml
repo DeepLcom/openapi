@@ -715,7 +715,7 @@ paths:
                   description: The entries of the glossary. The entries have to be
                     specified in the format provided by the `entries_format` parameter.
                   type: string
-                  example: "Hello!\tGuten Tag!"
+                  example: "Hello\tGuten Tag"
                 entries_format:
                   description: |-
                     The format in which the glossary entries are provided. Formats currently available:
@@ -1387,7 +1387,7 @@ components:
       - ja
       - it
       - pl
-      example: de
+      example: en
     GlossaryTargetLanguage:
       type: string
       description: The language in which the target texts in the glossary are specified.
@@ -1399,7 +1399,7 @@ components:
       - ja
       - it
       - pl
-      example: en
+      example: de
     SourceLanguage:
       type: string
       description: |-

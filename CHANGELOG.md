@@ -10,6 +10,12 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.3.1]
+### Fixed
+* Source and target language were mixed up in glossary example.
+* Fix createGlossary example: remove punctuation. 
+
+
 ## [2.3.0]
 ### Added
 * Add Ukrainian source and target languages.
@@ -43,6 +49,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.3.1]: https://github.com/DeepLcom/openapi/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/DeepLcom/openapi/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/DeepLcom/openapi/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/DeepLcom/openapi/compare/v2.0.0...v2.1.0

@@ -742,7 +742,7 @@
                   "entries": {
                     "description": "The entries of the glossary. The entries have to be specified in the format provided by the `entries_format` parameter.",
                     "type": "string",
-                    "example": "Hello!\tGuten Tag!"
+                    "example": "Hello\tGuten Tag"
                   },
                   "entries_format": {
                     "description": "The format in which the glossary entries are provided. Formats currently available:\n- `tsv` (default) - tab-separated values\n- `csv` - comma-separated values\n\nSee [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.",
@@ -1667,7 +1667,7 @@
           "it",
           "pl"
         ],
-        "example": "de"
+        "example": "en"
       },
       "GlossaryTargetLanguage": {
         "type": "string",
@@ -1681,7 +1681,7 @@
           "it",
           "pl"
         ],
-        "example": "en"
+        "example": "de"
       },
       "SourceLanguage": {
         "type": "string",
