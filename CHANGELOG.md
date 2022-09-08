@@ -10,6 +10,17 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.3.0]
+### Added
+* Add Ukrainian source and target languages.
+### Changed
+* Add request body size limit to translateText description. 
+### Fixed
+* Add "Simplified" label to ZH (Chinese) target language.
+* Fix a typo in an example.
+* Markdown fixes.
+
+
 ## [2.2.0]
 ### Added
 * Add support for EN (English) ←→ PL (Polish) glossaries.
@@ -32,6 +43,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.3.0]: https://github.com/DeepLcom/openapi/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/DeepLcom/openapi/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/DeepLcom/openapi/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/DeepLcom/openapi/releases/tag/v2.0.0
