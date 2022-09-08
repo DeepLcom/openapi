@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
@@ -26,24 +26,16 @@
   ],
   "tags": [
     {
-      "name": "TranslatingText",
+      "name": "TranslateText",
       "description": "The text-translation API currently consists of a single endpoint, `translate`, which is described below."
     },
     {
-      "name": "HandlingXML",
-      "description": "By default, the translation engine does not take tags into account.\nBy setting the `tag_handling` parameter to `xml`, the API will process XML input by extracting text out of the structure,\nsplitting it into individual sentences, translating them, and placing them back into the XML structure.\n\nFor the translation of HTML content please see [Handling HTML (Beta)](https://www.deepl.com/docs-api/html) \n\nWe will look at the XML handling engine in the following cases:\n\n- Sentences with markup\n- Structured content\n- Restricting splitting\n- Disabling automatic outline detection\n- Splitting on newlines\n- Ignored text"
-    },
-    {
-      "name": "HandlingHTML",
-      "description": "By default, the translation engine does not take HTML tags into account.\nBy setting the `tag_handling` parameter to `html`, the API will process HTML input by extracting text\nout of the structure, splitting it into individual sentences, translating them, and placing them back\ninto the HTML structure.\nThis functionality is in beta. If you encounter issues, please let us know at support@DeepL.com.\n\nFor the translation of generic XML content please see [Handling XML](https://www.deepl.com/docs-api/xml)"
-    },
-    {
-      "name": "TranslatingDocuments",
+      "name": "TranslateDocuments",
       "description": "The document translation API allows you to translate whole documents.\nTranslating a document usually involves three types of HTTP requests:\n- [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,\n- periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,\n- once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.\n\nPlease note that with every submitted document of type .pptx, .docx, or .pdf,\nyou are billed a minimum of 50,000 characters with the DeepL API plan,\nno matter how many characters are included in the document."
     },
     {
-      "name": "ManagingGlossaries",
-      "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nCurrently, glossaries for the following language combinations are supported:\n\n- EN (English) \u2192 DE (German)\n- DE (German) \u2192 EN (English)\n- EN (English) \u2192 FR (French)\n- FR (French) \u2192 EN (English)\n- EN (English) \u2192 ES (Spanish)\n- ES (Spanish) \u2192 EN (English)\n- EN (English) \u2192 JA (Japanese)\n- JA (Japanese) \u2192 EN (English)\n- DE (German) \u2192 FR (French)\n- FR (French) \u2192 DE (German)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa."
+      "name": "ManageGlossaries",
+      "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nCurrently, glossaries for the following language combinations are supported:\n\n- EN (English) \u2192 DE (German)\n- DE (German) \u2192 EN (English)\n- EN (English) \u2192 FR (French)\n- FR (French) \u2192 EN (English)\n- EN (English) \u2192 ES (Spanish)\n- ES (Spanish) \u2192 EN (English)\n- EN (English) \u2192 JA (Japanese)\n- JA (Japanese) \u2192 EN (English)\n- DE (German) \u2192 FR (French)\n- FR (French) \u2192 DE (German)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa.\n\n\n\nNote that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name."
     },
     {
       "name": "MetaInformation",
@@ -54,7 +46,7 @@
     "/translate": {
       "post": {
         "tags": [
-          "TranslatingText"
+          "TranslateText"
         ],
         "summary": "Request Translation",
         "operationId": "translateText",
@@ -127,7 +119,7 @@
                     "$ref": "#/components/schemas/TargetLanguage"
                   },
                   "split_sentences": {
-                    "description": "Sets whether the translation engine should first split the input into sentences. This is enabled by default. Possible values are:\n * `0` - no splitting at all, whole input is treated as one sentence\n * `1` - splits on punctuation and on newlines\n * `nonewlines` - splits on punctuation only, ignoring newlines\n\nFor applications that send one sentence per text parameter, it is advisable to set `split_sentences` to `0`, in order to prevent the engine from splitting the sentence unintentionally.\n\n\nPlease note that newlines will split sentences. You should therefore clean files to avoid breaking sentences or set the parameter `split_sentences` to `nonewlines`. In the example below, the two parts of the sentence have been translated separately and this has caused an error: The word \"the\" has been incorrectly translated as \"die\" (the feminine definite article in German), though the German word for \"sentence\", \"Satz\", is masculine (der Satz).\n * Example request:\n```\n<div>This is the first\nsentence.</div>\n```\n * Example response:\n```\n<div>Dies ist die erste\nSatz.</div>\n```",
+                    "description": "Sets whether the translation engine should first split the input into sentences. This is enabled by default. Possible values are:\n * `0` - no splitting at all, whole input is treated as one sentence\n * `1` (default) - splits on punctuation and on newlines\n * `nonewlines` - splits on punctuation only, ignoring newlines\n\nFor applications that send one sentence per text parameter, it is advisable to set `split_sentences` to `0`, in order to prevent the engine from splitting the sentence unintentionally.\n\n\nPlease note that newlines will split sentences. You should therefore clean files to avoid breaking sentences or set the parameter `split_sentences` to `nonewlines`. In the example below, the two parts of the sentence have been translated separately and this has caused an error: The word \"the\" has been incorrectly translated as \"die\" (the feminine definite article in German), though the German word for \"sentence\", \"Satz\", is masculine (der Satz).\n * Example request:\n```\n<div>This is the first\nsentence.</div>\n```\n * Example response:\n```\n<div>Dies ist die erste\nSatz.</div>\n```",
                     "type": "string",
                     "enum": [
                       "0",
@@ -137,7 +129,7 @@
                     "default": "1"
                   },
                   "preserve_formatting": {
-                    "description": "Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. Possible values are:\n * `0`\n * `1`\n\nThe formatting aspects affected by this setting include:\n * Punctuation at the beginning and end of the sentence\n * Upper/lower case at the beginning of the sentence",
+                    "description": "Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. Possible values are:\n * `0` (default)\n * `1`\n\nThe formatting aspects affected by this setting include:\n * Punctuation at the beginning and end of the sentence\n * Upper/lower case at the beginning of the sentence",
                     "type": "string",
                     "enum": [
                       "0",
@@ -153,7 +145,7 @@
                     "type": "string"
                   },
                   "tag_handling": {
-                    "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [Handling XML](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [Handling HTML (Beta)](https://www.deepl.com/docs-api/html).",
+                    "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling (Beta)](https://www.deepl.com/docs-api/html).",
                     "type": "string",
                     "enum": [
                       "xml",
@@ -316,7 +308,7 @@
     "/document": {
       "post": {
         "tags": [
-          "TranslatingDocuments"
+          "TranslateDocuments"
         ],
         "summary": "Upload and Translate a Document",
         "operationId": "translateDocument",
@@ -424,7 +416,7 @@
     "/document/{document_id}": {
       "post": {
         "tags": [
-          "TranslatingDocuments"
+          "TranslateDocuments"
         ],
         "summary": "Check Document Status",
         "description": "Retrieve the current status of a document translation process.\nIf the translation is still in progress, the estimated time remaining is also included in the response.",
@@ -551,7 +543,7 @@
     "/document/{document_id}/result": {
       "post": {
         "tags": [
-          "TranslatingDocuments"
+          "TranslateDocuments"
         ],
         "summary": "Download Translated Document",
         "operationId": "downloadDocument",
@@ -623,7 +615,7 @@
     "/glossary-language-pairs": {
       "get": {
         "tags": [
-          "ManagingGlossaries"
+          "ManageGlossaries"
         ],
         "summary": "List Language Pairs Supported by Glossaries",
         "description": "Retrieve the list of language pairs supported by the glossary feature.",
@@ -718,7 +710,7 @@
     "/glossaries": {
       "post": {
         "tags": [
-          "ManagingGlossaries"
+          "ManageGlossaries"
         ],
         "summary": "Create a Glossary",
         "operationId": "createGlossary",
@@ -753,12 +745,14 @@
                     "example": "Hello!\tGuten Tag!"
                   },
                   "entries_format": {
-                    "description": "The format in which the glossary entries are provided. Formats currently available:\n* `tsv` - Tab-separated values. Entries have to be specified as tab-separated values with the \"source entry\" being the text in the source language of the glossary and the \"target entry\" being the text in the target language of the glossary.\n\n  In addition the following restrictions apply:\n    * Duplicate source entries are not allowed.\n    * Source-target entry pairs are separated by a newline.\n    * Source entries and target entries are separated by a tab.\n    * Source entries and target entries are not empty.\n    * Source and target entries must not contain any [C0 or C1 control characters](https://en.wikipedia.org/wiki/C0_and_C1_control_codes) (including e.g. `\"\\t\"` or `\"\\n\"`) or any [Unicode newline](https://en.wikipedia.org/wiki/Newline#Unicode).\n    * Source and target entries must not contain any leading or trailing Unicode whitespace.\n\n  Valid glossary entries in the TSV format could be created in a programming language with backslash escape sequences (e.g. Python, JavaScript, etc.) like this:\n\n  `\"sourceEntry1\\ttargetEntry1\\nsourceEntry2\\targetEntry2\"`",
+                    "description": "The format in which the glossary entries are provided. Formats currently available:\n- `tsv` (default) - tab-separated values\n- `csv` - comma-separated values\n\nSee [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.",
                     "type": "string",
                     "enum": [
-                      "tsv"
+                      "tsv",
+                      "csv"
                     ],
-                    "example": "tsv"
+                    "example": "tsv",
+                    "default": "tsv"
                   }
                 }
               }
@@ -818,7 +812,7 @@
       },
       "get": {
         "tags": [
-          "ManagingGlossaries"
+          "ManageGlossaries"
         ],
         "summary": "List all Glossaries",
         "operationId": "listGlossaries",
@@ -899,7 +893,7 @@
     "/glossaries/{glossary_id}": {
       "get": {
         "tags": [
-          "ManagingGlossaries"
+          "ManageGlossaries"
         ],
         "summary": "Retrieve Glossary Details",
         "description": "Retrieve meta information for a single glossary, omitting the glossary entries.",
@@ -971,7 +965,7 @@
       },
       "delete": {
         "tags": [
-          "ManagingGlossaries"
+          "ManageGlossaries"
         ],
         "summary": "Delete a Glossary",
         "description": "Deletes the specified glossary.",
@@ -1029,7 +1023,7 @@
     "/glossaries/{glossary_id}/entries": {
       "get": {
         "tags": [
-          "ManagingGlossaries"
+          "ManageGlossaries"
         ],
         "summary": "Retrieve Glossary Entries",
         "operationId": "getGlossaryEntries",
@@ -1204,7 +1198,7 @@
           {
             "name": "type",
             "in": "query",
-            "description": "Sets whether source or target languages should be listed. Possible options are:\n * `source` (default): For languages that can be used in the `source_lang` parameter of [translate](https://www.deepl.com/docs-api/translating-text/translate-text) requests.\n * `target`: For languages that can be used in the `target_lang` parameter of [translate](https://www.deepl.com/docs-api/translating-text/translate-text) requests.",
+            "description": "Sets whether source or target languages should be listed. Possible options are:\n * `source` (default): For languages that can be used in the `source_lang` parameter of [translate](https://www.deepl.com/docs-api/translate-text/translate-text) requests.\n * `target`: For languages that can be used in the `target_lang` parameter of [translate](https://www.deepl.com/docs-api/translate-text/translate-text) requests.",
             "schema": {
               "type": "string",
               "enum": [
@@ -1551,7 +1545,7 @@
             },
             "examples": {
               "AlreadyDownloaded": {
-                "summary": "Already downloaded",
+                "summary": "Already Downloaded",
                 "value": {
                   "message": "Document already downloaded"
                 }
@@ -1602,7 +1596,7 @@
         }
       },
       "Formality": {
-        "description": "Sets whether the translated text should lean towards formal or informal language.\nThis feature currently only works for target languages\n`DE` (German),\n`FR` (French),\n`IT` (Italian),\n`ES` (Spanish),\n`NL` (Dutch),\n`PL` (Polish),\n`PT-PT`,\n`PT-BR` (Portuguese)\nand `RU` (Russian).\nPossible options are:\n  * `default`\n  * `more` - for a more formal language\n  * `less` - for a more informal language",
+        "description": "Sets whether the translated text should lean towards formal or informal language.\nThis feature currently only works for target languages\n`DE` (German),\n`FR` (French),\n`IT` (Italian),\n`ES` (Spanish),\n`NL` (Dutch),\n`PL` (Polish),\n`PT-PT`,\n`PT-BR` (Portuguese)\nand `RU` (Russian).\nPossible options are:\n  * `default` (default)\n  * `more` - for a more formal language\n  * `less` - for a more informal language",
         "type": "string",
         "enum": [
           "default",
