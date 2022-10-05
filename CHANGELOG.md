@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.4.0]
+### Added
+* Add formality options prefer_less and prefer_more.
+
+
 ## [2.3.1]
 ### Fixed
 * Source and target language were mixed up in glossary example.
@@ -49,6 +54,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.4.0]: https://github.com/DeepLcom/openapi/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/DeepLcom/openapi/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/DeepLcom/openapi/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/DeepLcom/openapi/compare/v2.1.0...v2.2.0

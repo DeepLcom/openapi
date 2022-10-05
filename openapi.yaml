@@ -1328,15 +1328,21 @@ components:
         `PT-PT`,
         `PT-BR` (Portuguese)
         and `RU` (Russian).
+        Setting this parameter with a target language that does not support formality will fail,
+        unless one of the `prefer_...` options are used.
         Possible options are:
           * `default` (default)
           * `more` - for a more formal language
           * `less` - for a more informal language
+          * `prefer_more` - for a more formal language if available, otherwise fallback to default formality
+          * `prefer_less` - for a more informal language if available, otherwise fallback to default formality
       type: string
       enum:
       - default
       - more
       - less
+      - prefer_more
+      - prefer_less
       default: default
     GlossaryId:
       type: string
