@@ -13,6 +13,7 @@ typos, schema fixes, or adding examples.
 ## [2.4.0]
 ### Added
 * Add formality options prefer_less and prefer_more.
+* Add note to readme about Swagger UI simulator and CORS restrictions.
 
 
 ## [2.3.1]
