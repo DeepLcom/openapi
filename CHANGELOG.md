@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.5.0]
+### Added
+* Add support for EN (English) ←→ NL (Dutch) glossaries.
+
+
 ## [2.4.0]
 ### Added
 * Add formality options prefer_less and prefer_more.
