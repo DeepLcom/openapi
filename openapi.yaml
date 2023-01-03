@@ -136,10 +136,8 @@ paths:
                   description: Text to be translated. Only UTF-8-encoded plain text
                     is supported. The parameter may be specified multiple times and
                     translations are returned in the same order as they are requested.
-                    Each of the parameter values may contain multiple sentences. Up
-                    to 50 texts can be sent for translation in one request.
+                    Each of the parameter values may contain multiple sentences.
                   type: array
-                  maxItems: 50
                   items:
                     type: string
                 source_lang:
