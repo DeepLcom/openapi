@@ -365,26 +365,20 @@ paths:
       - TranslateDocuments
       summary: Upload and Translate a Document
       operationId: translateDocument
-      description: |-
-        This call uploads a document and queues it for translation.
-        The call returns once the upload is complete, returning a document ID and key which can be used to
-        [query the translation status](https://www.deepl.com/docs-api/documents/get-document-status)
-        and to [download the translated document](https://www.deepl.com/docs-api/documents/download-document) once translation is complete.
-
-
-
-        Because the request includes a file upload, it must be an HTTP POST request with content type `multipart/form-data`.
-
-
-        Please be aware that the uploaded document is automatically removed from the server once the translated document has been downloaded.
-        You have to upload the document again in order to restart the translation.
-
-
-        The maximum upload limit for any document is 10 MiB and 1.000.000 characters.
-
-
-        You may specify the glossary to use for the document translation using the `glossary_id` parameter.
-        **Important:** This requires the `source_lang` parameter to be set and the language pair of the glossary has to match the language pair of the request.
+      description: "This call uploads a document and queues it for translation.\nThe
+        call returns once the upload is complete, returning a document ID and key
+        which can be used to\n[query the translation status](https://www.deepl.com/docs-api/documents/get-document-status)\nand
+        to [download the translated document](https://www.deepl.com/docs-api/documents/download-document)
+        once translation is complete.\n\n\n\nBecause the request includes a file upload,
+        it must be an HTTP POST request with content type `multipart/form-data`.\n\n\nPlease
+        be aware that the uploaded document is automatically removed from the server
+        once the translated document has been downloaded.\nYou have to upload the
+        document again in order to restart the translation.\n\n\nThe maximum upload
+        limit for documents is [available here](https://support.deepl.com/hc/en-us/articles/360020582359-Document-formats)
+        \nand may vary based on API plan and document type.\n\n\nYou may specify the
+        glossary to use for the document translation using the `glossary_id` parameter.\n**Important:**
+        This requires the `source_lang` parameter to be set and the language pair
+        of the glossary has to match the language pair of the request."
       requestBody:
         required: true
         content:
