@@ -12,7 +12,7 @@
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
-    "url": "https://www.deepl.com/pro?cta=header-prices/"
+    "url": "https://www.deepl.com/pro#developer?cta=header-prices/"
   },
   "servers": [
     {
@@ -119,7 +119,7 @@
                     "$ref": "#/components/schemas/TargetLanguage"
                   },
                   "split_sentences": {
-                    "description": "Sets whether the translation engine should first split the input into sentences. This is enabled by default. Possible values are:\n * `0` - no splitting at all, whole input is treated as one sentence\n * `1` (default) - splits on punctuation and on newlines\n * `nonewlines` - splits on punctuation only, ignoring newlines\n\nFor applications that send one sentence per text parameter, it is advisable to set `split_sentences` to `0`, in order to prevent the engine from splitting the sentence unintentionally.\n\n\nPlease note that newlines will split sentences. You should therefore clean files to avoid breaking sentences or set the parameter `split_sentences` to `nonewlines`. In the example below, the two parts of the sentence have been translated separately and this has caused an error: The word \"the\" has been incorrectly translated as \"die\" (the feminine definite article in German), though the German word for \"sentence\", \"Satz\", is masculine (der Satz).\n * Example request:\n   ```\n   <div>This is the first\n   sentence.</div>\n   ```\n * Example response:\n   ```\n   <div>Dies ist der erste\n   Satz.</div>\n   ```",
+                    "description": "Sets whether the translation engine should first split the input into sentences. For text translations where \n`tag_handling` is not set to `html`, the default value is `1`, meaning the engine splits on punctuation and on newlines.\n\nFor text translations where `tag_handling=html`, the default value is `nonewlines`, meaning the engine splits on punctuation only, ignoring newlines.  \n\nThe use of `nonewlines` as the default value for text translations where tag_handling=html is new behavior that was implemented in November 2022, \nwhen HTML handling was moved out of beta. \n\nPossible values are: \n\n * `0` - no splitting at all, whole input is treated as one sentence\n * `1` (default when `tag_handling` is not set to `html`) - splits on punctuation and on newlines\n * `nonewlines` (default when `tag_handling=html`) - splits on punctuation only, ignoring newlines\n\nFor applications that send one sentence per text parameter, we recommend setting `split_sentences` to `0`, in order to prevent the engine from splitting the sentence unintentionally.\n\n\nPlease note that newlines will split sentences when `split_sentences=1`. We recommend cleaning files so they don't contain breaking sentences or setting the parameter `split_sentences` to `nonewlines`.",
                     "type": "string",
                     "enum": [
                       "0",
@@ -145,7 +145,7 @@
                     "type": "string"
                   },
                   "tag_handling": {
-                    "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling (Beta)](https://www.deepl.com/docs-api/html).",
+                    "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
                     "type": "string",
                     "enum": [
                       "xml",
