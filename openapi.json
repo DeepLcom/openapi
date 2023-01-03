@@ -27,11 +27,11 @@
   "tags": [
     {
       "name": "TranslateText",
-      "description": "The text-translation API currently consists of a single endpoint, `translate`, which is described below."
+      "description": "The text-translation API currently consists of a single endpoint, `translate`, which is described below. \n\nTo learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context)."
     },
     {
       "name": "TranslateDocuments",
-      "description": "The document translation API allows you to translate whole documents.\nTranslating a document usually involves three types of HTTP requests:\n- [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,\n- periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,\n- once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.\n\nPlease note that with every submitted document of type .pptx, .docx, or .pdf,\nyou are billed a minimum of 50,000 characters with the DeepL API plan,\nno matter how many characters are included in the document."
+      "description": "The document translation API allows you to translate whole documents.\nTranslating a document usually involves three types of HTTP requests:\n- [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,\n- periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,\n- once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.\n\nPlease note that with every submitted document of type .pptx, .docx, or .pdf,\nyou are billed a minimum of 50,000 characters with the DeepL API plan,\nno matter how many characters are included in the document.\n\nTo learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context)."
     },
     {
       "name": "ManageGlossaries",

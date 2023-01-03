@@ -18,8 +18,9 @@ servers:
   description: DeepL API Free
 tags:
 - name: TranslateText
-  description: The text-translation API currently consists of a single endpoint, `translate`,
-    which is described below.
+  description: "The text-translation API currently consists of a single endpoint,
+    `translate`, which is described below. \n\nTo learn more about context in DeepL
+    API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context)."
 - name: TranslateDocuments
   description: |-
     The document translation API allows you to translate whole documents.
@@ -31,6 +32,8 @@ tags:
     Please note that with every submitted document of type .pptx, .docx, or .pdf,
     you are billed a minimum of 50,000 characters with the DeepL API plan,
     no matter how many characters are included in the document.
+
+    To learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).
 - name: ManageGlossaries
   description: |-
     The *glossary* functions allow you to create, inspect, and delete glossaries.
