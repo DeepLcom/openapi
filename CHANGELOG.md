@@ -10,6 +10,12 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.6.0]
+### Changed
+* HTML handling is no longer in Beta.
+* Removed limit on text parameters (was 50).
+
+
 ## [2.5.0]
 ### Added
 * Add support for EN (English) ←→ NL (Dutch) glossaries.
@@ -60,6 +66,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.6.0]: https://github.com/DeepLcom/openapi/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/DeepLcom/openapi/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/DeepLcom/openapi/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/DeepLcom/openapi/compare/v2.3.0...v2.3.1
