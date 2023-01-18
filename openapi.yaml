@@ -406,6 +406,7 @@ paths:
                       * `pdf` - Portable Document Format
                       * `htm / html` - HTML Document
                       * `txt` - Plain Text Document
+                      * `xlf / xliff` - XLIFF Document
 
                     Please note that in order to translate PDF documents you need to give one-time consent to using the Adobe API via the account interface.
                 filename:
