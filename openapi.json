@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "DeepL API",
+    "title": "DeepL API Documentation",
     "description": "The DeepL API provides programmatic access to DeepL\u2019s machine translation technology.",
     "termsOfService": "https://www.deepl.com/pro-license/",
     "contact": {
