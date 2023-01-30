@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.8.0]
+### Added
+* Add Korean and Norwegian (Bokmål) languages.
+
+
 ## [2.7.0]
 ### Added
 * Add XLIFF to supported document types.
@@ -71,6 +76,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.8.0]: https://github.com/DeepLcom/openapi/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/DeepLcom/openapi/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/DeepLcom/openapi/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/DeepLcom/openapi/compare/v2.4.0...v2.5.0
