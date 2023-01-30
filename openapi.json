@@ -1315,6 +1315,11 @@
                     "supports_formality": false
                   },
                   {
+                    "language": "KO",
+                    "name": "Korean",
+                    "supports_formality": false
+                  },
+                  {
                     "language": "LT",
                     "name": "Lithuanian",
                     "supports_formality": false
@@ -1322,6 +1327,11 @@
                   {
                     "language": "LV",
                     "name": "Latvian",
+                    "supports_formality": false
+                  },
+                  {
+                    "language": "NB",
+                    "name": "Norwegian (Bokm\u00e5l)",
                     "supports_formality": false
                   },
                   {
@@ -1688,7 +1698,7 @@
       },
       "SourceLanguage": {
         "type": "string",
-        "description": "Language of the text to be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.",
+        "description": "Language of the text to be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.",
         "enum": [
           "BG",
           "CS",
@@ -1704,8 +1714,10 @@
           "ID",
           "IT",
           "JA",
+          "KO",
           "LT",
           "LV",
+          "NB",
           "NL",
           "PL",
           "PT",
@@ -1721,7 +1733,7 @@
       },
       "TargetLanguage": {
         "type": "string",
-        "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)",
+        "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)",
         "enum": [
           "BG",
           "CS",
@@ -1738,8 +1750,10 @@
           "ID",
           "IT",
           "JA",
+          "KO",
           "LT",
           "LV",
+          "NB",
           "NL",
           "PL",
           "PT-BR",

@@ -1118,11 +1118,17 @@ paths:
               - language: JA
                 name: Japanese
                 supports_formality: false
+              - language: KO
+                name: Korean
+                supports_formality: false
               - language: LT
                 name: Lithuanian
                 supports_formality: false
               - language: LV
                 name: Latvian
+                supports_formality: false
+              - language: NB
+                name: Norwegian (Bokmål)
                 supports_formality: false
               - language: NL
                 name: Dutch
@@ -1424,8 +1430,10 @@ components:
          * `ID` - Indonesian
          * `IT` - Italian
          * `JA` - Japanese
+         * `KO` - Korean
          * `LT` - Lithuanian
          * `LV` - Latvian
+         * `NB` - Norwegian (Bokmål)
          * `NL` - Dutch
          * `PL` - Polish
          * `PT` - Portuguese (all Portuguese varieties mixed)
@@ -1454,8 +1462,10 @@ components:
       - ID
       - IT
       - JA
+      - KO
       - LT
       - LV
+      - NB
       - NL
       - PL
       - PT
@@ -1487,8 +1497,10 @@ components:
          * `ID` - Indonesian
          * `IT` - Italian
          * `JA` - Japanese
+         * `KO` - Korean
          * `LT` - Lithuanian
          * `LV` - Latvian
+         * `NB` - Norwegian (Bokmål)
          * `NL` - Dutch
          * `PL` - Polish
          * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
@@ -1518,8 +1530,10 @@ components:
       - ID
       - IT
       - JA
+      - KO
       - LT
       - LV
+      - NB
       - NL
       - PL
       - PT-BR
