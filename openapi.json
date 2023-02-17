@@ -911,7 +911,7 @@
                   "$ref": "#/components/schemas/Glossary"
                 },
                 "example": {
-                  "id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                  "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
                   "name": "My Glossary",
                   "ready": true,
                   "source_lang": "EN",
