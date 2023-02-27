@@ -7,7 +7,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 2.7.0
+  version: 2.9.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer?cta=header-prices/
@@ -833,7 +833,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Glossary'
               example:
-                id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 name: My Glossary
                 ready: true
                 source_lang: EN
