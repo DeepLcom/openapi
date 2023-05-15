@@ -410,8 +410,6 @@ paths:
                       * `htm / html` - HTML Document
                       * `txt` - Plain Text Document
                       * `xlf / xliff` - XLIFF Document, version 2.1
-
-                    Please note that in order to translate PDF documents you need to give one-time consent to using the Adobe API via the account interface.
                 filename:
                   type: string
                   description: The name of the uploaded file. Can be used as an alternative
