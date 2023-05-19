@@ -24,15 +24,24 @@ tags:
     To learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).
 - name: TranslateDocuments
   description: |-
-    The document translation API allows you to translate whole documents.
-    Translating a document usually involves three types of HTTP requests:
-    - [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,
-    - periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,
-    - once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.
+    The document translation API allows you to translate whole documents and supports the following file types and extensions:
+      * `docx` - Microsoft Word Document
+      * `pptx` - Microsoft PowerPoint Document
+      * `pdf` - Portable Document Format
+      * `htm / html` - HTML Document
+      * `txt` - Plain Text Document
+      * `xlf / xliff` - XLIFF Document, version 2.1
 
     Please note that with every submitted document of type .pptx, .docx, or .pdf,
     you are billed a minimum of 50,000 characters with the DeepL API plan,
     no matter how many characters are included in the document.
+
+
+    Translating a document usually involves three types of HTTP requests:
+      - [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,
+      - periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,
+      - once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.
+
 
     To learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).
 - name: ManageGlossaries
