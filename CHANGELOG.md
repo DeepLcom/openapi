@@ -15,6 +15,9 @@ typos, schema fixes, or adding examples.
 * Fix typo in `/glossaries/{glossary_id}` example and spec version number.
   * Thanks to [cluttrdev](https://github.com/cluttrdev) for the suggestion
     in [#2](https://github.com/DeepLcom/openapi/issues/2).
+* Move `description` parameter outside of `allOf` parameter.
+  * Thanks to [mikakruschel](https://github.com/mikakruschel) for the suggestion
+    in [#1](https://github.com/DeepLcom/openapi/issues/1).
 
 
 ## [2.9.0]

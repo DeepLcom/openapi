@@ -199,11 +199,9 @@
                             "allOf": [
                               {
                                 "$ref": "#/components/schemas/SourceLanguage"
-                              },
-                              {
-                                "description": "The language detected in the source text. It reflects the value of the `source_lang` parameter, when specified."
                               }
-                            ]
+                            ],
+                            "description": "The language detected in the source text. It reflects the value of the `source_lang` parameter, when specified."
                           },
                           "text": {
                             "description": "The translated text.",
