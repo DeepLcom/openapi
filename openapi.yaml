@@ -527,6 +527,8 @@ paths:
                     type: integer
                   billed_characters:
                     description: The number of characters billed to your account.
+                      The characters will only be billed after a successful download
+                      request.
                     type: integer
                   error_message:
                     description: |-
