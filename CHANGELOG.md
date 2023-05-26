@@ -10,7 +10,7 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
-## [Unreleased]
+## [2.9.1] - 2023-05-26
 ### Fixed
 * Fix typo in `/glossaries/{glossary_id}` example and spec version number.
   * Thanks to [cluttrdev](https://github.com/cluttrdev) for the suggestion
@@ -94,7 +94,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
-[Unreleased]: https://github.com/DeepLcom/openapi/compare/v2.9.0...HEAD
+[2.9.1]: https://github.com/DeepLcom/openapi/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/DeepLcom/openapi/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/DeepLcom/openapi/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/DeepLcom/openapi/compare/v2.6.0...v2.7.0
