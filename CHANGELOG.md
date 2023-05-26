@@ -11,6 +11,10 @@ typos, schema fixes, or adding examples.
 
 
 ## [Unreleased]
+### Fixed
+* Fix typo in `/glossaries/{glossary_id}` example and spec version number.
+  * Thanks to [cluttrdev](https://github.com/cluttrdev) for the suggestion
+    in [#2](https://github.com/DeepLcom/openapi/issues/2).
 
 
 ## [2.9.0]
