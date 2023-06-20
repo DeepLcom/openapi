@@ -1129,7 +1129,7 @@ paths:
                 supports_formality: true
               - language: JA
                 name: Japanese
-                supports_formality: false
+                supports_formality: true
               - language: KO
                 name: Korean
                 supports_formality: false
@@ -1341,8 +1341,8 @@ components:
         `ES` (Spanish),
         `NL` (Dutch),
         `PL` (Polish),
-        `PT-PT`,
-        `PT-BR` (Portuguese)
+        `PT-BR` and `PT-PT` (Portuguese),
+        `JA` (Japanese),
         and `RU` (Russian).
         Setting this parameter with a target language that does not support formality will fail,
         unless one of the `prefer_...` options are used.
