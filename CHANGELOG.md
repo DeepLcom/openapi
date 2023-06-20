@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.9.2] - 2023-06-20
+### Added
+* Japanese (JA) now supports formality.
+
+
 ## [2.9.1] - 2023-05-26
 ### Fixed
 * Fix typo in `/glossaries/{glossary_id}` example and spec version number.
@@ -94,6 +99,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.9.2]: https://github.com/DeepLcom/openapi/compare/v2.9.1...v2.9.2
 [2.9.1]: https://github.com/DeepLcom/openapi/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/DeepLcom/openapi/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/DeepLcom/openapi/compare/v2.7.0...v2.8.0
