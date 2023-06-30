@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [Unreleased]
+### Added
+* Add JSON-format request bodies to all endpoints except document upload. 
+
+
 ## [2.9.2] - 2023-06-20
 ### Added
 * Japanese (JA) now supports formality.
@@ -99,6 +104,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[Unreleased]: https://github.com/DeepLcom/openapi/compare/v2.9.2...HEAD
 [2.9.2]: https://github.com/DeepLcom/openapi/compare/v2.9.1...v2.9.2
 [2.9.1]: https://github.com/DeepLcom/openapi/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/DeepLcom/openapi/compare/v2.8.0...v2.9.0

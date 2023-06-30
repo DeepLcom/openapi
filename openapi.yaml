@@ -102,6 +102,52 @@ paths:
       requestBody:
         required: true
         content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - text
+              - target_lang
+              properties:
+                text:
+                  description: |-
+                    Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
+                    multiple times and translations are returned in the same order as they are requested. Each of the
+                    parameter values may contain multiple sentences. Up to 50 texts can be sent for translation in one
+                    request.
+                  type: array
+                  maxItems: 50
+                  items:
+                    type: string
+                    example: Hello, World!
+                source_lang:
+                  $ref: '#/components/schemas/SourceLanguage'
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguage'
+                split_sentences:
+                  $ref: '#/components/schemas/SplitSentencesOption'
+                preserve_formatting:
+                  $ref: '#/components/schemas/PreserveFormattingOption'
+                formality:
+                  $ref: '#/components/schemas/Formality'
+                glossary_id:
+                  allOf:
+                  - $ref: '#/components/schemas/GlossaryId'
+                  - description: |-
+                      Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
+                      parameter to be set and the language pair of the glossary has to match the language pair of the
+                      request.
+                    type: string
+                tag_handling:
+                  $ref: '#/components/schemas/TagHandlingOption'
+                outline_detection:
+                  $ref: '#/components/schemas/OutlineDetectionOption'
+                non_splitting_tags:
+                  $ref: '#/components/schemas/NonSplittingTagList'
+                splitting_tags:
+                  $ref: '#/components/schemas/SplittingTagList'
+                ignore_tags:
+                  $ref: '#/components/schemas/IgnoreTagList'
           application/x-www-form-urlencoded:
             examples:
               Basic:
@@ -277,8 +323,19 @@ paths:
         required: true
         content:
           multipart/form-data:
-            example:
-              target_lang: DE
+            examples:
+              Basic:
+                summary: Basic Document Translation
+                value:
+                  target_lang: DE
+                  file: '@document.docx'
+              Glossary:
+                summary: Using a Glossary
+                value:
+                  source_lang: EN
+                  target_lang: DE
+                  file: '@document.docx'
+                  glossary_id: '[yourGlossaryId]'
             schema:
               type: object
               required:
@@ -367,7 +424,19 @@ paths:
       parameters:
       - $ref: '#/components/parameters/DocumentID'
       requestBody:
-        $ref: '#/components/requestBodies/DocumentKey'
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DocumentKey'
+            examples:
+              basic:
+                summary: Basic
+                value:
+                  document_key: 0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentKey'
       responses:
         200:
           description: The document status request returns a JSON object containing
@@ -475,7 +544,19 @@ paths:
       parameters:
       - $ref: '#/components/parameters/DocumentID'
       requestBody:
-        $ref: '#/components/requestBodies/DocumentKey'
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DocumentKey'
+            examples:
+              basic:
+                summary: Basic
+                value:
+                  document_key: 0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentKey'
       responses:
         200:
           description: The document is provided as a download. There is no other data
@@ -584,6 +665,18 @@ paths:
       requestBody:
         required: true
         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGlossaryParameters'
+            examples:
+              Basic:
+                name: Basic
+                value:
+                  name: My Glossary
+                  source_lang: en
+                  target_lang: de
+                  entries: "Hello\tGuten Tag"
+                  entries_format: tsv
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/CreateGlossaryParameters'
@@ -775,7 +868,12 @@ paths:
           default: text/tab-separated-values
         description: The requested format of the returned glossary entries. Currently,
           supports only `text/tab-separated-values`.
-        example: text/tab-separated-values
+        examples:
+          tsv:
+            summary: Tab-separated Values
+            value:
+              in: header
+              Accept: text/tab-separated-values
       responses:
         200:
           description: The entries in the requested format.
@@ -908,7 +1006,12 @@ paths:
           - source
           - target
           default: source
-        example: target
+        examples:
+          target:
+            summary: Target Languages
+            value:
+              in: query
+              type: target
       responses:
         200:
           description: JSON array where each item represents a supported language.
@@ -1157,21 +1260,6 @@ components:
         authentication scheme
       name: Authorization
       in: header
-  requestBodies:
-    DocumentKey:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            required:
-            - document_key
-            properties:
-              document_key:
-                description: The document encryption key that was sent to the client
-                  when the document was uploaded to the API.
-                type: string
-                example: 0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A
   schemas:
     CreateGlossaryParameters:
       type: object
@@ -1214,6 +1302,16 @@ components:
         message:
           type: string
           description: detailed error message
+    DocumentKey:
+      type: object
+      required:
+      - document_key
+      properties:
+        document_key:
+          description: The document encryption key that was sent to the client when
+            the document was uploaded to the API.
+          type: string
+          example: 0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A
     Formality:
       description: |-
         Sets whether the translated text should lean towards formal or informal language.
@@ -1308,6 +1406,39 @@ components:
       - pl
       - nl
       example: de
+    OutlineDetectionOption:
+      description: |-
+        The automatic detection of the XML structure won't yield best results in all XML files. You can disable this automatic mechanism altogether by setting the `outline_detection` parameter to `false` and selecting the tags that should be considered structure tags. This will split sentences using the `splitting_tags` parameter.
+
+
+        In the example below, we achieve the same results as the automatic engine by disabling automatic detection with `outline_detection=0` and setting the parameters manually to `tag_handling=xml`, `split_sentences=nonewlines`,  and `splitting_tags=par,title`.
+         * Example request:
+           ```
+           <document>
+             <meta>
+               <title>A document's title</title>
+             </meta>
+             <content>
+               <par>This is the first sentence. Followed by a second one.</par>
+               <par>This is the third sentence.</par>
+             </content>
+           </document>
+           ```
+         * Example response:
+           ```
+           <document>
+             <meta>
+               <title>Der Titel eines Dokuments</title>
+             </meta>
+             <content>
+               <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>
+               <par>Dies ist der dritte Satz.</par>
+             </content>
+           </document>
+           ```
+        While this approach is slightly more complicated, it allows for greater control over the structure of the translation output.
+      type: boolean
+      default: true
     OutlineDetectionOptionStr:
       description: |-
         The automatic detection of the XML structure won't yield best results in all XML files. You can disable this automatic mechanism altogether by setting the `outline_detection` parameter to `0` and selecting the tags that should be considered structure tags. This will split sentences using the `splitting_tags` parameter.
@@ -1342,6 +1473,15 @@ components:
       type: string
       enum:
       - '0'
+    PreserveFormattingOption:
+      description: |-
+        Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects.
+
+        The formatting aspects affected by this setting include:
+         * Punctuation at the beginning and end of the sentence
+         * Upper/lower case at the beginning of the sentence
+      type: boolean
+      default: false
     PreserveFormattingOptionStr:
       description: |-
         Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. Possible values are:
@@ -1487,11 +1627,49 @@ components:
 
 
         This time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words "had been" has moved to another position in the German sentence, the two par tags are duplicated (which is expected here).
+    NonSplittingTagList:
+      allOf:
+      - $ref: '#/components/schemas/TagList'
+      description: |-
+        List of XML tags which never split sentences.
+
+
+        For some XML files, finding tags with textual content and splitting sentences using those tags won't yield the best results. The following example shows the engine splitting sentences on `par` tags and proceeding to translate the parts separately, resulting in an incorrect translation:
+         * Example request:
+        ```
+        <par>The firm said it had been </par><par> conducting an internal investigation.</par>
+        ```
+         * Example response:
+        ```
+        <par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchführung einer internen Untersuchung.</par>
+        ```
+
+
+        As this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set. The following example shows the same call, with the parameter set to `par`:
+         * Example request:
+        ```
+        <par>The firm said it had been </par><par> conducting an internal investigation.</par>
+        ```
+         * Example response:
+        ```
+        <par>Die Firma sagte, dass sie</par><par> eine interne Untersuchung durchgeführt</par><par> habe</par><par>.</par>
+        ```
+
+
+        This time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words "had been" has moved to another position in the German sentence, the two par tags are duplicated (which is expected here).
     SplittingTagCommaSeparatedList:
       allOf:
       - $ref: '#/components/schemas/TagCommaSeparatedList'
       description: |-
         Comma-separated list of XML tags which always cause splits.
+
+
+        See the example in the `outline_detection` parameter's description.
+    SplittingTagList:
+      allOf:
+      - $ref: '#/components/schemas/TagList'
+      description: |-
+        List of XML tags which always cause splits.
 
 
         See the example in the `outline_detection` parameter's description.
@@ -1511,10 +1689,35 @@ components:
            ```
            Bitte öffnen Sie die Seite <keep>Settings</keep> um Ihr System zu konfigurieren.
            ```
+    IgnoreTagList:
+      allOf:
+      - $ref: '#/components/schemas/TagList'
+      description: |-
+        List of XML tags that indicate text not to be translated.
+
+
+        Use this parameter to ensure that elements in the original text are not altered in the translation (e.g., trademarks, product names) and insert tags into your original text. In the following example, the `ignore_tags` parameter is set to `keep`:
+         * Example request:
+           ```
+           Please open the page <keep>Settings</keep> to configure your system.
+           ```
+         * Example response:
+           ```
+           Bitte öffnen Sie die Seite <keep>Settings</keep> um Ihr System zu konfigurieren.
+           ```
     TagCommaSeparatedList:
       description: Comma-separated list of XML or HTML tags.
       type: string
       example: a,p,span
+    TagList:
+      description: List of XML or HTML tags.
+      type: array
+      items:
+        type: string
+      example:
+      - a
+      - p
+      - span
     TargetLanguage:
       type: string
       description: |-
