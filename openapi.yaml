@@ -1344,6 +1344,7 @@ components:
         `PT-BR` and `PT-PT` (Portuguese),
         `JA` (Japanese),
         and `RU` (Russian).
+        Learn more about the plain/polite feature for Japanese [here](https://support.deepl.com/hc/en-us/articles/6306700061852-About-the-plain-polite-feature-in-Japanese).
         Setting this parameter with a target language that does not support formality will fail,
         unless one of the `prefer_...` options are used.
         Possible options are:
