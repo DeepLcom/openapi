@@ -118,57 +118,36 @@
                     "$ref": "#/components/schemas/TargetLanguage"
                   },
                   "split_sentences": {
-                    "description": "Sets whether the translation engine should first split the input into sentences. For text translations where\n`tag_handling` is not set to `html`, the default value is `1`, meaning the engine splits on punctuation and on newlines.\n\nFor text translations where `tag_handling=html`, the default value is `nonewlines`, meaning the engine splits on punctuation only, ignoring newlines.\n\nThe use of `nonewlines` as the default value for text translations where `tag_handling=html` is new behavior that was implemented in November 2022,\nwhen HTML handling was moved out of beta.\n\nPossible values are:\n\n * `0` - no splitting at all, whole input is treated as one sentence\n * `1` (default when `tag_handling` is not set to `html`) - splits on punctuation and on newlines\n * `nonewlines` (default when `tag_handling=html`) - splits on punctuation only, ignoring newlines\n\nFor applications that send one sentence per text parameter, we recommend setting `split_sentences` to `0`, in order to prevent the engine from splitting the sentence unintentionally.\n\n\nPlease note that newlines will split sentences when `split_sentences=1`. We recommend cleaning files so they don't contain breaking sentences or setting the parameter `split_sentences` to `nonewlines`.",
-                    "type": "string",
-                    "enum": [
-                      "0",
-                      "1",
-                      "nonewlines"
-                    ],
-                    "default": "1"
+                    "$ref": "#/components/schemas/SplitSentencesOption"
                   },
                   "preserve_formatting": {
-                    "description": "Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. Possible values are:\n * `0` (default)\n * `1`\n\nThe formatting aspects affected by this setting include:\n * Punctuation at the beginning and end of the sentence\n * Upper/lower case at the beginning of the sentence",
-                    "type": "string",
-                    "enum": [
-                      "0",
-                      "1"
-                    ],
-                    "default": "0"
+                    "$ref": "#/components/schemas/PreserveFormattingOptionStr"
                   },
                   "formality": {
                     "$ref": "#/components/schemas/Formality"
                   },
                   "glossary_id": {
-                    "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang` parameter to be set and the language pair of the glossary has to match the language pair of the request.",
-                    "type": "string"
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/GlossaryId"
+                      }
+                    ],
+                    "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang` parameter to be set and the language pair of the glossary has to match the language pair of the request."
                   },
                   "tag_handling": {
-                    "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
-                    "type": "string",
-                    "enum": [
-                      "xml",
-                      "html"
-                    ]
-                  },
-                  "non_splitting_tags": {
-                    "description": "Comma-separated list of XML tags which never split sentences.\n\n\nFor some XML files, finding tags with textual content and splitting sentences using those tags won't yield the best results. The following example shows the engine splitting sentences on `par` tags and proceeding to translate the parts separately, resulting in an incorrect translation:\n * Example request:\n```\n<par>The firm said it had been </par><par> conducting an internal investigation.</par>\n```\n * Example response:\n```\n<par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchf\u00fchrung einer internen Untersuchung.</par>\n```\n\n\nAs this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set. The following example shows the same call, with the parameter set to `par`:\n * Example request:\n```\n<par>The firm said it had been </par><par> conducting an internal investigation.</par>\n```\n * Example response:\n```\n<par>Die Firma sagte, dass sie</par><par> eine interne Untersuchung durchgef\u00fchrt</par><par> habe</par><par>.</par>\n```\n\n\nThis time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words \"had been\" has moved to another position in the German sentence, the two par tags are duplicated (which is expected here).",
-                    "type": "string"
+                    "$ref": "#/components/schemas/TagHandlingOption"
                   },
                   "outline_detection": {
-                    "description": "The automatic detection of the XML structure won't yield best results in all XML files. You can disable this automatic mechanism altogether by setting the `outline_detection` parameter to `0` and selecting the tags that should be considered structure tags. This will split sentences using the `splitting_tags` parameter.\n\n\nIn the example below, we achieve the same results as the automatic engine by disabling automatic detection with `outline_detection=0` and setting the parameters manually to `tag_handling=xml`, `split_sentences=nonewlines`,  and `splitting_tags=par,title`.\n * Example request:\n   ```\n   <document>\n     <meta>\n       <title>A document's title</title>\n     </meta>\n     <content>\n       <par>This is the first sentence. Followed by a second one.</par>\n       <par>This is the third sentence.</par>\n     </content>\n   </document>\n   ```\n * Example response:\n   ```\n   <document>\n     <meta>\n       <title>Der Titel eines Dokuments</title>\n     </meta>\n     <content>\n       <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>\n       <par>Dies ist der dritte Satz.</par>\n     </content>\n   </document>\n   ```\nWhile this approach is slightly more complicated, it allows for greater control over the structure of the translation output.",
-                    "type": "string",
-                    "enum": [
-                      "0"
-                    ]
+                    "$ref": "#/components/schemas/OutlineDetectionOptionStr"
+                  },
+                  "non_splitting_tags": {
+                    "$ref": "#/components/schemas/NonSplittingTagCommaSeparatedList"
                   },
                   "splitting_tags": {
-                    "description": "Comma-separated list of XML tags which always cause splits.\n\n\nSee the example in the `outline_detection` parameter's description.",
-                    "type": "string"
+                    "$ref": "#/components/schemas/SplittingTagCommaSeparatedList"
                   },
                   "ignore_tags": {
-                    "description": "Comma-separated list of XML tags that indicate text not to be translated.\n\n\nUse this paramter to ensure that elements in the original text are not altered in the translation (e.g., trademarks, product names) and insert tags into your original text. In the following example, the `ignore_tags` parameter is set to `keep`:\n * Example request:\n   ```\n   Please open the page <keep>Settings</keep> to configure your system.\n   ```\n * Example response:\n   ```\n   Bitte \u00f6ffnen Sie die Seite <keep>Settings</keep> um Ihr System zu konfigurieren.\n   ```",
-                    "type": "string"
+                    "$ref": "#/components/schemas/IgnoreTagCommaSeparatedList"
                   }
                 }
               },
@@ -716,42 +695,7 @@
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "name",
-                  "source_lang",
-                  "target_lang",
-                  "entries",
-                  "entries_format"
-                ],
-                "properties": {
-                  "name": {
-                    "description": "Name to be associated with the glossary.",
-                    "type": "string",
-                    "example": "My Glossary"
-                  },
-                  "source_lang": {
-                    "$ref": "#/components/schemas/GlossarySourceLanguage"
-                  },
-                  "target_lang": {
-                    "$ref": "#/components/schemas/GlossaryTargetLanguage"
-                  },
-                  "entries": {
-                    "description": "The entries of the glossary. The entries have to be specified in the format provided by the `entries_format` parameter.",
-                    "type": "string",
-                    "example": "Hello\tGuten Tag"
-                  },
-                  "entries_format": {
-                    "description": "The format in which the glossary entries are provided. Formats currently available:\n- `tsv` (default) - tab-separated values\n- `csv` - comma-separated values\n\nSee [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.",
-                    "type": "string",
-                    "enum": [
-                      "tsv",
-                      "csv"
-                    ],
-                    "example": "tsv",
-                    "default": "tsv"
-                  }
-                }
+                "$ref": "#/components/schemas/CreateGlossaryParameters"
               }
             }
           }
@@ -1598,6 +1542,44 @@
       }
     },
     "schemas": {
+      "CreateGlossaryParameters": {
+        "type": "object",
+        "required": [
+          "name",
+          "source_lang",
+          "target_lang",
+          "entries",
+          "entries_format"
+        ],
+        "properties": {
+          "name": {
+            "description": "Name to be associated with the glossary.",
+            "type": "string",
+            "example": "My Glossary"
+          },
+          "source_lang": {
+            "$ref": "#/components/schemas/GlossarySourceLanguage"
+          },
+          "target_lang": {
+            "$ref": "#/components/schemas/GlossaryTargetLanguage"
+          },
+          "entries": {
+            "description": "The entries of the glossary. The entries have to be specified in the format provided by the `entries_format` parameter.",
+            "type": "string",
+            "example": "Hello\tGuten Tag"
+          },
+          "entries_format": {
+            "description": "The format in which the glossary entries are provided. Formats currently available:\n- `tsv` (default) - tab-separated values\n- `csv` - comma-separated values\n\nSee [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.",
+            "type": "string",
+            "enum": [
+              "tsv",
+              "csv"
+            ],
+            "example": "tsv",
+            "default": "tsv"
+          }
+        }
+      },
       "DocumentTranslationError": {
         "type": "object",
         "properties": {
@@ -1694,6 +1676,32 @@
         ],
         "example": "de"
       },
+      "OutlineDetectionOptionStr": {
+        "description": "The automatic detection of the XML structure won't yield best results in all XML files. You can disable this automatic mechanism altogether by setting the `outline_detection` parameter to `0` and selecting the tags that should be considered structure tags. This will split sentences using the `splitting_tags` parameter.\n\n\nIn the example below, we achieve the same results as the automatic engine by disabling automatic detection with `outline_detection=0` and setting the parameters manually to `tag_handling=xml`, `split_sentences=nonewlines`,  and `splitting_tags=par,title`.\n * Example request:\n   ```\n   <document>\n     <meta>\n       <title>A document's title</title>\n     </meta>\n     <content>\n       <par>This is the first sentence. Followed by a second one.</par>\n       <par>This is the third sentence.</par>\n     </content>\n   </document>\n   ```\n * Example response:\n   ```\n   <document>\n     <meta>\n       <title>Der Titel eines Dokuments</title>\n     </meta>\n     <content>\n       <par>Das ist der erste Satz. Gefolgt von einem zweiten.</par>\n       <par>Dies ist der dritte Satz.</par>\n     </content>\n   </document>\n   ```\nWhile this approach is slightly more complicated, it allows for greater control over the structure of the translation output.",
+        "type": "string",
+        "enum": [
+          "0"
+        ]
+      },
+      "PreserveFormattingOptionStr": {
+        "description": "Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. Possible values are:\n * `0` (default)\n * `1`\n\nThe formatting aspects affected by this setting include:\n * Punctuation at the beginning and end of the sentence\n * Upper/lower case at the beginning of the sentence",
+        "type": "string",
+        "enum": [
+          "0",
+          "1"
+        ],
+        "default": "0"
+      },
+      "SplitSentencesOption": {
+        "description": "Sets whether the translation engine should first split the input into sentences. For text translations where \n`tag_handling` is not set to `html`, the default value is `1`, meaning the engine splits on punctuation and on newlines.\n\nFor text translations where `tag_handling=html`, the default value is `nonewlines`, meaning the engine splits on punctuation only, ignoring newlines.  \n\nThe use of `nonewlines` as the default value for text translations where `tag_handling=html` is new behavior that was implemented in November 2022, \nwhen HTML handling was moved out of beta. \n\nPossible values are: \n\n * `0` - no splitting at all, whole input is treated as one sentence\n * `1` (default when `tag_handling` is not set to `html`) - splits on punctuation and on newlines\n * `nonewlines` (default when `tag_handling=html`) - splits on punctuation only, ignoring newlines\n\nFor applications that send one sentence per text parameter, we recommend setting `split_sentences` to `0`, in order to prevent the engine from splitting the sentence unintentionally.\n\n\nPlease note that newlines will split sentences when `split_sentences=1`. We recommend cleaning files so they don't contain breaking sentences or setting the parameter `split_sentences` to `nonewlines`.",
+        "type": "string",
+        "enum": [
+          "0",
+          "1",
+          "nonewlines"
+        ],
+        "default": "1"
+      },
       "SourceLanguage": {
         "type": "string",
         "description": "Language of the text to be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.",
@@ -1727,7 +1735,45 @@
           "TR",
           "UK",
           "ZH"
+        ],
+        "example": "EN"
+      },
+      "TagHandlingOption": {
+        "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
+        "type": "string",
+        "enum": [
+          "xml",
+          "html"
         ]
+      },
+      "NonSplittingTagCommaSeparatedList": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TagCommaSeparatedList"
+          }
+        ],
+        "description": "Comma-separated list of XML tags which never split sentences.\n\n\nFor some XML files, finding tags with textual content and splitting sentences using those tags won't yield the best results. The following example shows the engine splitting sentences on `par` tags and proceeding to translate the parts separately, resulting in an incorrect translation:\n * Example request:\n```\n<par>The firm said it had been </par><par> conducting an internal investigation.</par>\n```\n * Example response:\n```\n<par>Die Firma sagte, es sei eine gute Idee gewesen.</par><par> Durchf\u00fchrung einer internen Untersuchung.</par>\n```\n\n\nAs this can lead to bad translations, this type of structure should either be avoided, or the `non_splitting_tags` parameter should be set. The following example shows the same call, with the parameter set to `par`:\n * Example request:\n```\n<par>The firm said it had been </par><par> conducting an internal investigation.</par>\n```\n * Example response:\n```\n<par>Die Firma sagte, dass sie</par><par> eine interne Untersuchung durchgef\u00fchrt</par><par> habe</par><par>.</par>\n```\n\n\nThis time, the sentence is translated as a whole. The XML tags are now considered markup and copied into the translated sentence. As the translation of the words \"had been\" has moved to another position in the German sentence, the two par tags are duplicated (which is expected here)."
+      },
+      "SplittingTagCommaSeparatedList": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TagCommaSeparatedList"
+          }
+        ],
+        "description": "Comma-separated list of XML tags which always cause splits.\n\n\nSee the example in the `outline_detection` parameter's description."
+      },
+      "IgnoreTagCommaSeparatedList": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TagCommaSeparatedList"
+          }
+        ],
+        "description": "Comma-separated list of XML tags that indicate text not to be translated.\n\n\nUse this parameter to ensure that elements in the original text are not altered in the translation (e.g., trademarks, product names) and insert tags into your original text. In the following example, the `ignore_tags` parameter is set to `keep`:\n * Example request:\n   ```\n   Please open the page <keep>Settings</keep> to configure your system.\n   ```\n * Example response:\n   ```\n   Bitte \u00f6ffnen Sie die Seite <keep>Settings</keep> um Ihr System zu konfigurieren.\n   ```"
+      },
+      "TagCommaSeparatedList": {
+        "description": "Comma-separated list of XML or HTML tags.",
+        "type": "string",
+        "example": "a,p,span"
       },
       "TargetLanguage": {
         "type": "string",
@@ -1764,7 +1810,8 @@
           "TR",
           "UK",
           "ZH"
-        ]
+        ],
+        "example": "DE"
       }
     }
   }
