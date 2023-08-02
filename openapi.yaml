@@ -52,23 +52,27 @@ tags:
     If you encounter issues, please let us know at support@DeepL.com.
 
     The DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of
-    28 possible glossary language pairs:
+    55 possible glossary language pairs:
 
-    - EN (English)
     - DE (German)
-    - FR (French)
+    - EN (English)
     - ES (Spanish)
-    - JA (Japanese)
+    - FR (French)
     - IT (Italian)
-    - PL (Polish)
+    - JA (Japanese)
     - NL (Dutch)
+    - PL (Polish)
+    - PT (Portuguese)
+    - RU (Russian)
+    - ZH (Chinese)
 
     The maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,
     as well as the name of the glossary, is limited to 1024 UTF-8 bytes.
     A total of 1000 glossaries are allowed per account.
 
-    When creating a glossary with target language `EN`, it's not necessary to specify a variant (e.g. `EN-US` or `EN-GB`).
+    When creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`).
     Glossaries with target language `EN` can be used in translations with either English variant.
+    Similarly `PT` glossaries can be used in translations with either Portuguese variant.
 
 
     Glossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.
@@ -1388,10 +1392,13 @@ components:
       - en
       - es
       - fr
-      - ja
       - it
-      - pl
+      - ja
       - nl
+      - pl
+      - pt
+      - ru
+      - zh
       example: en
     GlossaryTargetLanguage:
       type: string
@@ -1401,10 +1408,13 @@ components:
       - en
       - es
       - fr
-      - ja
       - it
-      - pl
+      - ja
       - nl
+      - pl
+      - pt
+      - ru
+      - zh
       example: de
     OutlineDetectionOption:
       description: |-
