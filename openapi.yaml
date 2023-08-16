@@ -20,8 +20,6 @@ tags:
 - name: TranslateText
   description: |-
     The text-translation API currently consists of a single endpoint, `translate`, which is described below.
-
-    To learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).
 - name: TranslateDocuments
   description: |-
     The document translation API allows you to translate whole documents and supports the following file types and extensions:
@@ -31,19 +29,6 @@ tags:
       * `htm / html` - HTML Document
       * `txt` - Plain Text Document
       * `xlf / xliff` - XLIFF Document, version 2.1
-
-    Please note that with every submitted document of type .pptx, .docx, or .pdf,
-    you are billed a minimum of 50,000 characters with the DeepL API plan,
-    no matter how many characters are included in the document.
-
-
-    Translating a document usually involves three types of HTTP requests:
-      - [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,
-      - periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,
-      - once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.
-
-
-    To learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).
 - name: ManageGlossaries
   description: |-
     The *glossary* functions allow you to create, inspect, and delete glossaries.
@@ -65,29 +50,6 @@ tags:
     - PT (Portuguese)
     - RU (Russian)
     - ZH (Chinese)
-
-    The maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,
-    as well as the name of the glossary, is limited to 1024 UTF-8 bytes.
-    A total of 1000 glossaries are allowed per account.
-
-    When creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`).
-    Glossaries with target language `EN` can be used in translations with either English variant.
-    Similarly `PT` glossaries can be used in translations with either Portuguese variant.
-
-
-    Glossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.
-    This means API glossaries cannot be used on the website and vice versa.
-
-
-
-    Note that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.
-
-    As a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application
-    and then use the following procedure for modifications:
-    - [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,
-    - locally modify the glossary entries,
-    - [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,
-    - [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name.
 - name: MetaInformation
   description: Information about API usage and value ranges
 paths:
@@ -97,12 +59,6 @@ paths:
       - TranslateText
       summary: Request Translation
       operationId: translateText
-      description: |-
-        The translate function.
-
-
-        The total request body size must not exceed 128 KiB (128 · 1024 bytes). Please split up your text into multiple
-        calls if it exceeds this limit.
       requestBody:
         required: true
         content:
@@ -153,35 +109,6 @@ paths:
                 ignore_tags:
                   $ref: '#/components/schemas/IgnoreTagList'
           application/x-www-form-urlencoded:
-            examples:
-              Basic:
-                summary: Basic Example
-                value:
-                  text:
-                  - Hello, world!
-                  target_lang: DE
-              Glossary:
-                summary: Using a Glossary
-                value:
-                  text:
-                  - Hello, world!
-                  target_lang: DE
-                  source_lang: EN
-                  glossary_id: '[yourGlossaryId]'
-              MultipleSentences:
-                summary: Multiple Sentences
-                value:
-                  text:
-                  - The table is green. The chair is black.
-                  target_lang: DE
-              LargeVolumes:
-                summary: Large Volumes of Text
-                value:
-                  text:
-                  - This is the first sentence.
-                  - This is the second sentence.
-                  - This is the third sentence.
-                  target_lang: DE
             schema:
               type: object
               required:
@@ -250,30 +177,6 @@ paths:
                         text:
                           description: The translated text.
                           type: string
-              examples:
-                Basic:
-                  value:
-                    translations:
-                    - detected_source_language: EN
-                      text: Hallo, Welt!
-                Glossary:
-                  value:
-                    translations:
-                    - text: Hallo, Welt!
-                MultipleSentences:
-                  value:
-                    translations:
-                    - detected_source_language: EN
-                      text: Der Tisch ist grün. Der Stuhl ist schwarz.
-                LargeVolumes:
-                  value:
-                    translations:
-                    - detected_source_language: EN
-                      text: Das ist der erste Satz.
-                    - detected_source_language: EN
-                      text: Das ist der zweite Satz.
-                    - detected_source_language: EN
-                      text: Dies ist der dritte Satz.
         400:
           $ref: '#/components/responses/BadRequest'
         403:
@@ -302,27 +205,6 @@ paths:
       - TranslateDocuments
       summary: Upload and Translate a Document
       operationId: translateDocument
-      description: |-
-        This call uploads a document and queues it for translation.
-        The call returns once the upload is complete, returning a document ID and key which can be used to
-        [query the translation status](https://www.deepl.com/docs-api/documents/get-document-status)
-        and to [download the translated document](https://www.deepl.com/docs-api/documents/download-document) once translation is complete.
-
-
-
-        Because the request includes a file upload, it must be an HTTP POST request with content type `multipart/form-data`.
-
-
-        Please be aware that the uploaded document is automatically removed from the server once the translated document has been downloaded.
-        You have to upload the document again in order to restart the translation.
-
-
-        The maximum upload limit for documents is [available here](https://support.deepl.com/hc/articles/360020582359-Document-formats)
-        and may vary based on API plan and document type.
-
-
-        You may specify the glossary to use for the document translation using the `glossary_id` parameter.
-        **Important:** This requires the `source_lang` parameter to be set and the language pair of the glossary has to match the language pair of the request.
       requestBody:
         required: true
         content:
@@ -421,9 +303,6 @@ paths:
       tags:
       - TranslateDocuments
       summary: Check Document Status
-      description: |-
-        Retrieve the current status of a document translation process.
-        If the translation is still in progress, the estimated time remaining is also included in the response.
       operationId: getDocumentStatus
       parameters:
       - $ref: '#/components/parameters/DocumentID'
@@ -540,11 +419,6 @@ paths:
       - TranslateDocuments
       summary: Download Translated Document
       operationId: downloadDocument
-      description: |-
-        Once the status of the document translation process is `done`, the result can be downloaded.
-
-
-        For privacy reasons the translated document is automatically removed from the server once it was downloaded and cannot be downloaded again.
       parameters:
       - $ref: '#/components/parameters/DocumentID'
       requestBody:
@@ -913,20 +787,6 @@ paths:
       tags:
       - MetaInformation
       summary: Check Usage and Limits
-      description: |-
-        Retrieve usage information within the current billing period together with the corresponding account limits. Usage is returned for:
-        - translated characters
-        - translated documents
-        - translated documents, team totals (for team accounts only)
-
-        Character usage includes both text and document translations, and is measured by the source text length in Unicode code points,
-        so for example "A", "Δ", "あ", and "深" are each counted as a single character.
-
-        Document usage only includes document translations, and is measured in individual documents.
-
-        Depending on the user account type, some usage types will be omitted.
-        Character usage is only included for developer accounts.
-        Document usage is only included for non-developer accounts, and team-combined document usage is only included for non-developer team accounts.
       operationId: getUsage
       responses:
         200:
@@ -994,16 +854,10 @@ paths:
       tags:
       - MetaInformation
       summary: Retrieve Supported Languages
-      description: Retrieve the list of languages that are currently supported for
-        translation, either as source or target language, respectively.
       operationId: getLanguages
       parameters:
       - name: type
         in: query
-        description: |-
-          Sets whether source or target languages should be listed. Possible options are:
-           * `source` (default): For languages that can be used in the `source_lang` parameter of [translate](https://www.deepl.com/docs-api/translate-text/translate-text) requests.
-           * `target`: For languages that can be used in the `target_lang` parameter of [translate](https://www.deepl.com/docs-api/translate-text/translate-text) requests.
         schema:
           type: string
           enum:
