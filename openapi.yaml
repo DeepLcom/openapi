@@ -1147,7 +1147,7 @@ components:
             - `tsv` (default) - tab-separated values
             - `csv` - comma-separated values
 
-            See [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.
+            See [Supported Glossary Formats](https://developers.deepl.com/docs/api-reference/glossaries#formats) for details about each format.
           type: string
           enum:
           - tsv
@@ -1455,8 +1455,8 @@ components:
     TagHandlingOption:
       description: |-
         Sets which kind of tags should be handled. Options currently available:
-         * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).
-         * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).
+         * `xml`: Enable XML tag handling; see [XML Handling](https://developers.deepl.com/docs/xml-and-html-handling/xml).
+         * `html`: Enable HTML tag handling; see [HTML Handling](https://developers.deepl.com/docs/xml-and-html-handling/html).
       type: string
       enum:
       - xml
