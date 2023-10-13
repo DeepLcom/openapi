@@ -195,6 +195,7 @@ paths:
                           description: The language detected in the source text. It
                             reflects the value of the `source_lang` parameter, when
                             specified.
+                          example: EN
                         text:
                           description: The translated text.
                           type: string
