@@ -1283,6 +1283,7 @@ components:
         to `false` and selecting the tags that should be considered structure tags. This will split sentences 
         using the `splitting_tags` parameter.
       type: string
+      default: '1'
       enum:
       - '0'
     PreserveFormattingOption:
