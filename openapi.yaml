@@ -82,6 +82,8 @@ paths:
                   $ref: '#/components/schemas/SourceLanguage'
                 target_lang:
                   $ref: '#/components/schemas/TargetLanguage'
+                context:
+                  $ref: '#/components/schemas/Context'
                 split_sentences:
                   $ref: '#/components/schemas/SplitSentencesOption'
                 preserve_formatting:
@@ -135,6 +137,8 @@ paths:
                   $ref: '#/components/schemas/SourceLanguage'
                 target_lang:
                   $ref: '#/components/schemas/TargetLanguage'
+                context:
+                  $ref: '#/components/schemas/Context'
                 split_sentences:
                   $ref: '#/components/schemas/SplitSentencesOption'
                 preserve_formatting:
@@ -1290,6 +1294,13 @@ components:
         using the `splitting_tags` parameter.
       type: boolean
       default: true
+    Context:
+      description: |-
+        Additional context that can influence a translation but is not translated itself.
+
+        Alpha feature. Not intended for production use. May be deprecated without prior notice.
+      type: string
+      example: This is context. 
     OutlineDetectionOptionStr:
       description: |-
         Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
