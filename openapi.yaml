@@ -190,15 +190,15 @@ paths:
                       type: object
                       properties:
                         detected_source_language:
-                          allOf:
-                          - $ref: '#/components/schemas/SourceLanguage'
                           description: The language detected in the source text. It
                             reflects the value of the `source_lang` parameter, when
                             specified.
+                          type: string
                           example: EN
                         text:
                           description: The translated text.
                           type: string
+                          example: Hallo, Welt!
         400:
           $ref: '#/components/responses/BadRequest'
         403:
