@@ -102,15 +102,21 @@ paths:
                 non_splitting_tags:
                   description: Comma-separated list of HTML or XML tags which never split sentences.
                   type: array
-                  example: non_splitting_tag
+                  items:
+                    type: string
+                    example: non_splitting_tag
                 splitting_tags:
                   description: Comma-separated list of HTML or XML tags which always cause splits.
                   type: array
-                  example: splitting_tag
+                  items:
+                    type: string
+                    example: splitting_tag
                 ignore_tags:
                   description: Comma-separated list of HTML or XML tags that indicate text not to be translated.
                   type: array
-                  example: ignore_tag
+                  items:
+                    type: string
+                    example: ignore_tag
           application/x-www-form-urlencoded:
             schema:
               type: object
@@ -149,15 +155,21 @@ paths:
                 non_splitting_tags:
                   description: Comma-separated list of HTML or XML tags which never split sentences.
                   type: array
-                  example: non_splitting_tag
+                  items:
+                    type: string
+                    example: non_splitting_tag
                 splitting_tags:
                   description: Comma-separated list of HTML or XML tags which always cause splits.
                   type: array
-                  example: splitting_tag
+                  items:
+                    type: string
+                    example: splitting_tag
                 ignore_tags:
                   description: Comma-separated list of HTML or XML tags that indicate text not to be translated.
                   type: array
-                  example: ignore_tag
+                  items:
+                    type: string
+                    example: ignore_tag
             encoding:
               text:
                 style: form
