@@ -890,7 +890,7 @@ paths:
           - source
           - target
           default: source
-        description: Supported values are `source` and `target`.
+        description: Supported values are source and target
         examples:
           target:
             summary: Target Languages
