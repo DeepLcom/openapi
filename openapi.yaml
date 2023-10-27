@@ -25,6 +25,7 @@ tags:
     The document translation API allows you to translate whole documents and supports the following file types and extensions:
       * `docx` - Microsoft Word Document
       * `pptx` - Microsoft PowerPoint Document
+      * `xlsx` - Microsoft Excel Document
       * `pdf` - Portable Document Format
       * `htm / html` - HTML Document
       * `txt` - Plain Text Document
@@ -265,6 +266,7 @@ paths:
                     The document file to be translated. The file name should be included in this part's content disposition. As an alternative, the filename parameter can be used. The following file types and extensions are supported:
                       * `docx` - Microsoft Word Document
                       * `pptx` - Microsoft PowerPoint Document
+                      * `xlsx` - Microsoft Excel Document
                       * `pdf` - Portable Document Format
                       * `htm / html` - HTML Document
                       * `txt` - Plain Text Document
