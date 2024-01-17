@@ -3,6 +3,7 @@
 This project contains an [OpenAPI specification][openapi-specification] of the
 [DeepL API][deepl-api], in [YAML](openapi.yaml) and [JSON](openapi.json)
 formats.
+There is also a [simplified YAML](openapi_simplified.yaml) with reduced descriptions that is embedded in our [API documentation][deepl-api-docs].  
 
 You can use this specification to explore the API in tools like
 [Postman][postman], or to auto-generate documentation, SDKs, and code libraries
@@ -18,6 +19,8 @@ If you encounter issues while using this OpenAPI specification or have feature
 requests, please [create an issue][issues].
 
 [deepl-api]: https://www.deepl.com/pro-api
+
+[deepl-api-docs]: https://developers.deepl.com/docs
 
 [issues]: https://github.com/DeepLcom/openapi/issues
 
