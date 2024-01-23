@@ -373,8 +373,9 @@ paths:
                     to including the file name in the file part's content disposition.
                 output_format:
                   type: string
-                  description: |
-                    File extension of desired format of translated file, for example: `docx`. If unspecified, by default the translated file will be in the same format as the input file.
+                  description: 'File extension of desired format of translated file,
+                    for example: `docx`. If unspecified, by default the translated
+                    file will be in the same format as the input file.'
                 formality:
                   $ref: '#/components/schemas/Formality'
                 glossary_id:
