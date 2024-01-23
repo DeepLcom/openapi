@@ -77,6 +77,9 @@
                   "target_lang": {
                     "$ref": "#/components/schemas/TargetLanguage"
                   },
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
                   "split_sentences": {
                     "$ref": "#/components/schemas/SplitSentencesOption"
                   },
@@ -177,6 +180,9 @@
                   },
                   "target_lang": {
                     "$ref": "#/components/schemas/TargetLanguage"
+                  },
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
                   },
                   "split_sentences": {
                     "$ref": "#/components/schemas/SplitSentencesOption"
@@ -1673,6 +1679,10 @@
       }
     },
     "schemas": {
+      "Context": {
+        "description": "The `context` parameter makes it possible to include additional context that can influence a translation but is not translated itself. \nThis additional context can potentially improve translation quality when translating short, low-context source texts such \nas product names on an e-commerce website, article headlines on a news website, or UI elements.\n\n\nFor example...\n  - When translating a product name, you might pass the product description as context. \n  - When translating a news article headline, you might pass the first few sentences or a summary of the article as context.\n\n\nFor best results, we recommend sending a few complete sentences of context. There is no size limit for the `context` parameter itself, but \nthe request body size limit of 128 KiB still applies to all text translation requests. \n\n\nIf you send a request with multiple `text` parameters, the `context` parameter will be applied to each one. \n\n\nThe `context` parameter is an **alpha feature** as defined in section 3.1.5 of our [terms and conditions](https://www.deepl.com/en/pro-license). \nThis means it could be changed or deprecated by DeepL at any point and without advance notice. While the feature is still labeled as \"alpha\", \ncontext will not be counted toward billing (i.e. there is no additional cost for sending context). This is subject to change if the \"alpha\" \nlabel is removed and the feature becomes generally available. If we decide to deprecate the `context` parameter, requests that include it will not \nbreak; the context will simply be ignored. \n\n\nFor these reasons, **the `context` parameter is not intended to be used in production** as long as the alpha label still applies.\n\n\nWe're eager to hear how the `context` parameter is working for you and how we can improve the feature! You can share your feedback \nby emailing api-feedback@deepl.com.",
+        "type": "string"
+      },
       "CreateGlossaryParameters": {
         "type": "object",
         "required": [
