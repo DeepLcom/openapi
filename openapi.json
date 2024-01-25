@@ -402,7 +402,7 @@
                   },
                   "output_format": {
                     "type": "string",
-                    "description": "File extension of desired format of translated file, for example: `docx`. If unspecified, by default the translated file will be in the same format as the input file."
+                    "description": "File extension of desired format of translated file, for example: `docx`. If unspecified, by default the translated file will be in the same format as the input file.\n\nNote: Not all combinations of input file and translation file extensions are permitted. See [Document Format Conversions](https://www.deepl.com/docs-api/documents/format-conversions) for the permitted combinations."
                   },
                   "formality": {
                     "$ref": "#/components/schemas/Formality"
