@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "2.11.0"
+    "version": "2.12.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
@@ -35,7 +35,7 @@
     },
     {
       "name": "ManageGlossaries",
-      "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nThe DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of\n55 possible glossary language pairs:\n\n- DE (German)\n- EN (English)\n- ES (Spanish)\n- FR (French)\n- IT (Italian)\n- JA (Japanese)\n- NL (Dutch)\n- PL (Polish)\n- PT (Portuguese)\n- RU (Russian)\n- ZH (Chinese)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`).\nGlossaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT` glossaries can be used in translations with either Portuguese variant.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa.\n\n\n\nNote that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name."
+      "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nThe DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of\n66 possible glossary language pairs:\n\n- DE (German)\n- EN (English)\n- ES (Spanish)\n- FR (French)\n- IT (Italian)\n- JA (Japanese)\n- KO (Korean)\n- NL (Dutch)\n- PL (Polish)\n- PT (Portuguese)\n- RU (Russian)\n- ZH (Chinese)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`).\nGlossaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT` glossaries can be used in translations with either Portuguese variant.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa.\n\n\n\nNote that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name."
     },
     {
       "name": "MetaInformation",
@@ -72,10 +72,13 @@
                     }
                   },
                   "source_lang": {
-                    "$ref": "#/components/schemas/SourceLanguage"
+                    "$ref": "#/components/schemas/SourceLanguageText"
                   },
                   "target_lang": {
-                    "$ref": "#/components/schemas/TargetLanguage"
+                    "$ref": "#/components/schemas/TargetLanguageText"
+                  },
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
                   },
                   "split_sentences": {
                     "$ref": "#/components/schemas/SplitSentencesOption"
@@ -173,10 +176,13 @@
                     }
                   },
                   "source_lang": {
-                    "$ref": "#/components/schemas/SourceLanguage"
+                    "$ref": "#/components/schemas/SourceLanguageText"
                   },
                   "target_lang": {
-                    "$ref": "#/components/schemas/TargetLanguage"
+                    "$ref": "#/components/schemas/TargetLanguageText"
+                  },
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
                   },
                   "split_sentences": {
                     "$ref": "#/components/schemas/SplitSentencesOption"
@@ -393,6 +399,10 @@
                   "filename": {
                     "type": "string",
                     "description": "The name of the uploaded file. Can be used as an alternative to including the file name in the file part's content disposition."
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "description": "File extension of desired format of translated file, for example: `docx`. If unspecified, by default the translated file will be in the same format as the input file.\n\nNote: Not all combinations of input file and translation file extensions are permitted. See [Document Format Conversions](https://www.deepl.com/docs-api/documents/format-conversions) for the permitted combinations."
                   },
                   "formality": {
                     "$ref": "#/components/schemas/Formality"
@@ -1274,7 +1284,7 @@
           "MetaInformation"
         ],
         "summary": "Retrieve Supported Languages",
-        "description": "Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.",
+        "description": "Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.\n\nAs of January 2024, Arabic (AR) is supported as a source and target language for text translation, \nbut it is not yet supported for document translation. Therefore, Arabic has not yet been added to \nthe `/languages` endpoint. We will add Arabic to the `/languages` endpoint after document translation \nsupport is added.",
         "operationId": "getLanguages",
         "parameters": [
           {
@@ -1669,6 +1679,10 @@
       }
     },
     "schemas": {
+      "Context": {
+        "description": "The `context` parameter makes it possible to include additional context that can influence a translation but is not translated itself. \nThis additional context can potentially improve translation quality when translating short, low-context source texts such \nas product names on an e-commerce website, article headlines on a news website, or UI elements.\n\n\nFor example...\n  - When translating a product name, you might pass the product description as context. \n  - When translating a news article headline, you might pass the first few sentences or a summary of the article as context.\n\n\nFor best results, we recommend sending a few complete sentences of context. There is no size limit for the `context` parameter itself, but \nthe request body size limit of 128 KiB still applies to all text translation requests. \n\n\nIf you send a request with multiple `text` parameters, the `context` parameter will be applied to each one. \n\n\nThe `context` parameter is an **alpha feature** as defined in section 3.1.5 of our [terms and conditions](https://www.deepl.com/en/pro-license). \nThis means it could be changed or deprecated by DeepL at any point and without advance notice. While the feature is still labeled as \"alpha\", \ncontext will not be counted toward billing (i.e. there is no additional cost for sending context). This is subject to change if the \"alpha\" \nlabel is removed and the feature becomes generally available. If we decide to deprecate the `context` parameter, requests that include it will not \nbreak; the context will simply be ignored. \n\n\nFor these reasons, **the `context` parameter is not intended to be used in production** as long as the alpha label still applies.\n\n\nWe're eager to hear how the `context` parameter is working for you and how we can improve the feature! You can share your feedback \nby emailing api-feedback@deepl.com.",
+        "type": "string"
+      },
       "CreateGlossaryParameters": {
         "type": "object",
         "required": [
@@ -1796,6 +1810,7 @@
           "fr",
           "it",
           "ja",
+          "ko",
           "nl",
           "pl",
           "pt",
@@ -1814,6 +1829,7 @@
           "fr",
           "it",
           "ja",
+          "ko",
           "nl",
           "pl",
           "pt",
@@ -1862,6 +1878,43 @@
         "type": "string",
         "description": "Language of the text to be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.",
         "enum": [
+          "BG",
+          "CS",
+          "DA",
+          "DE",
+          "EL",
+          "EN",
+          "ES",
+          "ET",
+          "FI",
+          "FR",
+          "HU",
+          "ID",
+          "IT",
+          "JA",
+          "KO",
+          "LT",
+          "LV",
+          "NB",
+          "NL",
+          "PL",
+          "PT",
+          "RO",
+          "RU",
+          "SK",
+          "SL",
+          "SV",
+          "TR",
+          "UK",
+          "ZH"
+        ],
+        "example": "EN"
+      },
+      "SourceLanguageText": {
+        "type": "string",
+        "description": "Language of the text to be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.\n\n[1] Please note that Arabic has not yet been added to the `/languages` endpoint because it does not \nyet support document translation; only text translation is supported for Arabic at this time. When \ndocument translation support is added for Arabic, we will a) remove this note and b) add Arabic to \nthe `/languages` endpoint.",
+        "enum": [
+          "AR",
           "BG",
           "CS",
           "DA",
@@ -1971,6 +2024,45 @@
         "type": "string",
         "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)",
         "enum": [
+          "BG",
+          "CS",
+          "DA",
+          "DE",
+          "EL",
+          "EN-GB",
+          "EN-US",
+          "ES",
+          "ET",
+          "FI",
+          "FR",
+          "HU",
+          "ID",
+          "IT",
+          "JA",
+          "KO",
+          "LT",
+          "LV",
+          "NB",
+          "NL",
+          "PL",
+          "PT-BR",
+          "PT-PT",
+          "RO",
+          "RU",
+          "SK",
+          "SL",
+          "SV",
+          "TR",
+          "UK",
+          "ZH"
+        ],
+        "example": "DE"
+      },
+      "TargetLanguageText": {
+        "type": "string",
+        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)\n\n [1] Please note that Arabic has not yet been added to the `/languages` endpoint because \n it does not yet support document translation; only text translation is supported for Arabic \n at this time. When document translation support is added for Arabic, we will a) remove this \n note and b) add Arabic to the `/languages` endpoint.",
+        "enum": [
+          "AR",
           "BG",
           "CS",
           "DA",

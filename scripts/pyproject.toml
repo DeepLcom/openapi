@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "deepl_openapi"
+description = "DeepL OpenAPI specification and associated scripts"
+version = "0.1.0"
+authors = ["DeepL SE <open-source@deepl.com>"]
+license = "MIT"
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+click = "^8.1.7"
+ruamel-yaml = "^0.18.5"
