@@ -72,10 +72,10 @@
                     }
                   },
                   "source_lang": {
-                    "$ref": "#/components/schemas/SourceLanguage"
+                    "$ref": "#/components/schemas/SourceLanguageText"
                   },
                   "target_lang": {
-                    "$ref": "#/components/schemas/TargetLanguage"
+                    "$ref": "#/components/schemas/TargetLanguageText"
                   },
                   "context": {
                     "$ref": "#/components/schemas/Context"
@@ -176,10 +176,10 @@
                     }
                   },
                   "source_lang": {
-                    "$ref": "#/components/schemas/SourceLanguage"
+                    "$ref": "#/components/schemas/SourceLanguageText"
                   },
                   "target_lang": {
-                    "$ref": "#/components/schemas/TargetLanguage"
+                    "$ref": "#/components/schemas/TargetLanguageText"
                   },
                   "context": {
                     "$ref": "#/components/schemas/Context"
@@ -1284,7 +1284,7 @@
           "MetaInformation"
         ],
         "summary": "Retrieve Supported Languages",
-        "description": "Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.",
+        "description": "Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.\n\nAs of January 2024, Arabic (AR) is supported as a source and target language for text translation, \nbut it is not yet supported for document translation. Therefore, Arabic has not yet been added to \nthe `/languages` endpoint. We will add Arabic to the `/languages` endpoint after document translation \nsupport is added.",
         "operationId": "getLanguages",
         "parameters": [
           {
@@ -1908,6 +1908,43 @@
         ],
         "example": "EN"
       },
+      "SourceLanguageText": {
+        "type": "string",
+        "description": "Language of the text to be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.\n\n[1] Please note that Arabic has not yet been added to the `/languages` endpoint because it does not \nyet support document translation; only text translation is supported for Arabic at this time. When \ndocument translation support is added for Arabic, we will a) remove this note and b) add Arabic to \nthe `/languages` endpoint.",
+        "enum": [
+          "AR",
+          "BG",
+          "CS",
+          "DA",
+          "DE",
+          "EL",
+          "EN",
+          "ES",
+          "ET",
+          "FI",
+          "FR",
+          "HU",
+          "ID",
+          "IT",
+          "JA",
+          "KO",
+          "LT",
+          "LV",
+          "NB",
+          "NL",
+          "PL",
+          "PT",
+          "RO",
+          "RU",
+          "SK",
+          "SL",
+          "SV",
+          "TR",
+          "UK",
+          "ZH"
+        ],
+        "example": "EN"
+      },
       "TagHandlingOption": {
         "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
         "type": "string",
@@ -1985,6 +2022,45 @@
         "type": "string",
         "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)",
         "enum": [
+          "BG",
+          "CS",
+          "DA",
+          "DE",
+          "EL",
+          "EN-GB",
+          "EN-US",
+          "ES",
+          "ET",
+          "FI",
+          "FR",
+          "HU",
+          "ID",
+          "IT",
+          "JA",
+          "KO",
+          "LT",
+          "LV",
+          "NB",
+          "NL",
+          "PL",
+          "PT-BR",
+          "PT-PT",
+          "RO",
+          "RU",
+          "SK",
+          "SL",
+          "SV",
+          "TR",
+          "UK",
+          "ZH"
+        ],
+        "example": "DE"
+      },
+      "TargetLanguageText": {
+        "type": "string",
+        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)\n\n [1] Please note that Arabic has not yet been added to the `/languages` endpoint because \n it does not yet support document translation; only text translation is supported for Arabic \n at this time. When document translation support is added for Arabic, we will a) remove this \n note and b) add Arabic to the `/languages` endpoint.",
+        "enum": [
+          "AR",
           "BG",
           "CS",
           "DA",

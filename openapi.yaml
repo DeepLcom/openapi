@@ -126,9 +126,9 @@ paths:
                     type: string
                     example: Hello, World!
                 source_lang:
-                  $ref: '#/components/schemas/SourceLanguage'
+                  $ref: '#/components/schemas/SourceLanguageText'
                 target_lang:
-                  $ref: '#/components/schemas/TargetLanguage'
+                  $ref: '#/components/schemas/TargetLanguageText'
                 context:
                   $ref: '#/components/schemas/Context'
                 split_sentences:
@@ -200,9 +200,9 @@ paths:
                   items:
                     type: string
                 source_lang:
-                  $ref: '#/components/schemas/SourceLanguage'
+                  $ref: '#/components/schemas/SourceLanguageText'
                 target_lang:
-                  $ref: '#/components/schemas/TargetLanguage'
+                  $ref: '#/components/schemas/TargetLanguageText'
                 context:
                   $ref: '#/components/schemas/Context'
                 split_sentences:
@@ -1006,8 +1006,13 @@ paths:
       tags:
       - MetaInformation
       summary: Retrieve Supported Languages
-      description: Retrieve the list of languages that are currently supported for
-        translation, either as source or target language, respectively.
+      description: |-
+        Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.
+
+        As of January 2024, Arabic (AR) is supported as a source and target language for text translation, 
+        but it is not yet supported for document translation. Therefore, Arabic has not yet been added to 
+        the `/languages` endpoint. We will add Arabic to the `/languages` endpoint after document translation 
+        support is added.
       operationId: getLanguages
       parameters:
       - name: type
@@ -1642,6 +1647,79 @@ components:
       - UK
       - ZH
       example: EN
+    SourceLanguageText:
+      type: string
+      description: |-
+        Language of the text to be translated. Options currently available:
+         * `AR` - Arabic [1]
+         * `BG` - Bulgarian
+         * `CS` - Czech
+         * `DA` - Danish
+         * `DE` - German
+         * `EL` - Greek
+         * `EN` - English
+         * `ES` - Spanish
+         * `ET` - Estonian
+         * `FI` - Finnish
+         * `FR` - French
+         * `HU` - Hungarian
+         * `ID` - Indonesian
+         * `IT` - Italian
+         * `JA` - Japanese
+         * `KO` - Korean
+         * `LT` - Lithuanian
+         * `LV` - Latvian
+         * `NB` - Norwegian (Bokmål)
+         * `NL` - Dutch
+         * `PL` - Polish
+         * `PT` - Portuguese (all Portuguese varieties mixed)
+         * `RO` - Romanian
+         * `RU` - Russian
+         * `SK` - Slovak
+         * `SL` - Slovenian
+         * `SV` - Swedish
+         * `TR` - Turkish
+         * `UK` - Ukrainian
+         * `ZH` - Chinese
+
+        If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
+
+        [1] Please note that Arabic has not yet been added to the `/languages` endpoint because it does not 
+        yet support document translation; only text translation is supported for Arabic at this time. When 
+        document translation support is added for Arabic, we will a) remove this note and b) add Arabic to 
+        the `/languages` endpoint.
+      enum:
+      - AR
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN
+      - ES
+      - ET
+      - FI
+      - FR
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TR
+      - UK
+      - ZH
+      example: EN
     TagHandlingOption:
       description: |-
         Sets which kind of tags should be handled. Options currently available:
@@ -1810,6 +1888,83 @@ components:
          * `UK` - Ukrainian
          * `ZH` - Chinese (simplified)
       enum:
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN-GB
+      - EN-US
+      - ES
+      - ET
+      - FI
+      - FR
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT-BR
+      - PT-PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TR
+      - UK
+      - ZH
+      example: DE
+    TargetLanguageText:
+      type: string
+      description: |-
+        The language into which the text should be translated. Options currently available:
+         * `AR` - Arabic [1]
+         * `BG` - Bulgarian
+         * `CS` - Czech
+         * `DA` - Danish
+         * `DE` - German
+         * `EL` - Greek
+         * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)
+         * `EN-GB` - English (British)
+         * `EN-US` - English (American)
+         * `ES` - Spanish
+         * `ET` - Estonian
+         * `FI` - Finnish
+         * `FR` - French
+         * `HU` - Hungarian
+         * `ID` - Indonesian
+         * `IT` - Italian
+         * `JA` - Japanese
+         * `KO` - Korean
+         * `LT` - Lithuanian
+         * `LV` - Latvian
+         * `NB` - Norwegian (Bokmål)
+         * `NL` - Dutch
+         * `PL` - Polish
+         * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
+         * `PT-BR` - Portuguese (Brazilian)
+         * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)
+         * `RO` - Romanian
+         * `RU` - Russian
+         * `SK` - Slovak
+         * `SL` - Slovenian
+         * `SV` - Swedish
+         * `TR` - Turkish
+         * `UK` - Ukrainian
+         * `ZH` - Chinese (simplified)
+
+         [1] Please note that Arabic has not yet been added to the `/languages` endpoint because 
+         it does not yet support document translation; only text translation is supported for Arabic 
+         at this time. When document translation support is added for Arabic, we will a) remove this 
+         note and b) add Arabic to the `/languages` endpoint.
+      enum:
+      - AR
       - BG
       - CS
       - DA
