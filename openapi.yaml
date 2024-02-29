@@ -53,7 +53,7 @@ tags:
     If you encounter issues, please let us know at support@DeepL.com.
 
     The DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of
-    55 possible glossary language pairs:
+    66 possible glossary language pairs:
 
     - DE (German)
     - EN (English)
@@ -61,6 +61,7 @@ tags:
     - FR (French)
     - IT (Italian)
     - JA (Japanese)
+    - KO (Korean)
     - NL (Dutch)
     - PL (Polish)
     - PT (Portuguese)
@@ -1443,6 +1444,7 @@ components:
       - fr
       - it
       - ja
+      - ko
       - nl
       - pl
       - pt
@@ -1459,6 +1461,7 @@ components:
       - fr
       - it
       - ja
+      - ko
       - nl
       - pl
       - pt
