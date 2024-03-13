@@ -836,15 +836,14 @@ paths:
                       period.
                     type: integer
                     format: int64
+                    example: 180118
                   character_limit:
                     description: Current maximum number of characters that can be
                       translated per billing period. If cost control is set, the 
                       cost control limit will be returned in this field.
                     type: integer
                     format: int64
-              example:
-                character_count: 180118
-                character_limit: 1250000
+                    example: 1250000
         400:
           $ref: '#/components/responses/BadRequest'
         403:
