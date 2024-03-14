@@ -1207,38 +1207,16 @@
                     "character_count": {
                       "description": "Characters translated so far in the current billing period.",
                       "type": "integer",
-                      "format": "int64"
+                      "format": "int64",
+                      "example": 180118
                     },
                     "character_limit": {
-                      "description": "Current maximum number of characters that can be translated per billing period.",
+                      "description": "Current maximum number of characters that can be translated per billing period. If cost control is set, the cost control limit will be returned in this field.",
                       "type": "integer",
-                      "format": "int64"
-                    },
-                    "document_limit": {
-                      "description": "Documents translated so far in the current billing period.",
-                      "type": "integer",
-                      "format": "int64"
-                    },
-                    "document_count": {
-                      "description": "Current maximum number of documents that can be translated per billing period.",
-                      "type": "integer",
-                      "format": "int64"
-                    },
-                    "team_document_limit": {
-                      "description": "Documents translated by all users in the team so far in the current billing period.",
-                      "type": "integer",
-                      "format": "int64"
-                    },
-                    "team_document_count": {
-                      "description": "Current maximum number of documents that can be translated by the team per billing period.",
-                      "type": "integer",
-                      "format": "int64"
+                      "format": "int64",
+                      "example": 1250000
                     }
                   }
-                },
-                "example": {
-                  "character_count": 180118,
-                  "character_limit": 1250000
                 }
               }
             }
