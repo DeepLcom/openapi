@@ -687,7 +687,6 @@ paths:
               $ref: '#/components/schemas/CreateGlossaryParameters'
             examples:
               Basic:
-                name: Basic
                 value:
                   name: My Glossary
                   source_lang: en
