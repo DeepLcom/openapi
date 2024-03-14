@@ -10,7 +10,7 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
-## [Unreleased]
+## [2.13.0] - 2024-03-14
 ### Deprecated
 * Remove all properties from `/usage` except for `character_count` and `character_limit`; 
   these are the only two properties included in the API response for the v2 API. 
@@ -126,7 +126,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
-[Unreleased]: https://github.com/DeepLcom/openapi/compare/v2.12.0...HEAD
+[2.13.0]: https://github.com/DeepLcom/openapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/DeepLcom/openapi/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/DeepLcom/openapi/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/DeepLcom/openapi/compare/v2.9.2...v2.10.0
