@@ -14,6 +14,9 @@ typos, schema fixes, or adding examples.
 ### Deprecated
 * Remove all properties from `/usage` except for `character_count` and `character_limit`; 
   these are the only two properties included in the API response for the v2 API. 
+### Fixed
+* Fixed some minor issues in specs that were violating OpenAPI specification.
+  * Thanks to [hoemoon](https://github.com/hoemoon) in [#8](https://github.com/DeepLcom/openapi/pull/8).
 
 
 ## [2.12.0] - 2024-02-29

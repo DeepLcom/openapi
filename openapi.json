@@ -825,7 +825,6 @@
               },
               "examples": {
                 "Basic": {
-                  "name": "Basic",
                   "value": {
                     "name": "My Glossary",
                     "source_lang": "en",

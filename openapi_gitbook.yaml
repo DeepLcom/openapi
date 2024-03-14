@@ -178,10 +178,10 @@ paths:
                   items:
                     type: string
                     example: ignore_tag
-              encoding:
-                text:
-                  style: form
-                  explode: true
+            encoding:
+              text:
+                style: form
+                explode: true
       responses:
         200:
           description: The translate function returns a JSON representation of the
@@ -583,7 +583,6 @@ paths:
               $ref: '#/components/schemas/CreateGlossaryParameters'
             examples:
               Basic:
-                name: Basic
                 value:
                   name: My Glossary
                   source_lang: en
