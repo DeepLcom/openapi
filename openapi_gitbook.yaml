@@ -543,12 +543,12 @@ paths:
                           description: The language in which the source texts in the
                             glossary are specified.
                           type: string
-                          example: en
+                          example: EN
                         target_lang:
                           description: The language in which the target texts in the
                             glossary are specified.
                           type: string
-                          example: de
+                          example: DE
               example:
                 supported_languages:
                 - source_lang: de
@@ -888,7 +888,7 @@ paths:
           - source
           - target
           default: source
-          description: Supported values are "source" or "target". If type parameter is not included, defaults to "source".
+        description: Supported values are "source" or "target". If type parameter is not included, defaults to "source".
         examples:
           target:
             summary: Target Languages
@@ -911,7 +911,7 @@ paths:
                     language:
                       description: The language code of the given language.
                       type: string
-                      example: de
+                      example: DE
                     name:
                       description: Name of the language in English.
                       type: string
