@@ -388,7 +388,7 @@ paths:
                        * `done` - the translation is done and the translated document is ready for download
                        * `error` - an irrecoverable error occurred while translating the document
                     type: string
-                    example: translating
+                    example: done
                     enum:
                     - queued
                     - translating
@@ -399,7 +399,6 @@ paths:
                       Estimated number of seconds until the translation is done.
                       This parameter is only included while `status` is `"translating"`.
                     type: integer
-                    example: 20
                   billed_characters:
                     description: The number of characters billed to your account.
                       The characters will only be billed after a successful download
