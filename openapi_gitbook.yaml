@@ -543,12 +543,12 @@ paths:
                           description: The language in which the source texts in the
                             glossary are specified.
                           type: string
-                          example: EN
+                          example: en
                         target_lang:
                           description: The language in which the target texts in the
                             glossary are specified.
                           type: string
-                          example: DE
+                          example: de
               example:
                 supported_languages:
                 - source_lang: de
