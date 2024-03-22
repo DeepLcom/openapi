@@ -306,12 +306,14 @@ paths:
                       the translation process. Must be used when referring to this
                       particular document in subsequent API requests.
                     type: string
+                    example: 04DE5AD98A02647D83285A36021911C6
                   document_key:
                     description: A unique key that is used to encrypt the uploaded
                       document as well as the resulting translation on the server
                       side. Must be provided with every subsequent API request regarding
                       this particular document.
                     type: string
+                    example: 0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A
               example:
                 document_id: 04DE5AD98A02647D83285A36021911C6
                 document_key: 0CB0054F1C132C1625B392EADDA41CB754A742822F6877173029A6C487E7F60A
@@ -377,6 +379,7 @@ paths:
                       the requested translation process. The same ID that was used
                       when requesting the translation status.
                     type: string
+                    example: 04DE5AD98A02647D83285A36021911C6
                   status:
                     description: |-
                       A short description of the state the document translation process is currently in. Possible values are:
@@ -385,6 +388,7 @@ paths:
                        * `done` - the translation is done and the translated document is ready for download
                        * `error` - an irrecoverable error occurred while translating the document
                     type: string
+                    example: done
                     enum:
                     - queued
                     - translating
@@ -400,12 +404,14 @@ paths:
                       The characters will only be billed after a successful download
                       request.
                     type: integer
+                    example: 1337
                   error_message:
                     description: |-
                       A short description of the error, if available.
                       Note that the content is subject to change.
                       This parameter may be included if an error occurred during translation.
                     type: string
+                    example: Only available if document status is error
               examples:
                 translating:
                   summary: Translating
@@ -537,10 +543,12 @@ paths:
                           description: The language in which the source texts in the
                             glossary are specified.
                           type: string
+                          example: en
                         target_lang:
                           description: The language in which the target texts in the
                             glossary are specified.
                           type: string
+                          example: de
               example:
                 supported_languages:
                 - source_lang: de
@@ -903,13 +911,16 @@ paths:
                     language:
                       description: The language code of the given language.
                       type: string
+                      example: DE
                     name:
                       description: Name of the language in English.
                       type: string
+                      example: German
                     supports_formality:
                       description: Denotes formality support in case of a target language
                         listing.
                       type: boolean
+                      example: true
               example:
               - language: BG
                 name: Bulgarian
