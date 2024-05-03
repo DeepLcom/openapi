@@ -1,0 +1,15 @@
+# This file is used for DeepL's internal systems; people outside DeepL can ignore it.
+
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: deepl-public-api
+  namespace: default
+  description: Definition of the API format of the public translation API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: api-and-client-libraries-team
+  system: deepl-translate
+  definition:
+    $text: ./openapi.yaml
