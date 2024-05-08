@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [Unreleased]
+### Added
+* Added supported glossary languages: Danish (`'da'`), Norwegian (bokmål) (`'nb'`), and Swedish (`'sv'`).
+
+
 ## [2.13.0] - 2024-03-14
 ### Deprecated
 * Remove all properties from `/usage` except for `character_count` and `character_limit`; 
@@ -126,6 +131,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[Unreleased]: https://github.com/DeepLcom/openapi/compare/v2.13.0...HEAD
 [2.13.0]: https://github.com/DeepLcom/openapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/DeepLcom/openapi/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/DeepLcom/openapi/compare/v2.10.0...v2.11.0
