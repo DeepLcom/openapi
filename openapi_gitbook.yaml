@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 2.13.0
+  version: 2.14.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer?cta=header-prices/
@@ -40,8 +40,9 @@ tags:
     If you encounter issues, please let us know at support@DeepL.com.
 
     The DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of
-    66 possible glossary language pairs:
+    105 possible glossary language pairs:
 
+    - DA (Danish)
     - DE (German)
     - EN (English)
     - ES (Spanish)
@@ -49,10 +50,12 @@ tags:
     - IT (Italian)
     - JA (Japanese)
     - KO (Korean)
+    - NB (Norwegian (bokmål))
     - NL (Dutch)
     - PL (Polish)
     - PT (Portuguese)
     - RU (Russian)
+    - SV (Swedish)
     - ZH (Chinese)
 - name: MetaInformation
   description: Information about API usage and value ranges
@@ -1261,6 +1264,7 @@ components:
       type: string
       description: The language in which the source texts in the glossary are specified.
       enum:
+      - da
       - de
       - en
       - es
@@ -1268,16 +1272,19 @@ components:
       - it
       - ja
       - ko
+      - nb
       - nl
       - pl
       - pt
       - ru
+      - sv
       - zh
       example: en
     GlossaryTargetLanguage:
       type: string
       description: The language in which the target texts in the glossary are specified.
       enum:
+      - da
       - de
       - en
       - es
@@ -1285,10 +1292,12 @@ components:
       - it
       - ja
       - ko
+      - nb
       - nl
       - pl
       - pt
       - ru
+      - sv
       - zh
       example: de
     OutlineDetectionOption:
