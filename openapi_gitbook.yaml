@@ -1311,7 +1311,7 @@ components:
       description: |-
         Additional context that can influence a translation but is not translated itself.
 
-        Alpha feature. Not intended for production use. May be deprecated without prior notice.
+        Characters included in the `context` parameter will not be counted toward billing.
       type: string
       example: This is context. 
     OutlineDetectionOptionStr:
