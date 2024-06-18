@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [2.14.1] - 2024-06-18
+### Changed
+* Text translation `context` parameter is now generally available (was alpha).
+
+
 ## [2.14.0] - 2024-05-08
 ### Added
 * Added supported glossary languages: Danish (`'da'`), Norwegian (bokmål) (`'nb'`), and Swedish (`'sv'`).
@@ -131,6 +136,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.14.1]: https://github.com/DeepLcom/openapi/compare/v2.14.0...v2.14.1
 [2.14.0]: https://github.com/DeepLcom/openapi/compare/v2.13.0...v2.14.0
 [2.13.0]: https://github.com/DeepLcom/openapi/compare/v2.12.0...v2.13.0
 [2.12.0]: https://github.com/DeepLcom/openapi/compare/v2.11.0...v2.12.0
