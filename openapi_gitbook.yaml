@@ -32,6 +32,7 @@ tags:
       * `htm / html` - HTML Document
       * `txt` - Plain Text Document
       * `xlf / xliff` - XLIFF Document, version 2.1
+      * `srt` - SRT Document
 - name: ManageGlossaries
   description: |-
     The *glossary* functions allow you to create, inspect, and delete glossaries.
@@ -279,6 +280,7 @@ paths:
                       * `htm / html` - HTML Document
                       * `txt` - Plain Text Document
                       * `xlf / xliff` - XLIFF Document, version 2.1
+                      * `srt` - SRT Document
                 filename:
                   type: string
                   description: The name of the uploaded file. Can be used as an alternative
