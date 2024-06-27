@@ -5,7 +5,7 @@ import json
 
 @click.command(
     "convert_to_json",
-    help="Convert OpenAPI YAML to JSON (using std-in and std-out)",
+    help="Convert OpenAPI YAML to JSON ",
 )
 @click.argument("input")
 @click.argument("output")
