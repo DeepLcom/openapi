@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "deepl_openapi"
+name = "scripts"
+package-mode = false
 description = "DeepL OpenAPI specification and associated scripts"
-version = "0.1.0"
-authors = ["DeepL SE <open-source@deepl.com>"]
 license = "MIT"
-readme = "README.md"
 
+[tool.poetry.scripts]
+convert_to_json = "scripts.convert_to_json:main"
 
 [tool.poetry.dependencies]
 python = ">=3.7"

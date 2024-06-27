@@ -1,0 +1,32 @@
+name: Update openapi.json using openapi.yaml and commit result
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run_conversion:
+    name: Run convert_to_json.py script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          cd python
+          python -m pip install --upgrade pip
+          python -m pip install poetry
+          poetry install
+          poetry run convert_to_json ../openapi.yaml ../openapi.json
+
+      - name: Commit result
+        uses: stefanzweifel/git-auto-commit-action@v5
+        id: auto-commit-action
+        with:
+          commit_message: Update openapi.json to match openapi.yaml
+          file_pattern: openapi.json
+
+      - if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        run: echo "Update openapi.json"
+
+      - if: steps.auto-commit-action.outputs.changes_detected == 'false'
+        run: echo "openapi.json is already up to date"
