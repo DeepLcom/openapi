@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 2.14.1
+  version: 2.15.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer?cta=header-prices/
@@ -41,7 +41,7 @@ tags:
     If you encounter issues, please let us know at support@DeepL.com.
 
     The DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of
-    105 possible glossary language pairs:
+    120 possible glossary language pairs:
 
     - DA (Danish)
     - DE (German)
@@ -55,6 +55,7 @@ tags:
     - NL (Dutch)
     - PL (Polish)
     - PT (Portuguese)
+    - RO (Romanian)
     - RU (Russian)
     - SV (Swedish)
     - ZH (Chinese)
@@ -1278,6 +1279,7 @@ components:
       - nl
       - pl
       - pt
+      - ro
       - ru
       - sv
       - zh
@@ -1298,6 +1300,7 @@ components:
       - nl
       - pl
       - pt
+      - ro
       - ru
       - sv
       - zh
