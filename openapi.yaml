@@ -1133,7 +1133,7 @@ paths:
               - language: UK
                 name: Ukrainian
                 supports_formality: false
-              - language: ZH
+              - language: ZH-HANS
                 name: Chinese (simplified)
                 supports_formality: false
         400:
@@ -1874,7 +1874,7 @@ components:
          * `SV` - Swedish
          * `TR` - Turkish
          * `UK` - Ukrainian
-         * `ZH` - Chinese (simplified)
+         * `ZH-HANS` - Chinese (simplified)
       enum:
       - BG
       - CS
@@ -1906,7 +1906,7 @@ components:
       - SV
       - TR
       - UK
-      - ZH
+      - ZH-HANS
       example: DE
     TargetLanguageText:
       type: string
@@ -1945,7 +1945,7 @@ components:
          * `SV` - Swedish
          * `TR` - Turkish
          * `UK` - Ukrainian
-         * `ZH` - Chinese (simplified)
+         * `ZH-HANS` - Chinese (simplified)
 
          [1] Please note that Arabic has not yet been added to the `/languages` endpoint because 
          it does not yet support document translation; only text translation is supported for Arabic 
@@ -1983,5 +1983,5 @@ components:
       - SV
       - TR
       - UK
-      - ZH
+      - ZH-HANS
       example: DE
