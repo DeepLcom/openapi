@@ -1018,7 +1018,7 @@ paths:
               - language: UK
                 name: Ukrainian
                 supports_formality: false
-              - language: ZH
+              - language: ZH-HANS
                 name: Chinese (simplified)
                 supports_formality: false
         400:
@@ -1509,5 +1509,5 @@ components:
       - SV
       - TR
       - UK
-      - ZH
+      - ZH-HANS
       example: DE
