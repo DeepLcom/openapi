@@ -35,7 +35,7 @@
     },
     {
       "name": "ManageGlossaries",
-      "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nThe DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of\n120 possible glossary language pairs:\n\n- DA (Danish)\n- DE (German)\n- EN (English)\n- ES (Spanish)\n- FR (French)\n- IT (Italian)\n- JA (Japanese)\n- KO (Korean)\n- NB (Norwegian (bokm\u00e5l))\n- NL (Dutch)\n- PL (Polish)\n- PT (Portuguese)\n- RO (Romanian)\n- RU (Russian)\n- SV (Swedish)\n- ZH (Chinese)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`).\nGlossaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT` glossaries can be used in translations with either Portuguese variant.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa.\n\n\n\nNote that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name."
+      "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nThe DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of\n120 possible glossary language pairs:\n\n- DA (Danish)\n- DE (German)\n- EN (English)\n- ES (Spanish)\n- FR (French)\n- IT (Italian)\n- JA (Japanese)\n- KO (Korean)\n- NB (Norwegian (bokm\u00e5l))\n- NL (Dutch)\n- PL (Polish)\n- PT (Portuguese)\n- RO (Romanian)\n- RU (Russian)\n- SV (Swedish)\n- ZH (Chinese)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a glossary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant\n(e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANT`).\nGlossaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT`, and `ZH` glossaries can be used in translations with their corresponding variants.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa.\n\n\n\nNote that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name."
     },
     {
       "name": "MetaInformation",
@@ -1468,7 +1468,7 @@
                     "supports_formality": false
                   },
                   {
-                    "language": "ZH",
+                    "language": "ZH-HANS",
                     "name": "Chinese (simplified)",
                     "supports_formality": false
                   }
@@ -2007,7 +2007,7 @@
       },
       "TargetLanguage": {
         "type": "string",
-        "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)",
+        "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)\n * `ZH-HANS` - Chinese (simplified)",
         "enum": [
           "BG",
           "CS",
@@ -2039,13 +2039,14 @@
           "SV",
           "TR",
           "UK",
-          "ZH"
+          "ZH",
+          "ZH-HANS"
         ],
         "example": "DE"
       },
       "TargetLanguageText": {
         "type": "string",
-        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (simplified)\n\n [1] Please note that Arabic has not yet been added to the `/languages` endpoint because \n it does not yet support document translation; only text translation is supported for Arabic \n at this time. When document translation support is added for Arabic, we will a) remove this \n note and b) add Arabic to the `/languages` endpoint.",
+        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)\n * `ZH-HANS` - Chinese (simplified)\n\n [1] Please note that Arabic has not yet been added to the `/languages` endpoint because \n it does not yet support document translation; only text translation is supported for Arabic \n at this time. When document translation support is added for Arabic, we will a) remove this \n note and b) add Arabic to the `/languages` endpoint.",
         "enum": [
           "AR",
           "BG",
@@ -2078,7 +2079,8 @@
           "SV",
           "TR",
           "UK",
-          "ZH"
+          "ZH",
+          "ZH-HANS"
         ],
         "example": "DE"
       }
