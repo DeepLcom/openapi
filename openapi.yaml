@@ -77,9 +77,10 @@ tags:
     as well as the name of the glossary, is limited to 1024 UTF-8 bytes.
     A total of 1000 glossaries are allowed per account.
 
-    When creating a glossary with target language `EN` or `PT`, it's not necessary to specify a variant (e.g. `EN-US`, `EN-GB`, `PT-PT` or `PT-BR`).
+    When creating a glossary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant
+    (e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANT`).
     Glossaries with target language `EN` can be used in translations with either English variant.
-    Similarly `PT` glossaries can be used in translations with either Portuguese variant.
+    Similarly `PT`, and `ZH` glossaries can be used in translations with their corresponding variants.
 
 
     Glossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.
@@ -1874,6 +1875,7 @@ components:
          * `SV` - Swedish
          * `TR` - Turkish
          * `UK` - Ukrainian
+         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)
          * `ZH-HANS` - Chinese (simplified)
       enum:
       - BG
@@ -1906,6 +1908,7 @@ components:
       - SV
       - TR
       - UK
+      - ZH
       - ZH-HANS
       example: DE
     TargetLanguageText:
@@ -1945,6 +1948,7 @@ components:
          * `SV` - Swedish
          * `TR` - Turkish
          * `UK` - Ukrainian
+         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)
          * `ZH-HANS` - Chinese (simplified)
 
          [1] Please note that Arabic has not yet been added to the `/languages` endpoint because 
@@ -1983,5 +1987,6 @@ components:
       - SV
       - TR
       - UK
+      - ZH
       - ZH-HANS
       example: DE
