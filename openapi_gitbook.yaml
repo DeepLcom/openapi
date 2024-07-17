@@ -1018,6 +1018,9 @@ paths:
               - language: UK
                 name: Ukrainian
                 supports_formality: false
+              - language: ZH
+                name: Chinese (simplified)
+                supports_formality: false
               - language: ZH-HANS
                 name: Chinese (simplified)
                 supports_formality: false
