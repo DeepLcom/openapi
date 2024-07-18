@@ -10,6 +10,16 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [Unreleased]
+### Changed
+* The Chinese language codes returned in the `/languages` response for target
+  languages were changed. While previously only `ZH` "Chinese (simplified)" was 
+  included, `ZH-HANS` "Chinese (simplified)" is now listed too.
+  Both language codes are supported for text and document translation. 
+### Deprecated
+* The target language code `ZH` is deprecated; instead `ZH-HANS` should be used.
+ 
+
 ## [2.15.0] - 2024-07-03
 ### Added
 * Add supported glossary language: Romanian (`ro`).
@@ -141,6 +151,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[Unreleased]: https://github.com/DeepLcom/openapi/compare/v2.15.0...HEAD
 [2.15.0]: https://github.com/DeepLcom/openapi/compare/v2.14.1...v2.15.0
 [2.14.1]: https://github.com/DeepLcom/openapi/compare/v2.14.0...v2.14.1
 [2.14.0]: https://github.com/DeepLcom/openapi/compare/v2.13.0...v2.14.0

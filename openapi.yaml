@@ -78,7 +78,7 @@ tags:
     A total of 1000 glossaries are allowed per account.
 
     When creating a glossary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant
-    (e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANT`).
+    (e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANS`).
     Glossaries with target language `EN` can be used in translations with either English variant.
     Similarly `PT`, and `ZH` glossaries can be used in translations with their corresponding variants.
 
@@ -1133,6 +1133,9 @@ paths:
                 supports_formality: false
               - language: UK
                 name: Ukrainian
+                supports_formality: false
+              - language: ZH
+                name: Chinese (simplified)
                 supports_formality: false
               - language: ZH-HANS
                 name: Chinese (simplified)
