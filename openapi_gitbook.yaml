@@ -92,7 +92,7 @@ paths:
                 source_lang:
                   $ref: '#/components/schemas/SourceLanguage'
                 target_lang:
-                  $ref: '#/components/schemas/TargetLanguage'
+                  $ref: '#/components/schemas/TargetLanguageText'
                 context:
                   $ref: '#/components/schemas/Context'
                 split_sentences:
@@ -147,7 +147,7 @@ paths:
                 source_lang:
                   $ref: '#/components/schemas/SourceLanguage'
                 target_lang:
-                  $ref: '#/components/schemas/TargetLanguage'
+                  $ref: '#/components/schemas/TargetLanguageText'
                 context:
                   $ref: '#/components/schemas/Context'
                 split_sentences:
@@ -1514,4 +1514,44 @@ components:
       - UK
       - ZH
       - ZH-HANS
+      example: DE
+    TargetLanguageText:
+      type: string
+      description: |-
+        The language into which the text should be translated.
+      enum:
+      - AR
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN-GB
+      - EN-US
+      - ES
+      - ET
+      - FI
+      - FR
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT-BR
+      - PT-PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TR
+      - UK
+      - ZH
+      - ZH-HANS
+      - ZH-HANT
       example: DE

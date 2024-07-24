@@ -1943,7 +1943,7 @@ components:
          * `PL` - Polish
          * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
          * `PT-BR` - Portuguese (Brazilian)
-         * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)
+         * `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)
          * `RO` - Romanian
          * `RU` - Russian
          * `SK` - Slovak
@@ -1951,13 +1951,15 @@ components:
          * `SV` - Swedish
          * `TR` - Turkish
          * `UK` - Ukrainian
-         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)
+         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)
          * `ZH-HANS` - Chinese (simplified)
+         * `ZH-HANT` - Chinese (traditional)
 
-         [1] Please note that Arabic has not yet been added to the `/languages` endpoint because 
-         it does not yet support document translation; only text translation is supported for Arabic 
-         at this time. When document translation support is added for Arabic, we will a) remove this 
-         note and b) add Arabic to the `/languages` endpoint.
+         [1] Please note that Arabic and Chinese (traditional) have not yet been added to the /languages 
+         endpoint because these languages do not yet support document translation; only text translation 
+         is supported for Arabic and Chinese (traditional) at this time. When document translation support 
+         is added for these languages, we will a) remove this note and b) add the languages to the /languages 
+         endpoint where appropriate.
       enum:
       - AR
       - BG
@@ -1992,4 +1994,5 @@ components:
       - UK
       - ZH
       - ZH-HANS
+      - ZH-HANT
       example: DE
