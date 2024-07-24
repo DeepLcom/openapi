@@ -1955,9 +1955,9 @@ components:
          * `ZH-HANS` - Chinese (simplified)
          * `ZH-HANT` - Chinese (traditional)
 
-         [1] Please note that Arabic and Chinese (traditional) have not yet been added to the /languages 
+         [1] Please note that Arabic and traditional Chinese have not yet been added to the /languages 
          endpoint because these languages do not yet support document translation; only text translation 
-         is supported for Arabic and Chinese (traditional) at this time. When document translation support 
+         is supported for Arabic and traditional Chinese at this time. When document translation support 
          is added for these languages, we will a) remove this note and b) add the languages to the /languages 
          endpoint where appropriate.
       enum:
