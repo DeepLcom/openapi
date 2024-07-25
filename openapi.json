@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.4",
+  "openapi": "3.0.3",
   "info": {
     "title": "DeepL API Documentation",
     "description": "The DeepL API provides programmatic access to DeepL\u2019s machine translation technology.",
@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "2.15.0"
+    "version": "2.16.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
