@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.0.4",
   "info": {
     "title": "DeepL API Documentation",
     "description": "The DeepL API provides programmatic access to DeepL\u2019s machine translation technology.",
