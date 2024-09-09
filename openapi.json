@@ -1994,12 +1994,12 @@
         "description": "List of XML tags that indicate text not to be translated.\n\n\nUse this parameter to ensure that elements in the original text are not altered in the translation (e.g., trademarks, product names) and insert tags into your original text. In the following example, the `ignore_tags` parameter is set to `keep`:\n * Example request:\n   ```\n   Please open the page <keep>Settings</keep> to configure your system.\n   ```\n * Example response:\n   ```\n   Bitte \u00f6ffnen Sie die Seite <keep>Settings</keep> um Ihr System zu konfigurieren.\n   ```"
       },
       "TagCommaSeparatedList": {
-        "description": "Comma-separated list of XML or HTML tags.",
+        "description": "Comma-separated list of XML tags.",
         "type": "string",
         "example": "a,p,span"
       },
       "TagList": {
-        "description": "List of XML or HTML tags.",
+        "description": "List of XML tags.",
         "type": "array",
         "items": {
           "type": "string"
