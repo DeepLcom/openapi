@@ -113,19 +113,19 @@ paths:
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOption'
                 non_splitting_tags:
-                  description: Comma-separated list of HTML or XML tags which never split sentences.
+                  description: Comma-separated list of XML tags which never split sentences.
                   type: array
                   items:
                     type: string
                     example: non_splitting_tag
                 splitting_tags:
-                  description: Comma-separated list of HTML or XML tags which always cause splits.
+                  description: Comma-separated list of XML tags which always cause splits.
                   type: array
                   items:
                     type: string
                     example: splitting_tag
                 ignore_tags:
-                  description: Comma-separated list of HTML or XML tags that indicate text not to be translated.
+                  description: Comma-separated list of XML tags that indicate text not to be translated.
                   type: array
                   items:
                     type: string
@@ -168,19 +168,19 @@ paths:
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOptionStr'
                 non_splitting_tags:
-                  description: Comma-separated list of HTML or XML tags which never split sentences.
+                  description: Comma-separated list of XML tags which never split sentences.
                   type: array
                   items:
                     type: string
                     example: non_splitting_tag
                 splitting_tags:
-                  description: Comma-separated list of HTML or XML tags which always cause splits.
+                  description: Comma-separated list of XML tags which always cause splits.
                   type: array
                   items:
                     type: string
                     example: splitting_tag
                 ignore_tags:
-                  description: Comma-separated list of HTML or XML tags that indicate text not to be translated.
+                  description: Comma-separated list of XML tags that indicate text not to be translated.
                   type: array
                   items:
                     type: string
@@ -1466,11 +1466,11 @@ components:
       - $ref: '#/components/schemas/TagList'
       description: List of XML tags that indicate text not to be translated.
     TagCommaSeparatedList:
-      description: Comma-separated list of XML or HTML tags.
+      description: Comma-separated list of XML tags.
       type: string
       example: a,p,span
     TagList:
-      description: List of XML or HTML tags.
+      description: List of XML tags.
       type: array
       items:
         type: string
