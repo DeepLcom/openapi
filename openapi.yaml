@@ -1830,11 +1830,11 @@ components:
            Bitte öffnen Sie die Seite <keep>Settings</keep> um Ihr System zu konfigurieren.
            ```
     TagCommaSeparatedList:
-      description: Comma-separated list of XML or HTML tags.
+      description: Comma-separated list of XML tags.
       type: string
       example: a,p,span
     TagList:
-      description: List of XML or HTML tags.
+      description: List of XML tags.
       type: array
       items:
         type: string
