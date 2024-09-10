@@ -218,7 +218,7 @@ paths:
                           description: The translated text.
                           type: string
                           example: Hallo, Welt!
-                        show_billed_characters:
+                        billed_characters:
                           description: Optional. Number of characters counted by DeepL for billing purposes.
                           type: integer
                           example: 42
