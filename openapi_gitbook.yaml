@@ -96,7 +96,7 @@ paths:
                 context:
                   $ref: '#/components/schemas/Context'
                 show_billed_characters:
-                  $ref: '#components/schemas/ShowBilledCharacters'
+                  $ref: '#/components/schemas/ShowBilledCharacters'
                 split_sentences:
                   $ref: '#/components/schemas/SplitSentencesOption'
                 preserve_formatting:
@@ -153,7 +153,7 @@ paths:
                 context:
                   $ref: '#/components/schemas/Context'
                 show_billed_characters:
-                  $ref: '#components/schemas/ShowBilledCharacters'
+                  $ref: '#/components/schemas/ShowBilledCharacters'
                 split_sentences:
                   $ref: '#/components/schemas/SplitSentencesOption'
                 preserve_formatting:
