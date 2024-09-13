@@ -1281,11 +1281,6 @@ components:
       name: Authorization
       in: header
   schemas:
-    ShowBilledCharacters:
-      description: |-
-        When true, the response will include the billed_characters parameter, giving the 
-        number of characters from the request that will be counted by DeepL for billing purposes.
-      type: boolean
     Context:
       description: |-
         The `context` parameter makes it possible to include additional context that can influence a translation but is not translated itself. 
@@ -1561,6 +1556,11 @@ components:
       - '0'
       - '1'
       default: '0'
+    ShowBilledCharacters:
+      description: |-
+        When true, the response will include the billed_characters parameter, giving the 
+        number of characters from the request that will be counted by DeepL for billing purposes.
+      type: boolean
     SplitSentencesOption:
       description: |-
         Sets whether the translation engine should first split the input into sentences. For text translations where 
