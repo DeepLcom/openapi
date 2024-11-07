@@ -46,6 +46,11 @@ tags:
 
 
     To learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context).
+- name: RephraseText
+  description: |-
+    The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.
+
+    For more details, visit [this documentation page](https://developers.deepl.com/docs/api-reference/improve-text)
 - name: ManageGlossaries
   description: |-
     The *glossary* functions allow you to create, inspect, and delete glossaries.
@@ -941,6 +946,77 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
         529:
           $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+  /write/rephrase:
+    post:
+      tags:
+       - RephraseText
+      summary: Request text improvement
+      operationId: rephraseText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - text
+              properties:
+                text:
+                  description: Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are
+                    returned in the same order as they are requested.
+                  type: array
+                  items:
+                    type: string
+                    example: this is a example sentence to imprve
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguageWrite'
+                writing_style:
+                  $ref: '#/components/schemas/WritingStyle'
+                tone:
+                  $ref: '#/components/schemas/WritingTone'
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - text
+              properties:
+                text:
+                  description: Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are
+                    returned in the same order as they are requested.
+                  type: array
+                  items:
+                    type: string
+                    example: this is a example sentence to imprve
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguageWrite'
+                writing_style:
+                  $ref: '#/components/schemas/WritingStyle'
+                tone:
+                  $ref: '#/components/schemas/WritingTone'
+      responses:
+        200:
+          description: Successful text improvement.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  improvements:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        detected_source_language:
+                          description: The language detected in the source text.
+                          type: string
+                          example: en
+                        text:
+                          description: The improved text.
+                          type: string
+                          example: This is a sample sentence to improve.
       security:
       - auth_header: []
   /usage:
@@ -2036,3 +2112,58 @@ components:
       - ZH-HANS
       - ZH-HANT
       example: DE
+    TargetLanguageWrite:
+      type: string
+      description: |-
+        The language for the text improvement. Options currently available:
+         * `de` - German
+         * `en` - English (unspecified variant, defaults to `en-US`)
+         * `en-GB` - English (British)
+         * `en-US` - English (American)
+         * `es` - Spanish
+         * `fr` - French
+         * `it` - Italian
+         * `pt` - Portuguese (unspecified variant, defaults to `pt-PT`)
+         * `pt-BR` - Portuguese (Brazilian)
+         * `pt-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)
+      enum:
+      - de
+      - en
+      - en-GB
+      - en-US
+      - fr
+      - it
+      - pt
+      - pt-BR
+      - pt-PT
+      example: de
+    WritingStyle:
+      type: string
+      description: |-
+        Specify a style to rephrase your text in a way that fits your audience and goals.
+        The `prefer_` prefix allows falling back to the default style if the language does not yet support styles.
+      enum:
+      - academic
+      - business
+      - casual
+      - default
+      - simple
+      - prefer_academic
+      - prefer_business
+      - prefer_casual
+      - prefer_simple
+    WritingTone:
+      type: string
+      description: |-
+        Specify the desired tone for your text.
+        The `prefer_` prefix allows falling back to the default tone if the language does not yet support tones.
+      enum:
+      - confident
+      - default
+      - diplomatic
+      - enthusiastic
+      - friendly
+      - prefer_confident
+      - prefer_diplomatic
+      - prefer_enthusiastic
+      - prefer_friendly

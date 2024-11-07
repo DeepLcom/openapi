@@ -34,6 +34,10 @@
       "description": "The document translation API allows you to translate whole documents and supports the following file types and extensions:\n  * `docx` - Microsoft Word Document\n  * `pptx` - Microsoft PowerPoint Document\n  * `xlsx` - Microsoft Excel Document\n  * `pdf` - Portable Document Format\n  * `htm / html` - HTML Document\n  * `txt` - Plain Text Document\n  * `xlf / xliff` - XLIFF Document, version 2.1\n  * `srt` - SRT Document\n\nPlease note that with every submitted document of type .pptx, .docx, .xlsx, or .pdf,\nyou are billed a minimum of 50,000 characters with the DeepL API plan,\nno matter how many characters are included in the document.\n\n\nTranslating a document usually involves three types of HTTP requests:\n  - [upload](https://www.deepl.com/docs-api/documents/translate-document) the document to be translated,\n  - periodically [check the status](https://www.deepl.com/docs-api/documents/get-document-status) of the document translation,\n  - once the status call reports `done`, [download](https://www.deepl.com/docs-api/documents/download-document) the translated document.\n\n\nTo learn more about context in DeepL API translations, we recommend [this article](https://www.deepl.com/docs-api/general/working-with-context)."
     },
     {
+      "name": "RephraseText",
+      "description": "The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.\nFor more details, visit [this documentation page](https://developers.deepl.com/docs/api-reference/improve-text)."
+    },
+    {
       "name": "ManageGlossaries",
       "description": "The *glossary* functions allow you to create, inspect, and delete glossaries.\nGlossaries created with the glossary function can be used in translate requests by specifying the\n`glossary_id` parameter.\nIf you encounter issues, please let us know at support@DeepL.com.\n\nThe DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of\n120 possible glossary language pairs:\n\n- DA (Danish)\n- DE (German)\n- EN (English)\n- ES (Spanish)\n- FR (French)\n- IT (Italian)\n- JA (Japanese)\n- KO (Korean)\n- NB (Norwegian (bokm\u00e5l))\n- NL (Dutch)\n- PL (Polish)\n- PT (Portuguese)\n- RO (Romanian)\n- RU (Russian)\n- SV (Swedish)\n- ZH (Chinese)\n\nThe maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,\nas well as the name of the glossary, is limited to 1024 UTF-8 bytes.\nA total of 1000 glossaries are allowed per account.\n\nWhen creating a glossary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant\n(e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANS`).\nGlossaries with target language `EN` can be used in translations with either English variant.\nSimilarly `PT`, and `ZH` glossaries can be used in translations with their corresponding variants.\n\n\nGlossaries created via the DeepL API are distinct from glossaries created via the DeepL website and DeepL apps.\nThis means API glossaries cannot be used on the website and vice versa.\n\n\n\nNote that glossaries are immutable: once created, the glossary entries for a given glossary ID cannot be modified.\n\nAs a workaround for effectively editable glossaries, we suggest to identify glossaries by name instead of ID in your application\nand then use the following procedure for modifications:\n- [download](https://www.deepl.com/docs-api/glossaries/get-glossary-entries) and store the current glossary's entries,\n- locally modify the glossary entries,\n- [delete](https://www.deepl.com/docs-api/glossaries/delete-glossary) the existing glossary,\n- [create a new glossary](https://www.deepl.com/docs-api/glossaries/create-glossary) with the same name."
     },
@@ -1208,6 +1212,112 @@
         ]
       }
     },
+    "/write/rephrase": {
+      "post": {
+        "tags": [
+          "RephraseText"
+        ],
+        "summary": "Request text improvement",
+        "operationId": "rephraseText",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text"
+                ],
+                "properties": {
+                  "text": {
+                    "description": "Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested.",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "this is a example sentence to imprve"
+                    }
+                  },
+                  "target_lang": {
+                    "$ref": "#/components/schemas/TargetLanguageWrite"
+                  },
+                  "writing_style": {
+                    "$ref": "#/components/schemas/WritingStyle"
+                  },
+                  "tone": {
+                    "$ref": "#/components/schemas/WritingTone"
+                  }
+                }
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text"
+                ],
+                "properties": {
+                  "text": {
+                    "description": "Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested.",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "this is a example sentence to imprve"
+                    }
+                  },
+                  "target_lang": {
+                    "$ref": "#/components/schemas/TargetLanguageWrite"
+                  },
+                  "writing_style": {
+                    "$ref": "#/components/schemas/WritingStyle"
+                  },
+                  "tone": {
+                    "$ref": "#/components/schemas/WritingTone"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful text improvement.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "improvements": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "detected_source_language": {
+                            "description": "The language detected in the source text.",
+                            "type": "string",
+                            "example": "en"
+                          },
+                          "text": {
+                            "description": "The improved text.",
+                            "type": "string",
+                            "example": "This is a sample sentence to improve."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "auth_header": []
+          }
+        ]
+      }
+    },
     "/usage": {
       "get": {
         "tags": [
@@ -2123,6 +2233,52 @@
           "ZH-HANT"
         ],
         "example": "DE"
+      },
+      "TargetLanguageWrite": {
+        "type": "string",
+        "description": "The language for the text improvement. Options currently available:\n * `de` - German\n * `en` - English (unspecified variant, defaults to `en-US`)\n * `en-GB` - English (British)\n * `en-US` - English (American)\n * `es` - Spanish\n * `fr` - French\n * `it` - Italian\n * `pt` - Portuguese (unspecified variant, defaults to `pt-PT`)\n * `pt-BR` - Portuguese (Brazilian)\n * `pt-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)",
+        "enum": [
+          "de",
+          "en",
+          "en-GB",
+          "en-US",
+          "fr",
+          "it",
+          "pt",
+          "pt-BR",
+          "pt-PT"
+        ],
+        "example": "de"
+      },
+      "WritingStyle": {
+        "type": "string",
+        "description": "Specify a style to rephrase your text in a way that fits your audience and goals.\nThe `prefer_` prefix allows falling back to the default style if the language does not yet support styles.",
+        "enum": [
+          "academic",
+          "business",
+          "casual",
+          "default",
+          "simple",
+          "prefer_academic",
+          "prefer_business",
+          "prefer_casual",
+          "prefer_simple"
+        ]
+      },
+      "WritingTone": {
+        "type": "string",
+        "description": "Specify the desired tone for your text.\nThe `prefer_` prefix allows falling back to the default tone if the language does not yet support tones.",
+        "enum": [
+          "confident",
+          "default",
+          "diplomatic",
+          "enthusiastic",
+          "friendly",
+          "prefer_confident",
+          "prefer_diplomatic",
+          "prefer_enthusiastic",
+          "prefer_friendly"
+        ]
       }
     }
   }
