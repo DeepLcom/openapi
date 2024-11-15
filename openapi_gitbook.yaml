@@ -103,6 +103,8 @@ paths:
                   $ref: '#/components/schemas/PreserveFormattingOption'
                 formality:
                   $ref: '#/components/schemas/Formality'
+                model_type:
+                  $ref: '#/components/schemas/ModelType'
                 glossary_id:
                   description: |-
                       Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
@@ -160,6 +162,8 @@ paths:
                   $ref: '#/components/schemas/PreserveFormattingOptionStr'
                 formality:
                   $ref: '#/components/schemas/Formality'
+                model_type:
+                  $ref: '#/components/schemas/ModelType'
                 glossary_id:
                   description: |-
                       Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
@@ -223,6 +227,12 @@ paths:
                             Only present if the show_billed_characters parameter is set to true.
                           type: integer
                           example: 42
+                        model_type_used:
+                          description: Indicates the translation model used. Only present if model_type parameter
+                            is included in the request.
+                          type: string
+                          example: quality_optimized
+
         400:
           $ref: '#/components/responses/BadRequest'
         403:
@@ -1244,6 +1254,13 @@ components:
       - prefer_less
       default: default
       example: prefer_more
+    ModelType:
+      type: string
+      description: Specifies which DeepL model should be used for translation.
+      enum:
+      - quality_optimized
+      - prefer_quality_optimized
+      - latency_optimized
     GlossaryId:
       type: string
       description: A unique ID assigned to a glossary.

@@ -92,6 +92,9 @@
                   "formality": {
                     "$ref": "#/components/schemas/Formality"
                   },
+                  "model_type": {
+                    "$ref": "#/components/schemas/ModelType"
+                  },
                   "glossary_id": {
                     "allOf": [
                       {
@@ -199,6 +202,9 @@
                   "formality": {
                     "$ref": "#/components/schemas/Formality"
                   },
+                  "model_type": {
+                    "$ref": "#/components/schemas/ModelType"
+                  },
                   "glossary_id": {
                     "allOf": [
                       {
@@ -262,6 +268,11 @@
                           "billed_characters": {
                             "description": "Number of characters counted by DeepL for billing purposes. Only present if the show_billed_characters parameter is set to true.",
                             "type": "integer"
+                          },
+                          "model_type_used": {
+                            "description": "Indicates the translation model used. Only present if model_type parameter is included in the request.",
+                            "type": "string",
+                            "example": "quality_optimized"
                           }
                         }
                       }
@@ -1747,6 +1758,15 @@
           "prefer_less"
         ],
         "default": "default"
+      },
+      "ModelType": {
+        "type": "string",
+        "description": "Specifies which DeepL model should be used for translation.\n\nPossible values are:\n* `latency_optimized` (default) - uses lower latency \u201cclassic\u201d translation models, which support all language pairs; \n  default value \n* `quality_optimized` - uses higher latency, improved quality \u201cnext-gen\u201d translation models, which support only a\n  subset of language pairs; if a language pair that is not supported by next-gen models is included in the\n  request, it will fail. Consider using prefer_quality_optimized instead. \n* `prefer_quality_optimized` - prioritizes use of higher latency, improved quality \u201cnext-gen\u201d translation models,\n  which support only a subset of DeepL languages; if a request includes a language pair not supported by \n  next-gen models, the request will fall back to latency_optimized classic models.",
+        "enum": [
+          "quality_optimized",
+          "prefer_quality_optimized",
+          "latency_optimized"
+        ]
       },
       "GlossaryId": {
         "type": "string",
