@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 2.16.0
+  version: 2.17.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer?cta=header-prices/
@@ -83,9 +83,9 @@ paths:
                 text:
                   description: |-
                     Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
-                    up to 50 times in a single request. Translations are returned in the same order as they are requested.
+                    many times in a single request, within the request size limit (128KiB). Translations are returned
+                    in the same order as they are requested.
                   type: array
-                  maxItems: 50
                   items:
                     type: string
                     example: Hello, World!
@@ -103,6 +103,8 @@ paths:
                   $ref: '#/components/schemas/PreserveFormattingOption'
                 formality:
                   $ref: '#/components/schemas/Formality'
+                model_type:
+                  $ref: '#/components/schemas/ModelType'
                 glossary_id:
                   description: |-
                       Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
@@ -140,8 +142,9 @@ paths:
               - target_lang
               properties:
                 text:
-                  description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
-                    up to 50 times in a single request. Translations are returned in the same order as they are requested.
+                  description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be
+                    specified many times in a single request, within the request size limit (128KiB). Translations are
+                    returned in the same order as they are requested.
                   type: array
                   items:
                     type: string
@@ -160,6 +163,8 @@ paths:
                   $ref: '#/components/schemas/PreserveFormattingOptionStr'
                 formality:
                   $ref: '#/components/schemas/Formality'
+                model_type:
+                  $ref: '#/components/schemas/ModelType'
                 glossary_id:
                   description: |-
                       Specify the glossary to use for the translation. **Important:** This requires the `source_lang`
@@ -223,6 +228,12 @@ paths:
                             Only present if the show_billed_characters parameter is set to true.
                           type: integer
                           example: 42
+                        model_type_used:
+                          description: Indicates the translation model used. Only present if model_type parameter
+                            is included in the request.
+                          type: string
+                          example: quality_optimized
+
         400:
           $ref: '#/components/responses/BadRequest'
         403:
@@ -1244,6 +1255,13 @@ components:
       - prefer_less
       default: default
       example: prefer_more
+    ModelType:
+      type: string
+      description: Specifies which DeepL model should be used for translation.
+      enum:
+      - quality_optimized
+      - prefer_quality_optimized
+      - latency_optimized
     GlossaryId:
       type: string
       description: A unique ID assigned to a glossary.

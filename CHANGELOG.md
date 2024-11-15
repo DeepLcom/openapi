@@ -10,6 +10,14 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+### [2.17.0] - 2024-11-15
+### Added
+* `/translate`: add `model_type` request parameter to request the model type
+  (`quality_optimized`, `latency_optimized`, or `prefer_latency_optimized`) to
+  use for translation, and the `model_type_used` response parameter indicating
+  the model type that used. 
+
+
 ## [2.16.0] - 2024-07-25
 ### Added
 * Add supported target language variant for text translation: Chinese
@@ -156,6 +164,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[2.17.0]: https://github.com/DeepLcom/openapi/compare/v2.16.0...v2.17.0
 [2.16.0]: https://github.com/DeepLcom/openapi/compare/v2.15.0...v2.16.0
 [2.15.0]: https://github.com/DeepLcom/openapi/compare/v2.14.1...v2.15.0
 [2.14.1]: https://github.com/DeepLcom/openapi/compare/v2.14.0...v2.14.1
