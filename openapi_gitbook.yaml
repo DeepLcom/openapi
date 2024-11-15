@@ -83,9 +83,9 @@ paths:
                 text:
                   description: |-
                     Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
-                    up to 50 times in a single request. Translations are returned in the same order as they are requested.
+                    many times in a single request, within the request size limit (128KiB). Translations are returned
+                    in the same order as they are requested.
                   type: array
-                  maxItems: 50
                   items:
                     type: string
                     example: Hello, World!
@@ -142,8 +142,9 @@ paths:
               - target_lang
               properties:
                 text:
-                  description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified
-                    up to 50 times in a single request. Translations are returned in the same order as they are requested.
+                  description: Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be
+                    specified many times in a single request, within the request size limit (128KiB). Translations are
+                    returned in the same order as they are requested.
                   type: array
                   items:
                     type: string

@@ -63,9 +63,8 @@
                 ],
                 "properties": {
                   "text": {
-                    "description": "Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified\nmultiple times and translations are returned in the same order as they are requested. Each of the\nparameter values may contain multiple sentences. Up to 50 texts can be sent for translation in one\nrequest.",
+                    "description": "Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified\nmultiple times and translations are returned in the same order as they are requested. Each of the\nparameter values may contain multiple sentences.",
                     "type": "array",
-                    "maxItems": 50,
                     "items": {
                       "type": "string",
                       "example": "Hello, World!"
