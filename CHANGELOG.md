@@ -10,7 +10,7 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
-### [Unreleased] - 2025-01-16
+### [2.18.0] - 2025-01-16
 ### Added
 * Add new endpoint `/write/rephrase` which enables text corrections and adjustments in selected languages
 
@@ -169,7 +169,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
-[Unreleased]: https://github.com/DeepLcom/openapi/compare/v2.17.0...HEAD
+[2.18.0]: https://github.com/DeepLcom/openapi/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/DeepLcom/openapi/compare/v2.16.0...v2.17.0
 [2.16.0]: https://github.com/DeepLcom/openapi/compare/v2.15.0...v2.16.0
 [2.15.0]: https://github.com/DeepLcom/openapi/compare/v2.14.1...v2.15.0
