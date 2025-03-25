@@ -35,7 +35,7 @@
     },
     {
       "name": "RephraseText",
-      "description": "The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.\nFor more details, visit [this documentation page](https://developers.deepl.com/docs/api-reference/improve-text)."
+      "description": "The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.\n\nFor more details, visit [this documentation page](https://developers.deepl.com/docs/api-reference/improve-text)"
     },
     {
       "name": "ManageGlossaries",
