@@ -10,6 +10,14 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+### [3.0.0] - 2025-04-17
+### Added
+* Add new endpoints `/v3/glossaries` which enables management of new, editable and multilingual glossaries
+  * This required renaming some existing components in the spec, hence the major version upgrade. All
+    functionality is backwards compatible.
+* Moved `/v2/` and `/v3/` from the Server URL into the endpoint paths, as we support multiple versions now
+
+
 ### [2.18.0] - 2025-01-16
 ### Added
 * Add new endpoint `/write/rephrase` which enables text corrections and adjustments in selected languages
@@ -169,6 +177,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[3.0.0]: https://github.com/DeepLcom/openapi/compare/v2.18.0...v3.0.0
 [2.18.0]: https://github.com/DeepLcom/openapi/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/DeepLcom/openapi/compare/v2.16.0...v2.17.0
 [2.16.0]: https://github.com/DeepLcom/openapi/compare/v2.15.0...v2.16.0
