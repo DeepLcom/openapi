@@ -14,9 +14,9 @@ externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
 servers:
-- url: https://api.deepl.com/v2
+- url: https://api.deepl.com/
   description: DeepL API Pro
-- url: https://api-free.deepl.com/v2
+- url: https://api-free.deepl.com/
   description: DeepL API Free
 tags:
 - name: TranslateText
@@ -36,38 +36,45 @@ tags:
 - name: RephraseText
   description: |-
     The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.
+- name: ManageMultilingualGlossaries
+  description: |-
+    The *glossary* functions allow you to create, inspect, edit and delete glossaries.
+    Glossaries created with the glossary function can be used in translate requests by specifying the
+    `glossary_id` parameter. A glossary contains (several) dictionaries.
+    A dictionary is a mapping of source phrases to target phrases for a single language pair.
+    If you encounter issues, please let us know at support@DeepL.com.
+
+    Currently you can create glossaries with any of the languages DeepL supports.
+
+    The maximum size limit for a glossary is 10 MiB = 10485760 bytes and each source/target text,
+    as well as the name of the glossary, is limited to 1024 UTF-8 bytes.
+    A total of 1000 glossaries are allowed per account.
+
+    When creating a dictionary with target language `EN`, `PT`, or `ZH`, it's not necessary to specify a variant
+    (e.g. `EN-US`, `EN-GB`, `PT-PT`, `PT-BR`, or `ZH-HANS`).
+    Dictionaries with target language `EN` can be used in translations with either English variant.
+    Similarly `PT`, and `ZH` dictionaries can be used in translations with their corresponding variants.
+    (When you provide the ID of a glossary to a translation, the appropriate dictionary is automatically applied. Currently glossaries can not yet be used with source language detection.)
+
+    Glossaries created via the DeepL API are now unified with glossaries created via the DeepL website and DeepL apps.
+    Please only use the v3 glossary API in conjunction with multilingual or edited glossaries from the website.
 - name: ManageGlossaries
   description: |-
+    Please note that this is the spec for the (old) v2 glossary endpoint.
+    We recommend users switch to the newer v3 glossary endpoints, which support editability and multilinguality.
+
     The *glossary* functions allow you to create, inspect, and delete glossaries.
     Glossaries created with the glossary function can be used in translate requests by specifying the
     `glossary_id` parameter.
     If you encounter issues, please let us know at support@DeepL.com.
 
-    The DeepL API supports glossaries in any combination of two languages from the following list, enabling a total of
-    120 possible glossary language pairs:
-
-    - DA (Danish)
-    - DE (German)
-    - EN (English)
-    - ES (Spanish)
-    - FR (French)
-    - IT (Italian)
-    - JA (Japanese)
-    - KO (Korean)
-    - NB (Norwegian (bokmål))
-    - NL (Dutch)
-    - PL (Polish)
-    - PT (Portuguese)
-    - RO (Romanian)
-    - RU (Russian)
-    - SV (Swedish)
-    - ZH (Chinese)
+    Currently you can create glossaries with any of the languages DeepL supports.
 - name: MetaInformation
   description: Information about API usage and value ranges
 x-hideTryItPanel: true
 x-codeSamples: false
 paths:
-  /translate:
+  /v2/translate:
     post:
       tags:
       - TranslateText
@@ -259,7 +266,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /document:
+  /v2/document:
     post:
       tags:
       - TranslateDocuments
@@ -366,7 +373,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /document/{document_id}:
+  /v2/document/{document_id}:
     post:
       tags:
       - TranslateDocuments
@@ -485,7 +492,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /document/{document_id}/result:
+  /v2/document/{document_id}/result:
     post:
       tags:
       - TranslateDocuments
@@ -543,7 +550,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /glossary-language-pairs:
+  /v2/glossary-language-pairs:
     get:
       tags:
       - ManageGlossaries
@@ -599,7 +606,7 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
         456:
-          $ref: '#/components/responses/QuotaExceeded'
+          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -608,7 +615,418 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /glossaries:
+  /v3/glossaries:
+    post:
+      tags:
+      - ManageMultilingualGlossaries
+      summary: Create a Glossary
+      operationId: createMultilingualGlossary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMultilingualGlossaryParameters'
+            examples:
+              Basic:
+                value:
+                  name: My Glossary
+                  dictionaries:
+                  - source_lang: en
+                    target_lang: de
+                    entries: "Hello\tGuten Tag"
+                    entries_format: tsv
+                  - source_lang: de
+                    target_lang: en
+                    entries: "Guten Tag\tHello"
+                    entries_format: tsv
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateMultilingualGlossaryParameters'
+      responses:
+        201:
+          description: The function for creating a glossary returns a JSON object
+            containing the ID of the newly created glossary and a boolean flag that
+            indicates if the created glossary can already be used in translate requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilingualGlossary'
+        400:
+          $ref: '#/components/responses/BadRequestGlossaries'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+    get:
+      tags:
+      - ManageMultilingualGlossaries
+      summary: List all Glossaries
+      operationId: listMultilingualGlossaries
+      description: List all glossaries and their meta-information, but not the glossary
+        entries.
+      responses:
+        200:
+          description: JSON object containing a the glossaries.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  glossaries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MultilingualGlossary'
+              example:
+                glossaries:
+                - glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                  name: My Glossary
+                  dictionaries:
+                  - source_lang: EN
+                    target_lang: DE
+                    entry_count: 1
+                  - source_lang: DE
+                    target_lang: EN
+                    entry_count: 2
+                  creation_time: '2021-08-03T14:16:18.329Z'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+  /v3/glossaries/{glossary_id}:
+    get:
+      tags:
+      - ManageMultilingualGlossaries
+      summary: Retrieve Glossary Details
+      description: Retrieve meta information for a single glossary, omitting the glossary
+        entries.
+      operationId: getMultilingualGlossary
+      parameters:
+      - $ref: '#/components/parameters/GlossaryID'
+      responses:
+        200:
+          description: JSON object containing the glossary meta-information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilingualGlossary'
+              example:
+                glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                name: My Glossary
+                dictionaries:
+                - source_lang: EN
+                  target_lang: DE
+                  entry_count: 1
+                - source_lang: DE
+                  target_lang: EN
+                  entry_count: 2
+                creation_time: '2021-08-03T14:16:18.429Z'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+    patch:
+      tags:
+      - ManageMultilingualGlossaries
+      summary: Edit glossary details
+      description: Edit glossary details, such as name or a dictionary for a source and target language.
+      operationId: patchMultilingualGlossary
+      parameters:
+      - $ref: '#/components/parameters/GlossaryID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchMultilingualGlossaryParameters'
+            examples:
+              Basic:
+                value:
+                  name: My Glossary
+                  dictionaries:
+                    - source_lang: en
+                      target_lang: de
+                      entries: "Hello\tGuten Tag"
+                      entries_format: tsv
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchMultilingualGlossaryParameters'
+      responses:
+        200:
+          description: JSON object containing the glossary meta-information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilingualGlossary'
+              example:
+                glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+                name: My Glossary
+                dictionaries:
+                - source_lang: EN
+                  target_lang: DE
+                  creation_time: '2021-08-03T14:16:18.329Z'
+                  entry_count: 1
+                - source_lang: DE
+                  target_lang: EN
+                  creation_time: '2021-08-03T14:16:18.429Z'
+                  entry_count: 2
+        400:
+          $ref: '#/components/responses/BadRequestGlossaries'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+    delete:
+      tags:
+      - ManageMultilingualGlossaries
+      summary: Delete a Glossary
+      description: Deletes the specified glossary.
+      operationId: deleteMultilingualGlossary
+      parameters:
+      - $ref: '#/components/parameters/GlossaryID'
+      responses:
+        204:
+          description: Returns no content upon success.
+        400:
+          $ref: '#/components/responses/BadRequestGlossaries'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+  /v3/glossaries/{glossary_id}/entries:
+    get:
+      tags:
+      - ManageMultilingualGlossaries
+      summary: Retrieve Glossary Entries
+      operationId: getMultilingualGlossaryEntries
+      description: List the entries of a single glossary in tsv format.
+      parameters:
+      - $ref: '#/components/parameters/GlossaryID'
+      - name: source_lang
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GlossarySourceLanguage'
+      - name: target_lang
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GlossaryTargetLanguage'
+      responses:
+        200:
+          description: The entries in tsv, wrapped in a JSON object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlossaryDictionary'
+        400:
+          $ref: '#/components/responses/BadRequestGlossaries'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+  /v3/glossaries/{glossary_id}/dictionaries:
+    delete:
+      tags:
+        - ManageMultilingualGlossaries
+      summary: Deletes the dictionary associated with the given language pair with the given glossary ID.
+      operationId: deleteDictionary
+      parameters:
+      - $ref: '#/components/parameters/GlossaryID'
+      - name: source_lang
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GlossarySourceLanguage'
+      - name: target_lang
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/GlossaryTargetLanguage'
+      responses:
+        204:
+          description: Returns no content upon success.
+        400:
+          $ref: '#/components/responses/BadRequestGlossaries'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+    put:
+      tags:
+        - ManageMultilingualGlossaries
+      summary: "Replaces or creates a dictionary in the glossary with the specified entries."
+      operationId: replaceDictionary
+      parameters:
+        - $ref: '#/components/parameters/GlossaryID'
+      requestBody:
+        description: "The dictionary to insert into (or overwrite in) the multilingual glossary."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultilingualGlossaryEntries'
+      responses:
+        200:
+          description: JSON object containing the dictionary meta-information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultilingualGlossaryEntriesInformation'
+              example:
+                source_lang: EN
+                target_lang: DE
+                entry_count: 1
+        400:
+          $ref: '#/components/responses/BadRequestGlossaries'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/ForbiddenGlossaries'
+        404:
+          $ref: '#/components/responses/NotFound'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceededGlossaries'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceUnavailable'
+        529:
+          $ref: '#/components/responses/TooManyRequests'
+      security:
+      - auth_header: []
+  /v2/glossaries:
     post:
       tags:
       - ManageGlossaries
@@ -639,7 +1057,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Glossary'
+                $ref: '#/components/schemas/MonolingualGlossary'
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -682,7 +1100,7 @@ paths:
                   glossaries:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Glossary'
+                      $ref: '#/components/schemas/MonolingualGlossary'
               example:
                 glossaries:
                 - glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
@@ -716,7 +1134,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /glossaries/{glossary_id}:
+  /v2/glossaries/{glossary_id}:
     get:
       tags:
       - ManageGlossaries
@@ -732,7 +1150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Glossary'
+                $ref: '#/components/schemas/MonolingualGlossary'
               example:
                 glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 name: My Glossary
@@ -800,7 +1218,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /glossaries/{glossary_id}/entries:
+  /v2/glossaries/{glossary_id}/entries:
     get:
       tags:
       - ManageGlossaries
@@ -855,7 +1273,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /write/rephrase:
+  /v2/write/rephrase:
     post:
       tags:
         - RephraseText
@@ -926,7 +1344,7 @@ paths:
                           example: This is a sample sentence to improve.
       security:
         - auth_header: [ ]
-  /usage:
+  /v2/usage:
     get:
       tags:
       - MetaInformation
@@ -973,7 +1391,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
-  /languages:
+  /v2/languages:
     get:
       tags:
       - MetaInformation
@@ -1225,6 +1643,8 @@ components:
       description: Too many requests. Please wait and resend your request.
     QuotaExceeded:
       description: Quota exceeded. The character limit has been reached.
+    QuotaExceededGlossaries:
+      description: Quota exceeded. Too many requests were made to the glossary endpoints recently.
     InternalServerError:
       description: Internal error.
     ServiceUnavailable:
@@ -1292,6 +1712,21 @@ components:
           - csv
           example: tsv
           default: tsv
+    CreateMultilingualGlossaryParameters:
+      type: object
+      required:
+      - name
+      - dictionaries
+      properties:
+        name:
+          description: Name to be associated with the glossary.
+          type: string
+          example: My Glossary
+        dictionaries:
+          description: Dictionaries to populate the glossary with.
+          type: array
+          items:
+            $ref: '#/components/schemas/GlossaryDictionary'
     DocumentTranslationError:
       type: object
       properties:
@@ -1329,51 +1764,46 @@ components:
       - prefer_less
       default: default
       example: prefer_more
-    ModelType:
-      type: string
-      description: Specifies which DeepL model should be used for translation.
-      enum:
-      - quality_optimized
-      - prefer_quality_optimized
-      - latency_optimized
-    GlossaryId:
-      type: string
-      description: A unique ID assigned to a glossary.
-      example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
-    Glossary:
+    GlossaryDictionary:
       type: object
+      description: A dictionary contained in a multilingual glossary. Each dictionary contains the mapping of source terms to target language terms.
       properties:
-        glossary_id:
-          $ref: '#/components/schemas/GlossaryId'
-        name:
-          description: Name associated with the glossary.
-          type: string
-        ready:
-          description: |-
-            Indicates if the newly created glossary can already be used in `translate` requests.
-            If the created glossary is not yet ready, you have to wait and check the `ready` status
-            of the glossary before using it in a `translate` request.
-          type: boolean
         source_lang:
           $ref: '#/components/schemas/GlossarySourceLanguage'
         target_lang:
           $ref: '#/components/schemas/GlossaryTargetLanguage'
-        creation_time:
-          description: 'The creation time of the glossary in the ISO 8601-1:2019 format
-            (e.g.: `2021-08-03T14:16:18.329Z`).'
-          type: string
-          format: date-time
-        entry_count:
-          description: The number of entries in the glossary.
-          type: integer
-      example:
-        glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
-        ready: true
-        name: My Glossary
-        source_lang: en
-        target_lang: de
-        creation_time: '2021-08-03T14:16:18.329Z'
-        entry_count: 1
+        entries:
+          $ref: '#/components/schemas/GlossaryEntries'
+        entries_format:
+          $ref: '#/components/schemas/GlossaryEntriesFormat'
+    GlossaryEntries:
+      type: string
+      description: The entries of the glossary. The entries have to be specified
+        in the format provided by the `entries_format` parameter.
+      example: "Hello\tGuten Tag"
+    GlossaryEntriesFormat:
+      description: |-
+        The format in which the glossary entries are provided. Formats currently available:
+        - `tsv` (default) - tab-separated values
+        - `csv` - comma-separated values
+
+        See [Supported Glossary Formats](https://www.deepl.com/docs-api/glossaries/formats) for details about each format.
+      type: string
+      enum:
+      - tsv
+      - csv
+      example: tsv
+      default: tsv
+    GlossaryEntryCount:
+      description: The number of entries in the glossary.
+      type: integer
+    GlossaryId:
+      type: string
+      description: A unique ID assigned to a glossary.
+      example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+    GlossaryName:
+      description: Name associated with the glossary.
+      type: string
     GlossarySourceLanguage:
       type: string
       description: The language in which the source texts in the glossary are specified.
@@ -1416,6 +1846,101 @@ components:
       - sv
       - zh
       example: de
+    ModelType:
+      type: string
+      description: Specifies which DeepL model should be used for translation.
+      enum:
+      - quality_optimized
+      - prefer_quality_optimized
+      - latency_optimized
+    MonolingualGlossary:
+      type: object
+      properties:
+        glossary_id:
+          $ref: '#/components/schemas/GlossaryId'
+        name:
+          description: Name associated with the glossary.
+          type: string
+        ready:
+          description: |-
+            Indicates if the newly created glossary can already be used in `translate` requests.
+            If the created glossary is not yet ready, you have to wait and check the `ready` status
+            of the glossary before using it in a `translate` request.
+          type: boolean
+        source_lang:
+          $ref: '#/components/schemas/GlossarySourceLanguage'
+        target_lang:
+          $ref: '#/components/schemas/GlossaryTargetLanguage'
+        creation_time:
+          description: 'The creation time of the glossary in the ISO 8601-1:2019 format
+            (e.g.: `2021-08-03T14:16:18.329Z`).'
+          type: string
+          format: date-time
+        entry_count:
+          description: The number of entries in the glossary.
+          type: integer
+      example:
+        glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+        ready: true
+        name: My Glossary
+        source_lang: en
+        target_lang: de
+        creation_time: '2021-08-03T14:16:18.329Z'
+        entry_count: 1
+    MultilingualGlossary:
+      type: object
+      properties:
+        glossary_id:
+          $ref: '#/components/schemas/GlossaryId'
+        name:
+          $ref: '#/components/schemas/GlossaryName'
+        dictionaries:
+          description: |-
+            List of dictionaries contained in this glossary.
+            Each dictionary contains a source and target language, as well as pairs of source and target entries.
+          type: array
+          items:
+            $ref: '#/components/schemas/GlossaryDictionary'
+        creation_time:
+          description: 'The creation time of the glossary in the ISO 8601-1:2019 format
+            (e.g.: `2021-08-03T14:16:18.329Z`).'
+          type: string
+          format: date-time
+      example:
+        glossary_id: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
+        name: My Glossary
+        dictionaries:
+        - source_lang: en
+          target_lang: de
+          entry_count: 1
+        creation_time: '2021-08-03T14:16:18.329Z'
+    MultilingualGlossaryEntries:
+      type: object
+      properties:
+        source_lang:
+          $ref: '#/components/schemas/GlossarySourceLanguage'
+        target_lang:
+          $ref: '#/components/schemas/GlossaryTargetLanguage'
+        entries:
+          $ref: '#/components/schemas/GlossaryEntries'
+        entries_format:
+          $ref: '#/components/schemas/GlossaryEntriesFormat'
+    MultilingualGlossaryEntriesResponse:
+      type: object
+      properties:
+        dictionaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultilingualGlossaryEntriesInformation'
+    MultilingualGlossaryEntriesInformation:
+      type: object
+      properties:
+        source_lang:
+          $ref: '#/components/schemas/GlossarySourceLanguage'
+        target_lang:
+          $ref: '#/components/schemas/GlossaryTargetLanguage'
+        entry_count:
+          $ref: '#/components/schemas/GlossaryEntryCount'
     OutlineDetectionOption:
       description: |-
         Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
@@ -1432,6 +1957,16 @@ components:
       default: '1'
       enum:
       - '0'
+    PatchMultilingualGlossaryParameters:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/GlossaryId'
+        dictionaries:
+          description: Dictionaries to edit the glossary with. Currently only supports 0 or 1 dictionaries in the array.
+          type: array
+          items:
+            $ref: '#/components/schemas/GlossaryDictionary'
     PreserveFormattingOption:
       description: |-
         Sets whether the translation engine should respect the original formatting, even if it would usually 
