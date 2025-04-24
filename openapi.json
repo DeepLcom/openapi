@@ -16,11 +16,11 @@
   },
   "servers": [
     {
-      "url": "https://api.deepl.com/",
+      "url": "https://api.deepl.com",
       "description": "DeepL API Pro"
     },
     {
-      "url": "https://api-free.deepl.com/",
+      "url": "https://api-free.deepl.com",
       "description": "DeepL API Free"
     }
   ],

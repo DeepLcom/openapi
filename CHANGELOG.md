@@ -10,7 +10,12 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
-### [3.0.0] - 2025-04-17
+### [3.0.1] - 2025-04-24
+### Fixed
+* Fixed new server URLs to avoid double slash in paths
+
+
+### [3.0.0] - 2025-04-24
 ### Added
 * Add new endpoints `/v3/glossaries` which enables management of new, editable and multilingual glossaries
   * This required renaming some existing components in the spec, hence the major version upgrade. All
