@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+### [3.0.2] - 2025-04-24
+### Fixed
+* Fixed new server URLs to avoid double slash in paths
+
+
 ### [3.0.1] - 2025-04-24
 ### Fixed
 * Fixed new server URLs to avoid double slash in paths
@@ -182,6 +187,8 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[3.0.2]: https://github.com/DeepLcom/openapi/compare/v3.0.1...v3.0.2
+[3.0.1]: https://github.com/DeepLcom/openapi/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/DeepLcom/openapi/compare/v2.18.0...v3.0.0
 [2.18.0]: https://github.com/DeepLcom/openapi/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/DeepLcom/openapi/compare/v2.16.0...v2.17.0
