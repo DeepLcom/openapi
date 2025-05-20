@@ -1359,12 +1359,12 @@ paths:
                 $ref: '#/components/schemas/UsageResponse'
               examples:
                 free:
-                  summary: API Free/Pro Classic response
+                  summary: Response for API users not on the Pro plan 
                   value:
                     character_count: 180118
                     character_limit: 1250000
                 pro:
-                  summary: API Pro response
+                  summary: Response for API Pro users
                   value:
                     character_count: 5947223
                     character_limit: 1000000000000
