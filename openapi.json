@@ -1993,19 +1993,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "character_count": {
-                      "description": "Characters translated so far in the current billing period.",
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 180118
-                    },
-                    "character_limit": {
-                      "description": "Current maximum number of characters that can be translated per billing period. If cost control is set, the cost control limit will be returned in this field.",
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 1250000
+                  "$ref": "#/components/schemas/UsageResponse"
+                },
+                "examples": {
+                  "free": {
+                    "summary": "Free/Pro Classic response",
+                    "value": {
+                      "character_count": 180118,
+                      "character_limit": 1250000
+                    }
+                  },
+                  "pro": {
+                    "summary": "API Pro response",
+                    "value": {
+                      "character_count": 5947223,
+                      "character_limit": 1000000000000,
+                      "products": [
+                        {
+                          "product_type": "write",
+                          "api_key_character_count": 0,
+                          "character_count": 5643
+                        },
+                        {
+                          "product_type": "translate",
+                          "api_key_character_count": 636,
+                          "character_count": 5941580
+                        }
+                      ],
+                      "api_key_character_count": 636,
+                      "api_key_character_limit": 1000000000000,
+                      "start_time": "2025-05-13T09:18:42Z",
+                      "end_time": "2025-06-13T09:18:42Z"
                     }
                   }
                 }
@@ -2045,6 +2063,69 @@
             "auth_header": []
           }
         ]
+      },
+      "UsageResponse": {
+        "type": "object",
+        "properties": {
+          "character_count": {
+            "description": "Characters translated so far in the current billing period.",
+            "type": "integer",
+            "format": "int64",
+            "example": 180118
+          },
+          "character_limit": {
+            "description": "Current maximum number of characters that can be translated per billing period. If cost control is set, the cost control limit will be returned in this field.",
+            "type": "integer",
+            "format": "int64",
+            "example": 1250000
+          },
+          "products": {
+            "type": "array",
+            "description": "Only present for API Pro users. Per-product usage details.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product_type": {
+                  "type": "string",
+                  "description": "The type of product (e.g., 'write', 'translate').",
+                  "example": "write"
+                },
+                "api_key_character_count": {
+                  "type": "integer",
+                  "description": "Characters used for this product by this API key in the current period.",
+                  "example": 0
+                },
+                "character_count": {
+                  "type": "integer",
+                  "description": "Total characters used for this product in the current period.",
+                  "example": 5643
+                }
+              }
+            }
+          },
+          "api_key_character_count": {
+            "type": "integer",
+            "description": "Only present for API Pro users. Total characters used by this API key in the current period.",
+            "example": 636
+          },
+          "api_key_character_limit": {
+            "type": "integer",
+            "description": "Only present for API Pro users. Character limit for this API key in the current period.",
+            "example": 1000000000000
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only present for API Pro users. Start time of the current billing period (ISO 8601).",
+            "example": "2025-05-13T09:18:42Z"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Only present for API Pro users. End time of the current billing period (ISO 8601).",
+            "example": "2025-06-13T09:18:42Z"
+          }
+        }
       }
     },
     "/v2/languages": {

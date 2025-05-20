@@ -10,6 +10,11 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+### [3.1.0] - 2024-06-13
+### Changed
+* `/v2/usage`: Now returns a detailed response for API Pro users, including per-product usage and billing period information. For API Free and Pro Classic users, the response remains unchanged and only includes `character_count` and `character_limit`. Both response types are documented in the OpenAPI spec using `oneOf`.
+
+
 ### [3.0.2] - 2025-04-24
 ### Fixed
 * Fixed new server URLs to avoid double slash in paths
