@@ -10,12 +10,12 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
-### [3.1.0] - 2024-06-13
+### [3.1.0] - 2024-05-20
 ### Changed
 * `/v2/usage`: Now returns a detailed response for API Pro users, including per-product usage and billing period information. For API users not on the Pro plan, the response remains unchanged and only includes `character_count` and `character_limit`.
 
 
-### [3.0.2] - 2025-04-24
+### [3.1.0] - 2024-05-20
 ### Fixed
 * Fixed new server URLs to avoid double slash in paths
 
@@ -192,6 +192,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[3.1.0]: https://github.com/DeepLcom/openapi/compare/v3.0.2...v3.1.0
 [3.0.2]: https://github.com/DeepLcom/openapi/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/DeepLcom/openapi/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/DeepLcom/openapi/compare/v2.18.0...v3.0.0
