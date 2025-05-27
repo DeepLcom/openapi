@@ -10,22 +10,27 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
-### [3.1.0] - 2024-06-13
+## [3.1.1] - 2025-05-23
+### Fixed
+* Fixed incorrect placement of UsageResponse schema.
+
+
+## [3.1.0] - 2024-05-20
 ### Changed
 * `/v2/usage`: Now returns a detailed response for API Pro users, including per-product usage and billing period information. For API users not on the Pro plan, the response remains unchanged and only includes `character_count` and `character_limit`.
 
 
-### [3.0.2] - 2025-04-24
+## [3.1.0] - 2024-05-20
 ### Fixed
 * Fixed new server URLs to avoid double slash in paths
 
 
-### [3.0.1] - 2025-04-24
+## [3.0.1] - 2025-04-24
 ### Fixed
 * Fixed new server URLs to avoid double slash in paths
 
 
-### [3.0.0] - 2025-04-24
+## [3.0.0] - 2025-04-24
 ### Added
 * Add new endpoints `/v3/glossaries` which enables management of new, editable and multilingual glossaries
   * This required renaming some existing components in the spec, hence the major version upgrade. All
@@ -33,12 +38,12 @@ typos, schema fixes, or adding examples.
 * Moved `/v2/` and `/v3/` from the Server URL into the endpoint paths, as we support multiple versions now
 
 
-### [2.18.0] - 2025-01-16
+## [2.18.0] - 2025-01-16
 ### Added
 * Add new endpoint `/write/rephrase` which enables text corrections and adjustments in selected languages
 
 
-### [2.17.0] - 2024-11-15
+## [2.17.0] - 2024-11-15
 ### Added
 * `/translate`: add `model_type` request parameter to request the model type
   (`quality_optimized`, `latency_optimized`, or `prefer_latency_optimized`) to
@@ -192,6 +197,8 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[3.1.1]: https://github.com/DeepLcom/openapi/compare/v3.1.0...v3.1.1
+[3.1.0]: https://github.com/DeepLcom/openapi/compare/v3.0.2...v3.1.0
 [3.0.2]: https://github.com/DeepLcom/openapi/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/DeepLcom/openapi/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/DeepLcom/openapi/compare/v2.18.0...v3.0.0
