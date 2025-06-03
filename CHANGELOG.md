@@ -10,6 +10,21 @@ number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
 
+## [3.2.0] - 2025-06-03
+### Added
+* Added updated language support for document translation: 
+  * Target language variant: Chinese (traditional) (`ZH-HANT`)
+  * Source and target language: Arabic (`AR`)
+* Added updated language support for text translation for Hebrew (`HE`), Thai 
+  (`TH`), and Vietnamese (`VI`). These languages are only supported for text 
+  translation, document translation support is coming soon.
+* Added updated source and target for glossaries. All languages supported for
+  text translation are now supported for glossaries now including:
+  Arabic (`AR`), Bulgarian (`BG`), Czech (`CS`), Greek (`EL`), Estonian (`ET`),
+  Hebrew (`HE`), Hungarian (`HU`), Indonesian (`ID`), Lithuanian (`LT`), 
+  Latvian (`LV`), Slovak (`SK`), Slovenian (`SL`), Thai (`TH`), Turkish (`TR`),
+  Ukrainian (`UK`), and Vietnamese (`VI`).
+
 ## [3.1.1] - 2025-05-23
 ### Fixed
 * Fixed incorrect placement of UsageResponse schema.
@@ -197,6 +212,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[3.2.0]: https://github.com/DeepLcom/openapi/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/DeepLcom/openapi/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/DeepLcom/openapi/compare/v3.0.2...v3.1.0
 [3.0.2]: https://github.com/DeepLcom/openapi/compare/v3.0.1...v3.0.2
