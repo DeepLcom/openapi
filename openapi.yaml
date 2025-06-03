@@ -7,7 +7,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.0.2
+  version: 3.2.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -1509,10 +1509,9 @@ paths:
       description: |-
         Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.
 
-        As of January 2024, Arabic (AR) is supported as a source and target language for text translation, 
-        but it is not yet supported for document translation. Therefore, Arabic has not yet been added to 
-        the `/languages` endpoint. We will add Arabic to the `/languages` endpoint after document translation 
-        support is added.
+        As of May 2025, Hebrew (HE), Thai (TH), and Vietnamese (VI) are supported as a source and target language for text translation, 
+        but it is not yet supported for document translation. Therefore, they have not yet been added to the `/languages` endpoint. We 
+        will add Hebrew, Thai, and Vietnamese to the `/languages` endpoint after document translation support is added.
       operationId: getLanguages
       parameters:
       - name: type
@@ -1557,6 +1556,9 @@ paths:
                         listing.
                       type: boolean
               example:
+              - language: AR
+                name: Arabic
+                supports_formality: false
               - language: BG
                 name: Bulgarian
                 supports_formality: false
@@ -1652,6 +1654,9 @@ paths:
                 supports_formality: false
               - language: ZH-HANS
                 name: Chinese (simplified)
+                supports_formality: false
+              - language: ZH-HANT
+                name: Chinese (traditional)
                 supports_formality: false
         400:
           $ref: '#/components/responses/BadRequest'
@@ -1951,42 +1956,76 @@ components:
       type: string
       description: The language in which the source texts in the glossary are specified.
       enum:
+      - ar
+      - bg
+      - cs
       - da
       - de
+      - el
       - en
       - es
+      - et
+      - fi
       - fr
+      - he
+      - hu
+      - id
       - it
       - ja
       - ko
+      - lt
+      - lv
       - nb
       - nl
       - pl
       - pt
       - ro
       - ru
+      - sk
+      - sl
       - sv
+      - th
+      - tr
+      - uk
+      - vi
       - zh
       example: en
     GlossaryTargetLanguage:
       type: string
       description: The language in which the target texts in the glossary are specified.
       enum:
+      - ar
+      - bg
+      - cs
       - da
       - de
+      - el
       - en
       - es
+      - et
+      - fi
       - fr
+      - he
+      - hu
+      - id
       - it
       - ja
       - ko
+      - lt
+      - lv
       - nb
       - nl
       - pl
       - pt
       - ro
       - ru
+      - sk
+      - sl
       - sv
+      - th
+      - tr
+      - uk
+      - vi
       - zh
       example: de
     ModelType:
@@ -2228,6 +2267,7 @@ components:
       type: string
       description: |-
         Language of the text to be translated. Options currently available:
+         * `AR` - Arabic
          * `BG` - Bulgarian
          * `CS` - Czech
          * `DA` - Danish
@@ -2260,6 +2300,7 @@ components:
 
         If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
       enum:
+      - AR
       - BG
       - CS
       - DA
@@ -2294,7 +2335,7 @@ components:
       type: string
       description: |-
         Language of the text to be translated. Options currently available:
-         * `AR` - Arabic [1]
+         * `AR` - Arabic
          * `BG` - Bulgarian
          * `CS` - Czech
          * `DA` - Danish
@@ -2305,6 +2346,7 @@ components:
          * `ET` - Estonian
          * `FI` - Finnish
          * `FR` - French
+         * `HE` - Hebrew [1]
          * `HU` - Hungarian
          * `ID` - Indonesian
          * `IT` - Italian
@@ -2321,16 +2363,18 @@ components:
          * `SK` - Slovak
          * `SL` - Slovenian
          * `SV` - Swedish
+         * `TH` - Thai [1]
          * `TR` - Turkish
          * `UK` - Ukrainian
+         * `VI` - Vietnamese [1]
          * `ZH` - Chinese
 
         If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
 
-        [1] Please note that Arabic has not yet been added to the `/languages` endpoint because it does not 
-        yet support document translation; only text translation is supported for Arabic at this time. When 
-        document translation support is added for Arabic, we will a) remove this note and b) add Arabic to 
-        the `/languages` endpoint.
+        [1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to the `/languages` endpoint 
+        because they does not yet support document translation; only text translation is supported for those
+        languages at this time. When document translation support is added for Hebrew, Thai, and Vietnamese, 
+        we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
       enum:
       - AR
       - BG
@@ -2343,6 +2387,7 @@ components:
       - ET
       - FI
       - FR
+      - HE
       - HU
       - ID
       - IT
@@ -2359,8 +2404,10 @@ components:
       - SK
       - SL
       - SV
+      - TH
       - TR
       - UK
+      - VI
       - ZH
       example: EN
     TagHandlingOption:
@@ -2546,6 +2593,7 @@ components:
       type: string
       description: |-
         The language into which the text should be translated. Options currently available:
+         * `AR` - Arabic
          * `BG` - Bulgarian
          * `CS` - Czech
          * `DA` - Danish
@@ -2580,86 +2628,7 @@ components:
          * `UK` - Ukrainian
          * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)
          * `ZH-HANS` - Chinese (simplified)
-      enum:
-      - BG
-      - CS
-      - DA
-      - DE
-      - EL
-      - EN-GB
-      - EN-US
-      - ES
-      - ET
-      - FI
-      - FR
-      - HU
-      - ID
-      - IT
-      - JA
-      - KO
-      - LT
-      - LV
-      - NB
-      - NL
-      - PL
-      - PT-BR
-      - PT-PT
-      - RO
-      - RU
-      - SK
-      - SL
-      - SV
-      - TR
-      - UK
-      - ZH
-      - ZH-HANS
-      example: DE
-    TargetLanguageText:
-      type: string
-      description: |-
-        The language into which the text should be translated. Options currently available:
-         * `AR` - Arabic [1]
-         * `BG` - Bulgarian
-         * `CS` - Czech
-         * `DA` - Danish
-         * `DE` - German
-         * `EL` - Greek
-         * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)
-         * `EN-GB` - English (British)
-         * `EN-US` - English (American)
-         * `ES` - Spanish
-         * `ET` - Estonian
-         * `FI` - Finnish
-         * `FR` - French
-         * `HU` - Hungarian
-         * `ID` - Indonesian
-         * `IT` - Italian
-         * `JA` - Japanese
-         * `KO` - Korean
-         * `LT` - Lithuanian
-         * `LV` - Latvian
-         * `NB` - Norwegian (Bokmål)
-         * `NL` - Dutch
-         * `PL` - Polish
-         * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
-         * `PT-BR` - Portuguese (Brazilian)
-         * `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)
-         * `RO` - Romanian
-         * `RU` - Russian
-         * `SK` - Slovak
-         * `SL` - Slovenian
-         * `SV` - Swedish
-         * `TR` - Turkish
-         * `UK` - Ukrainian
-         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)
-         * `ZH-HANS` - Chinese (simplified)
          * `ZH-HANT` - Chinese (traditional)
-
-         [1] Please note that Arabic and traditional Chinese have not yet been added to the /languages 
-         endpoint because these languages do not yet support document translation; only text translation 
-         is supported for Arabic and traditional Chinese at this time. When document translation support 
-         is added for these languages, we will a) remove this note and b) add the languages to the /languages 
-         endpoint where appropriate.
       enum:
       - AR
       - BG
@@ -2692,6 +2661,93 @@ components:
       - SV
       - TR
       - UK
+      - ZH
+      - ZH-HANS
+      - ZH-HANT
+      example: DE
+    TargetLanguageText:
+      type: string
+      description: |-
+        The language into which the text should be translated. Options currently available:
+         * `AR` - Arabic
+         * `BG` - Bulgarian
+         * `CS` - Czech
+         * `DA` - Danish
+         * `DE` - German
+         * `EL` - Greek
+         * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)
+         * `EN-GB` - English (British)
+         * `EN-US` - English (American)
+         * `ES` - Spanish
+         * `ET` - Estonian
+         * `FI` - Finnish
+         * `FR` - French
+         * `HE` - Hebrew [1]
+         * `HU` - Hungarian
+         * `ID` - Indonesian
+         * `IT` - Italian
+         * `JA` - Japanese
+         * `KO` - Korean
+         * `LT` - Lithuanian
+         * `LV` - Latvian
+         * `NB` - Norwegian (Bokmål)
+         * `NL` - Dutch
+         * `PL` - Polish
+         * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
+         * `PT-BR` - Portuguese (Brazilian)
+         * `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)
+         * `RO` - Romanian
+         * `RU` - Russian
+         * `SK` - Slovak
+         * `SL` - Slovenian
+         * `SV` - Swedish
+         * `TH` - Thai [1]
+         * `TR` - Turkish
+         * `UK` - Ukrainian
+         * `VI` - Vietnamese [1]
+         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)
+         * `ZH-HANS` - Chinese (simplified)
+         * `ZH-HANT` - Chinese (traditional)
+
+        [1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to the `/languages` endpoint 
+        because they does not yet support document translation; only text translation is supported for those
+        languages at this time. When document translation support is added for Hebrew, Thai, and Vietnamese, 
+        we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
+      enum:
+      - AR
+      - BG
+      - CS
+      - DA
+      - DE
+      - EL
+      - EN-GB
+      - EN-US
+      - ES
+      - ET
+      - FI
+      - FR
+      - HE
+      - HU
+      - ID
+      - IT
+      - JA
+      - KO
+      - LT
+      - LV
+      - NB
+      - NL
+      - PL
+      - PT-BR
+      - PT-PT
+      - RO
+      - RU
+      - SK
+      - SL
+      - SV
+      - TH
+      - TR
+      - UK
+      - VI
       - ZH
       - ZH-HANS
       - ZH-HANT

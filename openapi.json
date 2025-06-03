@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "3.0.2"
+    "version": "3.2.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
@@ -2071,7 +2071,7 @@
           "MetaInformation"
         ],
         "summary": "Retrieve Supported Languages",
-        "description": "Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.\n\nAs of January 2024, Arabic (AR) is supported as a source and target language for text translation, \nbut it is not yet supported for document translation. Therefore, Arabic has not yet been added to \nthe `/languages` endpoint. We will add Arabic to the `/languages` endpoint after document translation \nsupport is added.",
+        "description": "Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.\n\nAs of May 2025, Hebrew (HE), Thai (TH), and Vietnamese (VI) are supported as a source and target language for text translation, \nbut it is not yet supported for document translation. Therefore, they have not yet been added to the `/languages` endpoint. We \nwill add Hebrew, Thai, and Vietnamese to the `/languages` endpoint after document translation support is added.",
         "operationId": "getLanguages",
         "parameters": [
           {
@@ -2127,6 +2127,11 @@
                   }
                 },
                 "example": [
+                  {
+                    "language": "AR",
+                    "name": "Arabic",
+                    "supports_formality": false
+                  },
                   {
                     "language": "BG",
                     "name": "Bulgarian",
@@ -2285,6 +2290,11 @@
                   {
                     "language": "ZH-HANS",
                     "name": "Chinese (simplified)",
+                    "supports_formality": false
+                  },
+                  {
+                    "language": "ZH-HANT",
+                    "name": "Chinese (traditional)",
                     "supports_formality": false
                   }
                 ]
@@ -2621,21 +2631,38 @@
         "type": "string",
         "description": "The language in which the source texts in the glossary are specified.",
         "enum": [
+          "ar",
+          "bg",
+          "cs",
           "da",
           "de",
+          "el",
           "en",
           "es",
+          "et",
+          "fi",
           "fr",
+          "he",
+          "hu",
+          "id",
           "it",
           "ja",
           "ko",
+          "lt",
+          "lv",
           "nb",
           "nl",
           "pl",
           "pt",
           "ro",
           "ru",
+          "sk",
+          "sl",
           "sv",
+          "th",
+          "tr",
+          "uk",
+          "vi",
           "zh"
         ],
         "example": "en"
@@ -2644,21 +2671,38 @@
         "type": "string",
         "description": "The language in which the target texts in the glossary are specified.",
         "enum": [
+          "ar",
+          "bg",
+          "cs",
           "da",
           "de",
+          "el",
           "en",
           "es",
+          "et",
+          "fi",
           "fr",
+          "he",
+          "hu",
+          "id",
           "it",
           "ja",
           "ko",
+          "lt",
+          "lv",
           "nb",
           "nl",
           "pl",
           "pt",
           "ro",
           "ru",
+          "sk",
+          "sl",
           "sv",
+          "th",
+          "tr",
+          "uk",
+          "vi",
           "zh"
         ],
         "example": "de"
@@ -2844,8 +2888,9 @@
       },
       "SourceLanguage": {
         "type": "string",
-        "description": "Language of the text to be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.",
+        "description": "Language of the text to be translated. Options currently available:\n * `AR` - Arabic\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.",
         "enum": [
+          "AR",
           "BG",
           "CS",
           "DA",
@@ -2880,7 +2925,7 @@
       },
       "SourceLanguageText": {
         "type": "string",
-        "description": "Language of the text to be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.\n\n[1] Please note that Arabic has not yet been added to the `/languages` endpoint because it does not \nyet support document translation; only text translation is supported for Arabic at this time. When \ndocument translation support is added for Arabic, we will a) remove this note and b) add Arabic to \nthe `/languages` endpoint.",
+        "description": "Language of the text to be translated. Options currently available:\n * `AR` - Arabic\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HE` - Hebrew [1]\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (all Portuguese varieties mixed)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TH` - Thai [1]\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `VI` - Vietnamese [1]\n * `ZH` - Chinese\n\nIf this parameter is omitted, the API will attempt to detect the language of the text and translate it.\n\n[1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to the `/languages` endpoint \nbecause they does not yet support document translation; only text translation is supported for those\nlanguages at this time. When document translation support is added for Hebrew, Thai, and Vietnamese, \nwe will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.",
         "enum": [
           "AR",
           "BG",
@@ -2893,6 +2938,7 @@
           "ET",
           "FI",
           "FR",
+          "HE",
           "HU",
           "ID",
           "IT",
@@ -2909,8 +2955,10 @@
           "SK",
           "SL",
           "SV",
+          "TH",
           "TR",
           "UK",
+          "VI",
           "ZH"
         ],
         "example": "EN"
@@ -3053,46 +3101,7 @@
       },
       "TargetLanguage": {
         "type": "string",
-        "description": "The language into which the text should be translated. Options currently available:\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)\n * `ZH-HANS` - Chinese (simplified)",
-        "enum": [
-          "BG",
-          "CS",
-          "DA",
-          "DE",
-          "EL",
-          "EN-GB",
-          "EN-US",
-          "ES",
-          "ET",
-          "FI",
-          "FR",
-          "HU",
-          "ID",
-          "IT",
-          "JA",
-          "KO",
-          "LT",
-          "LV",
-          "NB",
-          "NL",
-          "PL",
-          "PT-BR",
-          "PT-PT",
-          "RO",
-          "RU",
-          "SK",
-          "SL",
-          "SV",
-          "TR",
-          "UK",
-          "ZH",
-          "ZH-HANS"
-        ],
-        "example": "DE"
-      },
-      "TargetLanguageText": {
-        "type": "string",
-        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic [1]\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)\n * `ZH-HANS` - Chinese (simplified)\n * `ZH-HANT` - Chinese (traditional)\n\n [1] Please note that Arabic and traditional Chinese have not yet been added to the /languages \n endpoint because these languages do not yet support document translation; only text translation \n is supported for Arabic and traditional Chinese at this time. When document translation support \n is added for these languages, we will a) remove this note and b) add the languages to the /languages \n endpoint where appropriate.",
+        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)\n * `ZH-HANS` - Chinese (simplified)\n * `ZH-HANT` - Chinese (traditional)",
         "enum": [
           "AR",
           "BG",
@@ -3125,6 +3134,50 @@
           "SV",
           "TR",
           "UK",
+          "ZH",
+          "ZH-HANS",
+          "ZH-HANT"
+        ],
+        "example": "DE"
+      },
+      "TargetLanguageText": {
+        "type": "string",
+        "description": "The language into which the text should be translated. Options currently available:\n * `AR` - Arabic\n * `BG` - Bulgarian\n * `CS` - Czech\n * `DA` - Danish\n * `DE` - German\n * `EL` - Greek\n * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)\n * `EN-GB` - English (British)\n * `EN-US` - English (American)\n * `ES` - Spanish\n * `ET` - Estonian\n * `FI` - Finnish\n * `FR` - French\n * `HE` - Hebrew [1]\n * `HU` - Hungarian\n * `ID` - Indonesian\n * `IT` - Italian\n * `JA` - Japanese\n * `KO` - Korean\n * `LT` - Lithuanian\n * `LV` - Latvian\n * `NB` - Norwegian (Bokm\u00e5l)\n * `NL` - Dutch\n * `PL` - Polish\n * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)\n * `PT-BR` - Portuguese (Brazilian)\n * `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)\n * `RO` - Romanian\n * `RU` - Russian\n * `SK` - Slovak\n * `SL` - Slovenian\n * `SV` - Swedish\n * `TH` - Thai [1]\n * `TR` - Turkish\n * `UK` - Ukrainian\n * `VI` - Vietnamese [1]\n * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)\n * `ZH-HANS` - Chinese (simplified)\n * `ZH-HANT` - Chinese (traditional)\n\n[1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to the `/languages` endpoint \nbecause they does not yet support document translation; only text translation is supported for those\nlanguages at this time. When document translation support is added for Hebrew, Thai, and Vietnamese, \nwe will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.",
+        "enum": [
+          "AR",
+          "BG",
+          "CS",
+          "DA",
+          "DE",
+          "EL",
+          "EN-GB",
+          "EN-US",
+          "ES",
+          "ET",
+          "FI",
+          "FR",
+          "HE",
+          "HU",
+          "ID",
+          "IT",
+          "JA",
+          "KO",
+          "LT",
+          "LV",
+          "NB",
+          "NL",
+          "PL",
+          "PT-BR",
+          "PT-PT",
+          "RO",
+          "RU",
+          "SK",
+          "SL",
+          "SV",
+          "TH",
+          "TR",
+          "UK",
+          "VI",
           "ZH",
           "ZH-HANS",
           "ZH-HANT"
