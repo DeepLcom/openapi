@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.0.2
+  version: 3.2.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -1448,6 +1448,9 @@ paths:
                       type: boolean
                       example: true
               example:
+              - language: AR
+                name: Arabic
+                supports_formality: false
               - language: BG
                 name: Bulgarian
                 supports_formality: false
@@ -1543,6 +1546,9 @@ paths:
                 supports_formality: false
               - language: ZH-HANS
                 name: Chinese (simplified)
+                supports_formality: false
+              - language: ZH-HANT
+                name: Chinese (traditional)
                 supports_formality: false
         400:
           $ref: '#/components/responses/BadRequest'
@@ -1816,42 +1822,76 @@ components:
       type: string
       description: The language in which the source texts in the glossary are specified.
       enum:
+      - ar
+      - bg
+      - cs
       - da
       - de
+      - el
       - en
       - es
+      - et
+      - fi
       - fr
+      - he
+      - hu
+      - id
       - it
       - ja
       - ko
+      - lt
+      - lv
       - nb
       - nl
       - pl
       - pt
       - ro
       - ru
+      - sk
+      - sl
       - sv
+      - th
+      - tr
+      - uk
+      - vi
       - zh
       example: en
     GlossaryTargetLanguage:
       type: string
       description: The language in which the target texts in the glossary are specified.
       enum:
+      - ar
+      - bg
+      - cs
       - da
       - de
+      - el
       - en
       - es
+      - et
+      - fi
       - fr
+      - he
+      - hu
+      - id
       - it
       - ja
       - ko
+      - lt
+      - lv
       - nb
       - nl
       - pl
       - pt
       - ro
       - ru
+      - sk
+      - sl
       - sv
+      - th
+      - tr
+      - uk
+      - vi
       - zh
       example: de
     ModelType:
@@ -2016,6 +2056,7 @@ components:
         Language of the text to be translated. If this parameter is omitted, the API will attempt to 
         detect the language of the text and translate it.
       enum:
+      - AR
       - BG
       - CS
       - DA
@@ -2131,6 +2172,7 @@ components:
       type: string
       description: The language into which the text should be translated.
       enum:
+      - AR
       - BG
       - CS
       - DA
@@ -2163,6 +2205,7 @@ components:
       - UK
       - ZH
       - ZH-HANS
+      - ZH-HANT
       example: DE
     TargetLanguageText:
       type: string
