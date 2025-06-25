@@ -591,22 +591,12 @@ paths:
                   target_lang: en
                 - source_lang: en
                   target_lang: de
-        400:
-          $ref: '#/components/responses/BadRequestGlossaries'
         401:
           $ref: '#/components/responses/Unauthorized'
         403:
-          $ref: '#/components/responses/ForbiddenGlossaries'
-        404:
-          $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+          $ref: '#/components/responses/Forbidden'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -658,12 +648,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         403:
           $ref: '#/components/responses/ForbiddenGlossaries'
-        404:
-          $ref: '#/components/responses/NotFound'
         413:
           $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
         456:
@@ -710,17 +696,9 @@ paths:
         401:
           $ref: '#/components/responses/Unauthorized'
         403:
-          $ref: '#/components/responses/ForbiddenGlossaries'
-        404:
-          $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+          $ref: '#/components/responses/Forbidden'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -763,14 +741,8 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -834,8 +806,6 @@ paths:
           $ref: '#/components/responses/NotFound'
         413:
           $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
         456:
@@ -867,14 +837,8 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -917,14 +881,8 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -962,14 +920,8 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -1012,8 +964,6 @@ paths:
           $ref: '#/components/responses/NotFound'
         413:
           $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
         456:
@@ -1064,16 +1014,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         403:
           $ref: '#/components/responses/ForbiddenGlossaries'
-        404:
-          $ref: '#/components/responses/NotFound'
         413:
           $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
         456:
-          $ref: '#/components/responses/QuotaExceeded'
+          $ref: '#/components/responses/QuotaExceededGlossaries'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -1110,22 +1056,12 @@ paths:
                   target_lang: DE
                   creation_time: '2021-08-03T14:16:18.329Z'
                   entry_count: 1
-        400:
-          $ref: '#/components/responses/BadRequestGlossaries'
         401:
           $ref: '#/components/responses/Unauthorized'
         403:
-          $ref: '#/components/responses/ForbiddenGlossaries'
-        404:
-          $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
+          $ref: '#/components/responses/Forbidden'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceeded'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -1167,14 +1103,8 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceeded'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -1202,14 +1132,8 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
-        415:
-          $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceeded'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:
@@ -1257,14 +1181,10 @@ paths:
           $ref: '#/components/responses/ForbiddenGlossaries'
         404:
           $ref: '#/components/responses/NotFound'
-        413:
-          $ref: '#/components/responses/PayloadTooLarge'
         415:
           $ref: '#/components/responses/UnsupportedMediaTypeGlossaries'
         429:
           $ref: '#/components/responses/TooManyRequests'
-        456:
-          $ref: '#/components/responses/QuotaExceeded'
         500:
           $ref: '#/components/responses/InternalServerError'
         503:

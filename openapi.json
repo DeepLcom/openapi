@@ -797,29 +797,17 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequestGlossaries"
-          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/ForbiddenGlossaries"
+            "$ref": "#/components/responses/Forbidden"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -899,16 +887,10 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/ForbiddenGlossaries"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/Forbidden"
           },
           "413": {
             "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -983,22 +965,10 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/ForbiddenGlossaries"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            "$ref": "#/components/responses/Forbidden"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1068,17 +1038,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1182,9 +1143,6 @@
           "413": {
             "$ref": "#/components/responses/PayloadTooLarge"
           },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           },
@@ -1235,17 +1193,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1316,17 +1265,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1389,17 +1329,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1468,9 +1399,6 @@
           },
           "413": {
             "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -1546,22 +1474,16 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/ForbiddenGlossaries"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/Forbidden"
           },
           "413": {
             "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
           },
           "456": {
-            "$ref": "#/components/responses/QuotaExceeded"
+            "$ref": "#/components/responses/QuotaExceededGlossaries"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1618,29 +1540,14 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequestGlossaries"
-          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/ForbiddenGlossaries"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
+            "$ref": "#/components/responses/Forbidden"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceeded"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1704,17 +1611,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceeded"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1760,17 +1658,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
-          "415": {
-            "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
-          },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceeded"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -1844,17 +1733,11 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "413": {
-            "$ref": "#/components/responses/PayloadTooLarge"
-          },
           "415": {
             "$ref": "#/components/responses/UnsupportedMediaTypeGlossaries"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
-          },
-          "456": {
-            "$ref": "#/components/responses/QuotaExceeded"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
@@ -2448,7 +2331,7 @@
         "description": "Quota exceeded. The character limit has been reached."
       },
       "QuotaExceededGlossaries": {
-        "description": "Quota exceeded. Too many requests were made to the glossary endpoints recently."
+        "description": "Quota exceeded. The glossary creation limit has been reached."
       },
       "InternalServerError": {
         "description": "Internal error."
