@@ -2599,6 +2599,7 @@ components:
          * `EN-GB` - English (British)
          * `EN-US` - English (American)
          * `ES` - Spanish
+         * `ES-419` - Spanish (Latin American) [1]
          * `ET` - Estonian
          * `FI` - Finnish
          * `FR` - French
@@ -2629,10 +2630,10 @@ components:
          * `ZH-HANS` - Chinese (simplified)
          * `ZH-HANT` - Chinese (traditional)
 
-        [1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to the `/languages` endpoint 
-        because they does not yet support document translation; only text translation is supported for those
-        languages at this time. When document translation support is added for Hebrew, Thai, and Vietnamese, 
-        we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
+        [1] Please note that Hebrew, Latin American Spanish, Thai, and Vietnamese have not yet been added to
+        the `/languages` endpoint because they does not yet support document translation; only text translation
+        is supported for those languages at this time. When document translation support is added for Hebrew, Thai,
+        and Vietnamese, we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
       enum:
       - AR
       - BG
