@@ -943,6 +943,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MultilingualGlossaryEntries'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PutMultilingualGlossaryParameters'
       responses:
         200:
           description: JSON object containing the dictionary meta-information.
@@ -1950,6 +1953,8 @@ components:
       - '0'
       - '1'
       default: '0'
+    PutMultilingualGlossaryParameters:
+      $ref: '#/components/schemas/MultilingualGlossaryEntries'
     ShowBilledCharacters:
       description: |-
         When true, the response will include the billed_characters parameter, giving the 
