@@ -9,6 +9,13 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.3.1] - 2025-07-16
+### Fixed
+* Added `application/x-www-form-urlencoded` Content-Type to the `replaceDictionary`
+  endpoint.
+  * Thanks to [danielesser](https://github.com/danielesser) for the report in
+    [#35](https://github.com/DeepLcom/openapi/issues/35).
+
 ## [3.3.0] - 2025-06-25
 ### Fixed
 * Updated the possible error responses for the /v2 and /v3 glossary endpoints
@@ -219,6 +226,7 @@ typos, schema fixes, or adding examples.
 Initial release of the OpenAPI specification.
 
 
+[3.3.1]: https://github.com/DeepLcom/openapi/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/DeepLcom/openapi/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/DeepLcom/openapi/compare/v3.1.1...v3.2.0
 [3.1.1]: https://github.com/DeepLcom/openapi/compare/v3.1.0...v3.1.1
