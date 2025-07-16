@@ -7,7 +7,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.3.1
+  version: 3.4.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -1601,6 +1601,171 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
       security:
       - auth_header: []
+  /v2/admin/developer-keys:
+    post:
+      tags:
+        - AdminApi
+      summary: Create a developer key as an admin
+      operationId: adminCreateDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label:
+                  $ref: '#/components/schemas/ApiKeyLabel'
+      responses:
+        200:
+          description: The create function returns a JSON representation of the created API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+    get:
+      tags:
+        - AdminApi
+      summary: Get all developer keys as an admin
+      operationId: adminGetDeveloperKeys
+      responses:
+        200:
+          description: The get function returns a JSON representation of all developer API keys in the organization.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/deactivate:
+    put:
+      tags:
+        - AdminApi
+      summary: Deactivate a developer key as an admin
+      operationId: adminDeactivateDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - key_id
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'          
+      responses:
+        200:
+          description: The deactivate function returns a JSON representation of the deactivated API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/label:
+    put:
+      tags:
+        - AdminApi
+      summary: Rename a developer key as an admin
+      operationId: adminRenameDeveloperKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_id
+              - label
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'
+                label:
+                  type: string
+                  description: API key label.
+                  example: developer key prod
+      responses:
+        200:
+          description: The set label function returns a JSON representation of the renamed API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/developer-keys/limits:
+    put:
+      tags:
+        - AdminApi
+      summary: Set developer key usage limits as an admin
+      operationId: adminSetDeveloperKeyUsageLimits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - key_id
+              properties:
+                key_id:
+                  $ref: '#/components/schemas/ApiKeyId'
+                characters:
+                  $ref: '#/components/schemas/ApiKeyUsageCharacters'
+      responses:
+        200:
+          description: The set usage limits function returns a JSON representation of the modified API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: []
 components:
   parameters:
     DocumentID:
@@ -1715,6 +1880,47 @@ components:
       name: Authorization
       in: header
   schemas:
+    ApiKeyId:
+      description: API key ID. Consists of two valid GUIDs separated by a colon.
+      type: string
+      example: ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38
+    ApiKeyLabel:
+      description: API key label. The default value is `DeepL API Key`.
+      type: string
+      example: "developer key prod"
+    ApiKeyUsageCharacters:
+      description: |
+        Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.
+        Setting the limit to `0` means the API key will not be able to consume characters.
+        Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+      type: number
+      example: 5000
+    ApiKey:
+      description: The API key.
+      type: object
+      properties:
+        key_id:
+          $ref: '#/components/schemas/ApiKeyId'
+        label:
+          $ref: '#/components/schemas/ApiKeyLabel'
+        creation_time:
+          description: Timestamp when the key was created (ISO 8601 format)
+          type: string
+          example: "2025-07-08T08:15:29.362Z"
+        deactivated_time:
+          description: Timestamp when the key was deactivated (ISO 8601 format). The default value is `null`.
+          type: string
+          example: "2025-07-09T08:15:29.362Z"
+        is_deactivated:
+          description: Flag indicating whether the API key is deactivated. The default value is `false`.
+          type: boolean
+          example: true
+        usage_limits:
+          description: Usage limits for the API key.
+          type: object
+          properties:
+            characters:
+              $ref: '#/components/schemas/ApiKeyUsageCharacters'
     Context:
       description: |-
         The `context` parameter makes it possible to include additional context that can influence a translation but is not translated itself. 
