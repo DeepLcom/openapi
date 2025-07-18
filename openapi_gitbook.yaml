@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.4.0
+  version: 3.4.1
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -2123,6 +2123,8 @@ components:
         Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
         to `false` and selecting the tags that should be considered structure tags. This will split sentences 
         using the `splitting_tags` parameter.
+
+        Note: for requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
       type: boolean
       default: true
     OutlineDetectionOptionStr:
@@ -2148,6 +2150,8 @@ components:
       description: |-
         Sets whether the translation engine should respect the original formatting, even if it would usually 
         correct some aspects.
+
+        Note: for requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
       type: boolean
       default: false
     PreserveFormattingOptionStr:
@@ -2165,6 +2169,8 @@ components:
       description: |-
         When true, the response will include the billed_characters parameter, giving the 
         number of characters from the request that will be counted by DeepL for billing purposes.
+
+        Note: for requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
       type: boolean  
     SplitSentencesOption:
       description: |-

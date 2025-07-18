@@ -7,7 +7,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.4.0
+  version: 3.4.1
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -2292,6 +2292,8 @@ components:
            </document>
            ```
         While this approach is slightly more complicated, it allows for greater control over the structure of the translation output.
+
+        Note: for requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
       type: boolean
       default: true
     OutlineDetectionOptionStr:
@@ -2345,6 +2347,8 @@ components:
         The formatting aspects affected by this setting include:
          * Punctuation at the beginning and end of the sentence
          * Upper/lower case at the beginning of the sentence
+
+        Note: for requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
       type: boolean
       default: false
     PreserveFormattingOptionStr:
@@ -2367,6 +2371,8 @@ components:
       description: |-
         When true, the response will include the billed_characters parameter, giving the 
         number of characters from the request that will be counted by DeepL for billing purposes.
+
+        Note: for requests sent as URL-encoded forms, boolean values should be specified as "1" or "0".
       type: boolean
     SplitSentencesOption:
       description: |-
