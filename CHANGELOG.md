@@ -9,7 +9,7 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
-## [3.4.1] - 2025-07-18
+## [3.4.1] - 2025-07-31
 ### Added
 * Add note for boolean values about how to input for URL-encoded forms
 
