@@ -1398,6 +1398,9 @@ paths:
               - language: ES
                 name: Spanish
                 supports_formality: true
+              - language: ES-419
+                name: Spanish (Latin American)
+                supports_formality: true
               - language: ET
                 name: Estonian
                 supports_formality: false
@@ -2318,6 +2321,7 @@ components:
       - EN-GB
       - EN-US
       - ES
+      - ES-419
       - ET
       - FI
       - FR

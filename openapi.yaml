@@ -1506,6 +1506,9 @@ paths:
               - language: ES
                 name: Spanish
                 supports_formality: true
+              - language: ES-419
+                name: Spanish (Latin American)
+                supports_formality: true
               - language: ET
                 name: Estonian
                 supports_formality: false
@@ -2019,6 +2022,7 @@ components:
         `FR` (French),
         `IT` (Italian),
         `ES` (Spanish),
+        `ES-419` (Latin American Spanish),
         `NL` (Dutch),
         `PL` (Polish),
         `PT-BR` and `PT-PT` (Portuguese),
@@ -2740,6 +2744,7 @@ components:
          * `EN-GB` - English (British)
          * `EN-US` - English (American)
          * `ES` - Spanish
+         * `ES-419` - Spanish (Latin American)
          * `ET` - Estonian
          * `FI` - Finnish
          * `FR` - French
@@ -2776,6 +2781,7 @@ components:
       - EN-GB
       - EN-US
       - ES
+      - ES-419
       - ET
       - FI
       - FR
@@ -2816,7 +2822,7 @@ components:
          * `EN-GB` - English (British)
          * `EN-US` - English (American)
          * `ES` - Spanish
-         * `ES-419` - Spanish (Latin American) [1]
+         * `ES-419` - Spanish (Latin American)
          * `ET` - Estonian
          * `FI` - Finnish
          * `FR` - French
@@ -2847,7 +2853,7 @@ components:
          * `ZH-HANS` - Chinese (simplified)
          * `ZH-HANT` - Chinese (traditional)
 
-        [1] Please note that Hebrew, Latin American Spanish, Thai, and Vietnamese have not yet been added to
+        [1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to
         the `/languages` endpoint because they does not yet support document translation; only text translation
         is supported for those languages at this time. When document translation support is added for Hebrew, Thai,
         and Vietnamese, we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
@@ -2861,6 +2867,7 @@ components:
       - EN-GB
       - EN-US
       - ES
+      - ES-419
       - ET
       - FI
       - FR
