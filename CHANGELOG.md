@@ -9,6 +9,12 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.4.2] - 2025-10-06
+### Added
+* Latin American Spanish (`ES-419`) is now supported as a target language option for 
+Document translation. `/v2/languages` now includes `ES-419` as a valid target language
+option.
+
 ## [3.4.1] - 2025-07-31
 ### Added
 * Add note for boolean values about how to input for URL-encoded forms
@@ -236,6 +242,7 @@ keys within an organization.
 Initial release of the OpenAPI specification.
 
 
+[3.4.2]: https://github.com/DeepLcom/openapi/compare/v3.4.1...v3.4.2
 [3.4.1]: https://github.com/DeepLcom/openapi/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/DeepLcom/openapi/compare/v3.3.1...v3.4.0
 [3.3.1]: https://github.com/DeepLcom/openapi/compare/v3.3.0...v3.3.1
