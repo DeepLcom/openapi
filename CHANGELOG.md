@@ -9,6 +9,10 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.5.0] - 2025-10-27
+### Added
+* Add new endpoint `v2/admin/analytics` which enables admins to retrieve usage statistics across their organization
+
 ## [3.4.2] - 2025-10-06
 ### Added
 * Latin American Spanish (`ES-419`) is now supported as a target language option for 
@@ -241,7 +245,7 @@ keys within an organization.
 ## [2.0.0]
 Initial release of the OpenAPI specification.
 
-
+[3.5.0]: https://github.com/DeepLcom/openapi/compare/v3.4.2...v3.5.0
 [3.4.2]: https://github.com/DeepLcom/openapi/compare/v3.4.1...v3.4.2
 [3.4.1]: https://github.com/DeepLcom/openapi/compare/v3.4.0...v3.4.1
 [3.4.0]: https://github.com/DeepLcom/openapi/compare/v3.3.1...v3.4.0

@@ -7,7 +7,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.4.2
+  version: 3.5.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -1769,6 +1769,112 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       security:
         - auth_header: []
+  /v2/admin/analytics:
+    get:
+      tags:
+        - AdminApi
+      summary: Get usage statistics as an admin
+      operationId: adminGetAnalytics
+      description: |-
+        Retrieve usage statistics for the organization within a specified date range.
+        Optionally group the results by API key or by API key and day.
+      parameters:
+      - name: start_date
+        in: query
+        required: true
+        description: Start date for the usage report (ISO 8601 date format).
+        schema:
+          type: string
+          format: date
+        example: "2025-09-29"
+      - name: end_date
+        in: query
+        required: true
+        description: End date for the usage report (ISO 8601 date format).
+        schema:
+          type: string
+          format: date
+        example: "2025-10-01"
+      - name: group_by
+        in: query
+        required: false
+        description: |-
+          Optional parameter to group usage statistics. Possible values:
+           * `key` - Group by API key
+           * `key_and_day` - Group by API key and usage date
+        schema:
+          type: string
+          enum:
+          - key
+          - key_and_day
+        example: "key_and_day"
+      responses:
+        200:
+          description: The usage statistics for the specified date range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUsageReport'
+              examples:
+                withGrouping:
+                  summary: Usage report grouped by key and day
+                  value:
+                    usage_report:
+                      total_usage:
+                        total_characters: 9619
+                        text_translation_characters: 4892
+                        document_translation_characters: 0
+                        text_improvement_characters: 4727
+                      group_by: "key_and_day"
+                      start_date: "2025-09-29T00:00:00"
+                      end_date: "2025-10-01T00:00:00"
+                      grouped_usage:
+                      - api_key: "dc88****3a2c"
+                        api_key_label: "Staging API Key"
+                        usage_date: "2025-09-29T00:00:00Z"
+                        usage:
+                          total_characters: 315
+                          text_translation_characters: 159
+                          document_translation_characters: 0
+                          text_improvement_characters: 156
+                withoutGrouping:
+                  summary: Usage report without grouping
+                  value:
+                    usage_report:
+                      total_usage:
+                        total_characters: 9619
+                        text_translation_characters: 4892
+                        document_translation_characters: 0
+                        text_improvement_characters: 4727
+                      start_date: "2025-09-29T00:00:00"
+                      end_date: "2025-10-01T00:00:00"
+        400:
+          description: Bad request. Please check error message and your parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing the issue.
+              examples:
+                dateRangeExceeded:
+                  summary: Date range exceeds maximum allowed
+                  value:
+                    message: "Bad request. Reason: Date range cannot exceed 366 days"
+                invalidGroupBy:
+                  summary: Invalid group_by parameter value
+                  value:
+                    message: "Value for 'group_by' not supported. Allowed: '', 'key', 'key_and_day'."
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
 components:
   parameters:
     DocumentID:
@@ -2952,3 +3058,76 @@ components:
       - prefer_diplomatic
       - prefer_enthusiastic
       - prefer_friendly
+    AdminUsageReport:
+      type: object
+      description: The response for admin usage statistics.
+      properties:
+        usage_report:
+          $ref: '#/components/schemas/AdminUsageReportData'
+    AdminUsageReportData:
+      type: object
+      description: Contains the detailed usage statistics for the specified date range.
+      properties:
+        total_usage:
+          $ref: '#/components/schemas/UsageBreakdown'
+        start_date:
+          type: string
+          format: date-time
+          description: Start date of the usage report period.
+          example: "2025-09-29T00:00:00"
+        end_date:
+          type: string
+          format: date-time
+          description: End date of the usage report period.
+          example: "2025-10-01T00:00:00"
+        group_by:
+          type: string
+          description: The grouping method used, if any.
+          enum:
+          - key
+          - key_and_day
+          example: "key_and_day"
+        grouped_usage:
+          type: array
+          description: Array of usage statistics grouped by the specified criteria. Only present when group_by parameter is provided.
+          items:
+            $ref: '#/components/schemas/GroupedUsageItem'
+    UsageBreakdown:
+      type: object
+      description: Breakdown of character usage by category.
+      properties:
+        total_characters:
+          type: integer
+          description: Total number of characters used.
+          example: 9619
+        text_translation_characters:
+          type: integer
+          description: Number of characters used for text translation.
+          example: 4892
+        document_translation_characters:
+          type: integer
+          description: Number of characters used for document translation.
+          example: 0
+        text_improvement_characters:
+          type: integer
+          description: Number of characters used for text improvement.
+          example: 4727
+    GroupedUsageItem:
+      type: object
+      description: Usage statistics for a specific API key and optionally a specific date.
+      properties:
+        api_key:
+          type: string
+          description: Masked API key identifier.
+          example: "db96****cb2c"
+        api_key_label:
+          type: string
+          description: Label associated with the API key.
+          example: "DeepL API Key Prod"
+        usage_date:
+          type: string
+          format: date-time
+          description: The usage date. Only present when group_by is "key_and_day".
+          example: "2025-09-29T00:00:00Z"
+        usage:
+          $ref: '#/components/schemas/UsageBreakdown'
