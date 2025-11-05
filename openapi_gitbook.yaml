@@ -124,6 +124,8 @@ paths:
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 tag_handling:
                   $ref: '#/components/schemas/TagHandlingOption'
+                tag_handling_version:
+                  $ref: '#/components/schemas/TagHandlingVersionOption'
                 outline_detection:
                   $ref: '#/components/schemas/OutlineDetectionOption'
                 non_splitting_tags:
@@ -2343,6 +2345,15 @@ components:
       - xml
       - html
       example: html
+    TagHandlingVersionOption:
+      description: |-
+        Sets which version of the tag handling algorithm should be used. Options currently available:
+         * `v2`: Improved algorithm released in October 2025 (default as of December 2025).
+         * `v1`: Traditional algorithm (default until December 2025).
+      type: string
+      enum:
+      - v1
+      - v2
     NonSplittingTagCommaSeparatedList:
       allOf:
       - $ref: '#/components/schemas/TagCommaSeparatedList'

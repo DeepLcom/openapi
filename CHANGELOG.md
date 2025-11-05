@@ -9,6 +9,10 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.6.0] - 2025-10-29
+### Added
+* Add new parameter `tag_handling_version` to `/v2/translate`
+
 ## [3.5.0] - 2025-10-27
 ### Added
 * Add new endpoint `v2/admin/analytics` which enables admins to retrieve usage statistics across their organization

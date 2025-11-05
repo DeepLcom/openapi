@@ -223,6 +223,9 @@
                   "tag_handling": {
                     "$ref": "#/components/schemas/TagHandlingOption"
                   },
+                  "tag_handling_version": {
+                    "$ref": "#/components/schemas/TagHandlingVersionOption"
+                  },
                   "outline_detection": {
                     "$ref": "#/components/schemas/OutlineDetectionOptionStr"
                   },
@@ -3332,6 +3335,14 @@
         "enum": [
           "xml",
           "html"
+        ]
+      },
+      "TagHandlingVersionOption": {
+        "description": "Sets which version of the tag handling algorithm should be used. Options currently available:\n * `v2`: Improved algorithm released in October 2025 (default as of December 2025).\n * `v1`: Traditional algorithm (default until December 2025).",
+        "type": "string",
+        "enum": [
+          "v1",
+          "v2"
         ]
       },
       "UsageResponse": {
