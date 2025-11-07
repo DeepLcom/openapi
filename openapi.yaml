@@ -1433,10 +1433,6 @@ paths:
       summary: Retrieve Supported Languages
       description: |-
         Retrieve the list of languages that are currently supported for translation, either as source or target language, respectively.
-
-        As of May 2025, Hebrew (HE), Thai (TH), and Vietnamese (VI) are supported as a source and target language for text translation, 
-        but it is not yet supported for document translation. Therefore, they have not yet been added to the `/languages` endpoint. We 
-        will add Hebrew, Thai, and Vietnamese to the `/languages` endpoint after document translation support is added.
       operationId: getLanguages
       parameters:
       - name: type
@@ -1520,6 +1516,9 @@ paths:
               - language: FR
                 name: French
                 supports_formality: true
+              - language: HE
+                name: Hebrew
+                supports_formality: false
               - language: HU
                 name: Hungarian
                 supports_formality: false
@@ -1571,11 +1570,17 @@ paths:
               - language: SV
                 name: Swedish
                 supports_formality: false
+              - language: TH
+                name: Thai
+                supports_formality: false
               - language: TR
                 name: Turkish
                 supports_formality: false
               - language: UK
                 name: Ukrainian
+                supports_formality: false
+              - language: VI
+                name: Vietnamese
                 supports_formality: false
               - language: ZH
                 name: Chinese (simplified)
@@ -2595,7 +2600,7 @@ components:
          * `ET` - Estonian
          * `FI` - Finnish
          * `FR` - French
-         * `HE` - Hebrew [1]
+         * `HE` - Hebrew
          * `HU` - Hungarian
          * `ID` - Indonesian
          * `IT` - Italian
@@ -2612,18 +2617,13 @@ components:
          * `SK` - Slovak
          * `SL` - Slovenian
          * `SV` - Swedish
-         * `TH` - Thai [1]
+         * `TH` - Thai
          * `TR` - Turkish
          * `UK` - Ukrainian
-         * `VI` - Vietnamese [1]
+         * `VI` - Vietnamese
          * `ZH` - Chinese
 
         If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
-
-        [1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to the `/languages` endpoint 
-        because they does not yet support document translation; only text translation is supported for those
-        languages at this time. When document translation support is added for Hebrew, Thai, and Vietnamese, 
-        we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
       enum:
       - AR
       - BG
@@ -2943,7 +2943,7 @@ components:
          * `ET` - Estonian
          * `FI` - Finnish
          * `FR` - French
-         * `HE` - Hebrew [1]
+         * `HE` - Hebrew
          * `HU` - Hungarian
          * `ID` - Indonesian
          * `IT` - Italian
@@ -2962,18 +2962,13 @@ components:
          * `SK` - Slovak
          * `SL` - Slovenian
          * `SV` - Swedish
-         * `TH` - Thai [1]
+         * `TH` - Thai
          * `TR` - Turkish
          * `UK` - Ukrainian
-         * `VI` - Vietnamese [1]
+         * `VI` - Vietnamese
          * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)
          * `ZH-HANS` - Chinese (simplified)
          * `ZH-HANT` - Chinese (traditional)
-
-        [1] Please note that Hebrew, Thai, and Vietnamese have not yet been added to
-        the `/languages` endpoint because they does not yet support document translation; only text translation
-        is supported for those languages at this time. When document translation support is added for Hebrew, Thai,
-        and Vietnamese, we will a) remove this note and b) add Hebrew, Thai, and Vietnamese to the `/languages` endpoint.
       enum:
       - AR
       - BG

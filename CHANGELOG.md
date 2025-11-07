@@ -9,6 +9,10 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.6.1] - 2025-11-06
+### Changed
+* Hebrew (`HE`), Thai (`TH`), and Vietnamese (`VI`) are now included in the `/v2/languages` endpoint response as they now support document translation in addition to text translation
+
 ## [3.6.0] - 2025-10-29
 ### Added
 * Add new parameter `tag_handling_version` to `/v2/translate`
@@ -249,6 +253,8 @@ keys within an organization.
 ## [2.0.0]
 Initial release of the OpenAPI specification.
 
+[3.6.1]: https://github.com/DeepLcom/openapi/compare/v3.6.0...v3.6.1
+[3.6.0]: https://github.com/DeepLcom/openapi/compare/v3.5.0...v3.6.0
 [3.5.0]: https://github.com/DeepLcom/openapi/compare/v3.4.2...v3.5.0
 [3.4.2]: https://github.com/DeepLcom/openapi/compare/v3.4.1...v3.4.2
 [3.4.1]: https://github.com/DeepLcom/openapi/compare/v3.4.0...v3.4.1
