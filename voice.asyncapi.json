@@ -1,0 +1,568 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "DeepL Voice API - WebSocket Streaming",
+    "version": "1.0.0",
+    "description": "WebSocket streaming API for real-time voice transcription and translation.\nAfter obtaining a streaming URL and token via the REST API, establish a WebSocket connection\nto stream audio data and receive real-time transcriptions and translations.",
+    "contact": {
+      "name": "DeepL - Contact us",
+      "url": "https://www.deepl.com/contact-us"
+    }
+  },
+  "servers": {
+    "production": {
+      "host": "api.deepl.com",
+      "pathname": "/v1/voice/realtime/connect",
+      "protocol": "wss",
+      "description": "DeepL Voice API WebSocket endpoint",
+      "variables": {
+        "token": {
+          "description": "Ephemeral authentication token obtained from the REST API",
+          "examples": [
+            "VGhpcyBpcyBhIGZha2UgdG9rZW4K"
+          ]
+        }
+      }
+    }
+  },
+  "channels": {
+    "voiceStream": {
+      "address": "/v1/voice/realtime/connect?token={token}",
+      "description": "WebSocket channel for streaming audio and receiving transcriptions",
+      "parameters": {
+        "token": {
+          "description": "Ephemeral authentication token obtained from the POST /v1/voice/realtime endpoint. This token is valid for one-time use only and must be passed as a query parameter when establishing the WebSocket connection.",
+          "examples": [
+            "VGhpcyBpcyBhIGZha2UgdG9rZW4K"
+          ]
+        }
+      },
+      "messages": {
+        "SourceDataChunk": {
+          "$ref": "#/components/messages/SourceDataChunk"
+        },
+        "EndOfSourceData": {
+          "$ref": "#/components/messages/EndOfSourceData"
+        },
+        "SourceTranscriptUpdate": {
+          "$ref": "#/components/messages/SourceTranscriptUpdate"
+        },
+        "TargetTranscriptUpdate": {
+          "$ref": "#/components/messages/TargetTranscriptUpdate"
+        },
+        "EndOfSourceTranscript": {
+          "$ref": "#/components/messages/EndOfSourceTranscript"
+        },
+        "EndOfTargetTranscript": {
+          "$ref": "#/components/messages/EndOfTargetTranscript"
+        },
+        "Error": {
+          "$ref": "#/components/messages/Error"
+        },
+        "Acknowledged": {
+          "$ref": "#/components/messages/Acknowledged"
+        }
+      }
+    }
+  },
+  "operations": {
+    "sendAudioData": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/voiceStream"
+      },
+      "summary": "Send audio data to the server",
+      "description": "Send audio chunks and control messages to the server.\nAudio data must be base64-encoded and match the configured format.",
+      "messages": [
+        {
+          "$ref": "#/channels/voiceStream/messages/SourceTranscriptUpdate"
+        },
+        {
+          "$ref": "#/channels/voiceStream/messages/TargetTranscriptUpdate"
+        },
+        {
+          "$ref": "#/channels/voiceStream/messages/EndOfSourceTranscript"
+        },
+        {
+          "$ref": "#/channels/voiceStream/messages/EndOfTargetTranscript"
+        },
+        {
+          "$ref": "#/channels/voiceStream/messages/Error"
+        },
+        {
+          "$ref": "#/channels/voiceStream/messages/Acknowledged"
+        }
+      ]
+    },
+    "receiveTranscriptions": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/voiceStream"
+      },
+      "summary": "Receive transcriptions and translations",
+      "description": "Receive real-time transcription and translation messages from the server.\nThe server sends transcript updates, end of transcript notifications, errors, and acknowledgements.",
+      "messages": [
+        {
+          "$ref": "#/channels/voiceStream/messages/SourceDataChunk"
+        },
+        {
+          "$ref": "#/channels/voiceStream/messages/EndOfSourceData"
+        }
+      ]
+    }
+  },
+  "components": {
+    "messages": {
+      "SourceDataChunk": {
+        "name": "SourceDataChunk",
+        "title": "Source Data Chunk",
+        "summary": "Send audio data chunk to server",
+        "description": "A binary chunk of audio data encoded according to the format specified in the session request.\nConstraints: Max 100 KByte, max 1 second duration, recommended 50-250ms for low latency.\nMinimum interval between chunks: half the duration of the preceding chunk.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/SourceDataChunkPayload"
+        },
+        "examples": [
+          {
+            "name": "AudioChunk",
+            "summary": "Audio data chunk",
+            "payload": {
+              "source_data_chunk": {
+                "data": "VGhpcyBpcyBhIGZha2UgYXVkaW8gY2h1bmsK"
+              }
+            }
+          }
+        ]
+      },
+      "EndOfSourceData": {
+        "name": "EndOfSourceData",
+        "title": "End of Source Data",
+        "summary": "Signal end of audio stream",
+        "description": "Indicates the end of source data. Causes finalization of tentative transcripts\nand triggers emission of final transcript updates and end of transcript messages.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/EndOfSourceDataPayload"
+        },
+        "examples": [
+          {
+            "name": "EndStream",
+            "summary": "End of audio stream",
+            "payload": {
+              "end_of_source_data": {}
+            }
+          }
+        ]
+      },
+      "SourceTranscriptUpdate": {
+        "name": "SourceTranscriptUpdate",
+        "title": "Source Transcript Update",
+        "summary": "Transcription of audio in source language",
+        "description": "Contains transcription of the supplied audio in the source language.\nEach message is an update to the full source transcript with concluded (finalized)\nand tentative (subject to change) text segments.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/SourceTranscriptUpdatePayload"
+        },
+        "examples": [
+          {
+            "name": "TranscriptUpdate",
+            "summary": "Source language transcript update",
+            "payload": {
+              "source_transcript_update": {
+                "concluded": [
+                  {
+                    "language": "en",
+                    "text": "Hello, how are you",
+                    "start_time": 0,
+                    "end_time": 1500
+                  }
+                ],
+                "tentative": [
+                  {
+                    "language": "en",
+                    "text": " today?",
+                    "start_time": 1500,
+                    "end_time": 2000
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "TargetTranscriptUpdate": {
+        "name": "TargetTranscriptUpdate",
+        "title": "Target Transcript Update",
+        "summary": "Translation of audio in target language",
+        "description": "Contains translation of the supplied audio in one of the configured target languages.\nEach message updates a specific target language transcript with concluded and tentative segments.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/TargetTranscriptUpdatePayload"
+        },
+        "examples": [
+          {
+            "name": "TranslationUpdate",
+            "summary": "Target language translation update",
+            "payload": {
+              "target_transcript_update": {
+                "language": "es",
+                "concluded": [
+                  {
+                    "text": "Hola, \u00bfc\u00f3mo est\u00e1s",
+                    "start_time": 0,
+                    "end_time": 1500
+                  }
+                ],
+                "tentative": [
+                  {
+                    "text": " hoy?",
+                    "start_time": 1500,
+                    "end_time": 2000
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "EndOfSourceTranscript": {
+        "name": "EndOfSourceTranscript",
+        "title": "End of Source Transcript",
+        "summary": "Source transcript is complete",
+        "description": "Indicates the source transcript is complete and no further updates will be sent.\nEmitted after client sends End of Source Data or after audio input timeout.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/EndOfSourceTranscriptPayload"
+        },
+        "examples": [
+          {
+            "name": "EndSource",
+            "summary": "Source transcript complete",
+            "payload": {
+              "end_of_source_transcript": {}
+            }
+          }
+        ]
+      },
+      "EndOfTargetTranscript": {
+        "name": "EndOfTargetTranscript",
+        "title": "End of Target Transcript",
+        "summary": "Target transcript is complete",
+        "description": "Indicates a target language transcript is complete and no further updates will be sent.\nOne message is sent for each configured target language.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/EndOfTargetTranscriptPayload"
+        },
+        "examples": [
+          {
+            "name": "EndTarget",
+            "summary": "Target transcript complete",
+            "payload": {
+              "end_of_target_transcript": {
+                "language": "fr"
+              }
+            }
+          }
+        ]
+      },
+      "Error": {
+        "name": "Error",
+        "title": "Error",
+        "summary": "Error occurred during processing",
+        "description": "Reports errors encountered during audio processing or streaming.\nIncludes error code, reason code, and human-readable message.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/ErrorPayload"
+        },
+        "examples": [
+          {
+            "name": "AudioFormatError",
+            "summary": "Audio format error",
+            "payload": {
+              "error": {
+                "request_type": "source_data_chunk",
+                "error_code": 400,
+                "reason_code": 4000403,
+                "error_message": "Audio format not supported"
+              }
+            }
+          }
+        ]
+      },
+      "Acknowledged": {
+        "name": "Acknowledged",
+        "title": "Acknowledged",
+        "summary": "Message acknowledgement",
+        "description": "Confirms receipt of client messages. Every message sent to the server\nreceives an acknowledgement response.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/AcknowledgedPayload"
+        },
+        "examples": [
+          {
+            "name": "ChunkAck",
+            "summary": "Chunk acknowledged",
+            "payload": {
+              "acknowledged": {
+                "request_type": "source_data_chunk"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "schemas": {
+      "SourceDataChunkPayload": {
+        "type": "object",
+        "required": [
+          "source_data_chunk"
+        ],
+        "properties": {
+          "source_data_chunk": {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "string",
+                "format": "byte",
+                "description": "Base64-encoded audio data in the format specified during session initialization"
+              }
+            }
+          }
+        }
+      },
+      "EndOfSourceDataPayload": {
+        "type": "object",
+        "required": [
+          "end_of_source_data"
+        ],
+        "properties": {
+          "end_of_source_data": {
+            "type": "object",
+            "description": "Empty object signaling end of audio stream"
+          }
+        }
+      },
+      "TranscriptSegment": {
+        "type": "object",
+        "required": [
+          "text",
+          "start_time",
+          "end_time"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Transcript or translation text"
+          },
+          "start_time": {
+            "type": "integer",
+            "description": "Start time in milliseconds"
+          },
+          "end_time": {
+            "type": "integer",
+            "description": "End time in milliseconds"
+          }
+        }
+      },
+      "SourceTranscriptSegment": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TranscriptSegment"
+          },
+          {
+            "type": "object",
+            "required": [
+              "language"
+            ],
+            "properties": {
+              "language": {
+                "type": "string",
+                "description": "IETF BCP 47 language tag of the detected source language",
+                "examples": [
+                  "en"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "SourceTranscriptUpdatePayload": {
+        "type": "object",
+        "required": [
+          "source_transcript_update"
+        ],
+        "properties": {
+          "source_transcript_update": {
+            "type": "object",
+            "required": [
+              "concluded",
+              "tentative"
+            ],
+            "properties": {
+              "concluded": {
+                "type": "array",
+                "description": "Array of finalized transcript segments that will not change",
+                "items": {
+                  "$ref": "#/components/schemas/SourceTranscriptSegment"
+                }
+              },
+              "tentative": {
+                "type": "array",
+                "description": "Array of preliminary transcript segments subject to change",
+                "items": {
+                  "$ref": "#/components/schemas/SourceTranscriptSegment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TargetTranscriptUpdatePayload": {
+        "type": "object",
+        "required": [
+          "target_transcript_update"
+        ],
+        "properties": {
+          "target_transcript_update": {
+            "type": "object",
+            "required": [
+              "language",
+              "concluded",
+              "tentative"
+            ],
+            "properties": {
+              "language": {
+                "type": "string",
+                "description": "IETF BCP 47 language tag of the target language",
+                "examples": [
+                  "es"
+                ]
+              },
+              "concluded": {
+                "type": "array",
+                "description": "Array of finalized translation segments",
+                "items": {
+                  "$ref": "#/components/schemas/TranscriptSegment"
+                }
+              },
+              "tentative": {
+                "type": "array",
+                "description": "Array of preliminary translation segments",
+                "items": {
+                  "$ref": "#/components/schemas/TranscriptSegment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "EndOfSourceTranscriptPayload": {
+        "type": "object",
+        "required": [
+          "end_of_source_transcript"
+        ],
+        "properties": {
+          "end_of_source_transcript": {
+            "type": "object",
+            "description": "Empty object indicating source transcript is complete"
+          }
+        }
+      },
+      "EndOfTargetTranscriptPayload": {
+        "type": "object",
+        "required": [
+          "end_of_target_transcript"
+        ],
+        "properties": {
+          "end_of_target_transcript": {
+            "type": "object",
+            "required": [
+              "language"
+            ],
+            "properties": {
+              "language": {
+                "type": "string",
+                "description": "IETF BCP 47 language tag indicating which target transcript has ended",
+                "examples": [
+                  "fr"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "ErrorPayload": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "request_type",
+              "error_code",
+              "reason_code",
+              "error_message"
+            ],
+            "properties": {
+              "request_type": {
+                "type": "string",
+                "description": "The type of request that caused the error",
+                "examples": [
+                  "source_data_chunk"
+                ]
+              },
+              "error_code": {
+                "type": "integer",
+                "description": "HTTP-style error code",
+                "examples": [
+                  400
+                ]
+              },
+              "reason_code": {
+                "type": "integer",
+                "description": "Detailed reason code for debugging",
+                "examples": [
+                  4000403
+                ]
+              },
+              "error_message": {
+                "type": "string",
+                "description": "Human-readable error description",
+                "examples": [
+                  "Audio format not supported"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "AcknowledgedPayload": {
+        "type": "object",
+        "required": [
+          "acknowledged"
+        ],
+        "properties": {
+          "acknowledged": {
+            "type": "object",
+            "required": [
+              "request_type"
+            ],
+            "properties": {
+              "request_type": {
+                "type": "string",
+                "description": "The type of request being acknowledged",
+                "examples": [
+                  "source_data_chunk"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

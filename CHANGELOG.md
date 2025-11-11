@@ -9,6 +9,11 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.7.0] - 2025-11-10
+### Added
+* Add new endpoints `/v1/voice/realtime` (REST) and `/v1/voice/realtime/connect` (WebSocket) which enable real-time voice transcription and translation via WebSocket streaming
+* Adds AsyncAPI specification - `voice.asyncapi.yaml` and `voice.asyncapi.json` - documenting the Voice WebSocket streaming protocol
+
 ## [3.6.1] - 2025-11-06
 ### Changed
 * Hebrew (`HE`), Thai (`TH`), and Vietnamese (`VI`) are now included in the `/v2/languages` endpoint response as they now support document translation in addition to text translation
