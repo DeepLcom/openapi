@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "3.6.1"
+    "version": "3.7.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
@@ -48,6 +48,10 @@
     {
       "name": "MetaInformation",
       "description": "Information about API usage and value ranges"
+    },
+    {
+      "name": "VoiceAPI",
+      "description": "The Voice API provides real-time voice transcription and translation services.\nUse a two-step flow: first request a streaming URL via REST, then establish a WebSocket connection for streaming audio and receiving transcriptions."
     }
   ],
   "paths": {
@@ -2662,6 +2666,119 @@
           }
         ]
       }
+    },
+    "/v1/voice/realtime": {
+      "post": {
+        "tags": [
+          "VoiceAPI"
+        ],
+        "summary": "Get Streaming URL",
+        "operationId": "getVoiceStreamingUrl",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "media_content_type"
+                ],
+                "properties": {
+                  "media_content_type": {
+                    "$ref": "#/components/schemas/VoiceMediaContentType"
+                  },
+                  "source_language": {
+                    "$ref": "#/components/schemas/VoiceSourceLanguage"
+                  },
+                  "source_language_mode": {
+                    "$ref": "#/components/schemas/VoiceSourceLanguageMode"
+                  },
+                  "target_languages": {
+                    "$ref": "#/components/schemas/VoiceTargetLanguages"
+                  },
+                  "glossary_id": {
+                    "$ref": "#/components/schemas/GlossaryId"
+                  },
+                  "formality": {
+                    "$ref": "#/components/schemas/Formality"
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "summary": "Basic configuration",
+                  "value": {
+                    "media_content_type": "audio/ogg; codecs=opus",
+                    "source_language": "en",
+                    "source_language_mode": "auto",
+                    "target_languages": [
+                      "de",
+                      "fr",
+                      "es"
+                    ]
+                  }
+                },
+                "with_glossary": {
+                  "summary": "With glossary and formality",
+                  "value": {
+                    "media_content_type": "audio/pcm; encoding=s16le; rate=16000",
+                    "source_language": "en",
+                    "source_language_mode": "fixed",
+                    "target_languages": [
+                      "de",
+                      "fr"
+                    ],
+                    "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                    "formality": "more"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully obtained streaming URL and token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceStreamingResponse"
+                },
+                "example": {
+                  "streaming_url": "wss://api.deepl.com/v1/voice/realtime/connect",
+                  "token": "VGhpcyBpcyBhIGZha2UgdG9rZW4K"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "456": {
+            "$ref": "#/components/responses/QuotaExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "security": [
+          {
+            "auth_header": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -3590,6 +3707,96 @@
           "pt-PT"
         ],
         "example": "de"
+      },
+      "VoiceMediaContentType": {
+        "type": "string",
+        "description": "The audio format for streaming. Specifies container, codec, and encoding parameters.\nSupported formats include PCM (recommended), OPUS (recommended for low bandwidth), FLAC, MP3, and AAC.\nPCM formats require explicit sample rate. Mono audio only.",
+        "enum": [
+          "audio/auto",
+          "audio/flac",
+          "audio/mpeg",
+          "audio/ogg",
+          "audio/webm",
+          "audio/x-matroska",
+          "audio/ogg; codecs=flac",
+          "audio/ogg; codecs=opus",
+          "audio/pcm; encoding=s16le; rate=8000",
+          "audio/pcm; encoding=s16le; rate=16000",
+          "audio/pcm; encoding=s16le; rate=44100",
+          "audio/pcm; encoding=s16le; rate=48000",
+          "audio/webm; codecs=opus",
+          "audio/x-matroska; codecs=aac",
+          "audio/x-matroska; codecs=flac",
+          "audio/x-matroska; codecs=mp3",
+          "audio/x-matroska; codecs=opus"
+        ],
+        "example": "audio/ogg; codecs=opus"
+      },
+      "VoiceSourceLanguage": {
+        "type": "string",
+        "description": "Source language of the audio stream. Must be one of the supported Voice API source languages.\nLanguage identifier must comply with IETF BCP 47 language tags.",
+        "enum": [
+          "zh",
+          "nl",
+          "en",
+          "fr",
+          "de",
+          "id",
+          "it",
+          "ja",
+          "ko",
+          "pl",
+          "pt",
+          "ro",
+          "ru",
+          "es",
+          "sv",
+          "tr",
+          "uk"
+        ],
+        "example": "en"
+      },
+      "VoiceSourceLanguageMode": {
+        "type": "string",
+        "description": "Controls how the source_language value is used.\n- `auto`: Treats source language as a hint; server can override\n- `fixed`: Treats source language as mandatory; server must use this language",
+        "enum": [
+          "auto",
+          "fixed"
+        ],
+        "default": "auto",
+        "example": "auto"
+      },
+      "VoiceStreamingResponse": {
+        "type": "object",
+        "required": [
+          "streaming_url",
+          "token"
+        ],
+        "properties": {
+          "streaming_url": {
+            "type": "string",
+            "description": "The WebSocket URL to use for establishing the streaming connection. This URL is ephemeral and valid for one-time use only.",
+            "example": "wss://api.deepl.com/v1/voice/realtime/connect"
+          },
+          "token": {
+            "type": "string",
+            "description": "A unique ephemeral token for authentication with the streaming endpoint. Pass this as a query parameter when connecting to the WebSocket URL.",
+            "example": "VGhpcyBpcyBhIGZha2UgdG9rZW4K"
+          }
+        }
+      },
+      "VoiceTargetLanguages": {
+        "type": "array",
+        "description": "List of target languages for translation. The stream will emit translations for each language.\nMaximum 5 target languages per stream. Language identifiers must comply with IETF BCP 47.",
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 5,
+        "example": [
+          "de",
+          "fr",
+          "es"
+        ]
       },
       "WritingStyle": {
         "type": "string",
