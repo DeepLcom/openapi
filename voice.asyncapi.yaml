@@ -1,7 +1,7 @@
 asyncapi: 3.0.0
 info:
   title: DeepL Voice API - WebSocket Streaming
-  version: '1.0.0'
+  version: '3.7.0'
   description: |-
     WebSocket streaming API for real-time voice transcription and translation.
     After obtaining a streaming URL and token via the REST API, establish a WebSocket connection
