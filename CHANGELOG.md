@@ -9,6 +9,13 @@ The major and minor version numbers reflect changes to the DeepL API
 number is used only for corrections to the OpenAPI specification, for example:
 typos, schema fixes, or adding examples.
 
+## [3.8.0] - 2025-11-26
+### Fixed
+* Fixes/development changes to the voice API. Note that this API is under active develpoment and not yet stable.
+  * Change voice path to be `/v3/voice/realtime` and `/v3/voice/realtime/connect`
+  * Renamed voice parameter from `media_content_type` to `source_media_content_type`
+  * Allow more `formality` values on voice endpoints
+
 ## [3.7.0] - 2025-11-10
 ### Added
 * Add new endpoints `/v1/voice/realtime` (REST) and `/v1/voice/realtime/connect` (WebSocket) which enable real-time voice transcription and translation via WebSocket streaming
@@ -258,6 +265,7 @@ keys within an organization.
 ## [2.0.0]
 Initial release of the OpenAPI specification.
 
+[3.8.0]: https://github.com/DeepLcom/openapi/compare/v3.7.0...v3.8.0
 [3.7.0]: https://github.com/DeepLcom/openapi/compare/v3.6.1...v3.7.0
 [3.6.1]: https://github.com/DeepLcom/openapi/compare/v3.6.0...v3.6.1
 [3.6.0]: https://github.com/DeepLcom/openapi/compare/v3.5.0...v3.6.0

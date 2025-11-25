@@ -8,7 +8,7 @@
       "name": "DeepL - Contact us",
       "url": "https://www.deepl.com/contact-us"
     },
-    "version": "3.7.0"
+    "version": "3.8.0"
   },
   "externalDocs": {
     "description": "DeepL Pro - Plans and pricing",
@@ -2667,7 +2667,7 @@
         ]
       }
     },
-    "/v1/voice/realtime": {
+    "/v3/voice/realtime": {
       "post": {
         "tags": [
           "VoiceAPI"
@@ -2681,10 +2681,10 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "media_content_type"
+                  "source_media_content_type"
                 ],
                 "properties": {
-                  "media_content_type": {
+                  "source_media_content_type": {
                     "$ref": "#/components/schemas/VoiceMediaContentType"
                   },
                   "source_language": {
@@ -2700,7 +2700,7 @@
                     "$ref": "#/components/schemas/GlossaryId"
                   },
                   "formality": {
-                    "$ref": "#/components/schemas/Formality"
+                    "$ref": "#/components/schemas/VoiceFormality"
                   }
                 }
               },
@@ -2708,7 +2708,7 @@
                 "basic": {
                   "summary": "Basic configuration",
                   "value": {
-                    "media_content_type": "audio/ogg; codecs=opus",
+                    "source_media_content_type": "audio/ogg; codecs=opus",
                     "source_language": "en",
                     "source_language_mode": "auto",
                     "target_languages": [
@@ -2721,7 +2721,7 @@
                 "with_glossary": {
                   "summary": "With glossary and formality",
                   "value": {
-                    "media_content_type": "audio/pcm; encoding=s16le; rate=16000",
+                    "source_media_content_type": "audio/pcm; encoding=s16le; rate=16000",
                     "source_language": "en",
                     "source_language_mode": "fixed",
                     "target_languages": [
@@ -2729,7 +2729,7 @@
                       "fr"
                     ],
                     "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
-                    "formality": "more"
+                    "formality": "formal"
                   }
                 }
               }
@@ -2745,7 +2745,7 @@
                   "$ref": "#/components/schemas/VoiceStreamingResponse"
                 },
                 "example": {
-                  "streaming_url": "wss://api.deepl.com/v1/voice/realtime/connect",
+                  "streaming_url": "wss://api.deepl.com/v3/voice/realtime/connect",
                   "token": "VGhpcyBpcyBhIGZha2UgdG9rZW4K"
                 }
               }
@@ -3708,6 +3708,19 @@
         ],
         "example": "de"
       },
+      "VoiceFormality": {
+        "description": "Sets whether the translated text should lean towards formal or informal language.\nPossible options are:\n  * `default` - use the default formality for the target language\n  * `formal`/`more` - for a more formal language\n  * `informal`/`less` - for a more informal language",
+        "type": "string",
+        "enum": [
+          "default",
+          "formal",
+          "more",
+          "informal",
+          "less"
+        ],
+        "default": "default",
+        "example": "formal"
+      },
       "VoiceMediaContentType": {
         "type": "string",
         "description": "The audio format for streaming. Specifies container, codec, and encoding parameters.\nSupported formats include PCM (recommended), OPUS (recommended for low bandwidth), FLAC, MP3, and AAC.\nPCM formats require explicit sample rate. Mono audio only.",
@@ -3776,7 +3789,7 @@
           "streaming_url": {
             "type": "string",
             "description": "The WebSocket URL to use for establishing the streaming connection. This URL is ephemeral and valid for one-time use only.",
-            "example": "wss://api.deepl.com/v1/voice/realtime/connect"
+            "example": "wss://api.deepl.com/v3/voice/realtime/connect"
           },
           "token": {
             "type": "string",
