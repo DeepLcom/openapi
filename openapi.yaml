@@ -260,6 +260,9 @@ paths:
         200:
           description: The translate function returns a JSON representation of the
             translations in the order the text parameters have been specified.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -425,6 +428,9 @@ paths:
             generated encryption key. This key is not persistently stored on the server.
             Therefore, it must be stored by the client and sent back to the server
             with every subsequent request that refers to this particular document.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -496,6 +502,9 @@ paths:
             the current status of the translation process. While the translation is
             running, the estimated number of seconds remaining until the process is
             done is also included in the response.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -614,6 +623,9 @@ paths:
           description: The document is provided as a download. There is no other data
             included in the response besides the document data. The content type used
             in the response corresponds to the document type.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/octet-stream:
               schema:
@@ -656,6 +668,9 @@ paths:
         200:
           description: A JSON object containing the language pairs in its `supported_languages`
             property.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -765,6 +780,9 @@ paths:
       responses:
         200:
           description: JSON object containing a the glossaries.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -813,6 +831,9 @@ paths:
       responses:
         200:
           description: JSON object containing the glossary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -874,6 +895,9 @@ paths:
       responses:
         200:
           description: JSON object containing the glossary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -963,6 +987,9 @@ paths:
       responses:
         200:
           description: The entries in tsv, wrapped in a JSON object.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1043,6 +1070,9 @@ paths:
       responses:
         200:
           description: JSON object containing the dictionary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1135,6 +1165,9 @@ paths:
       responses:
         200:
           description: JSON object containing a the glossaries.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1180,6 +1213,9 @@ paths:
       responses:
         200:
           description: JSON object containing the glossary meta-information.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1267,6 +1303,9 @@ paths:
       responses:
         200:
           description: The entries in the requested format.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             text/tab-separated-values:
               example: "Hello!\tGuten Tag!"
@@ -1340,6 +1379,9 @@ paths:
       responses:
         200:
           description: Successful text improvement.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1384,6 +1426,9 @@ paths:
       responses:
         200:
           description: The account's usage and limits.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1460,6 +1505,9 @@ paths:
       responses:
         200:
           description: JSON array where each item represents a supported language.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1633,6 +1681,9 @@ paths:
       responses:
         200:
           description: The create function returns a JSON representation of the created API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1655,6 +1706,9 @@ paths:
       responses:
         200:
           description: The get function returns a JSON representation of all developer API keys in the organization.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1691,6 +1745,9 @@ paths:
       responses:
         200:
           description: The deactivate function returns a JSON representation of the deactivated API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1730,6 +1787,9 @@ paths:
       responses:
         200:
           description: The set label function returns a JSON representation of the renamed API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1766,6 +1826,9 @@ paths:
       responses:
         200:
           description: The set usage limits function returns a JSON representation of the modified API key.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1822,6 +1885,9 @@ paths:
       responses:
         200:
           description: The usage statistics for the specified date range.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1933,6 +1999,9 @@ paths:
       responses:
         200:
           description: Successfully obtained streaming URL and token
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1985,11 +2054,23 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/TargetLanguage'
+  headers:
+    X-Trace-ID:
+      description: A unique identifier for the request that can be included in bug reports to DeepL support.
+      schema:
+        type: string
+        example: 501c3d93cc0c4f11ae2f60a226c2f0f0
   responses:
     BadRequest:
       description: Bad request. Please check error message and your parameters.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     BadRequestGlossaries:
       description: Bad request. Please check error message and your parameters.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
       content:
         application/json:
           schema:
@@ -2008,19 +2089,34 @@ components:
     Unauthorized:
       description: Authorization failed. Please supply a valid `DeepL-Auth-Key` via
         the `Authorization` header.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     Forbidden:
       description: Authorization failed. Please supply a valid `DeepL-Auth-Key` via
         the `Authorization` header.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     ForbiddenGlossaries:
       description: Forbidden. The access to the requested resource is denied, because
         of insufficient access rights.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     NotFound:
       description: The requested resource could not be found.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     NotFound404DocTransDownload:
       description: Trying to download a document using a non-existing document ID
         or the wrong document key will result in a 404 error. As stated above, documents
         can only be downloaded once before they are deleted from the server and their
         document ID is invalidated.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
       content:
         application/json:
           schema:
@@ -2032,27 +2128,54 @@ components:
                 message: Document not found
     PayloadTooLarge:
       description: The request size exceeds the limit.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     URITooLong:
       description: The request URL is too long. You can avoid this error by using
         a POST request instead of a GET request, and sending the parameters in the
         HTTP body.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     UnsupportedMediaTypeGlossaries:
       description: The requested entries format specified in the `Accept` header is
         not supported.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     TooManyRequests:
       description: Too many requests. Please wait and resend your request.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     QuotaExceeded:
       description: Quota exceeded. The character limit has been reached.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     QuotaExceededGlossaries:
       description: Quota exceeded. The glossary creation limit has been reached.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     InternalServerError:
       description: Internal error.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     ServiceUnavailable:
       description: Resource currently unavailable. Try again later.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
     ServiceUnavailable503DocTransDownload:
       description: |-
         A 503 result will be returned if the user tries to download a translated document that is currently being processed and is not yet ready for download.
         Please make sure to check that the document status is 'done' before trying to send a download request.
+      headers:
+        X-Trace-ID:
+          $ref: '#/components/headers/X-Trace-ID'
       content:
         application/json:
           schema:
