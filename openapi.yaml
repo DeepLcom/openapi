@@ -746,6 +746,9 @@ paths:
           description: The function for creating a glossary returns a JSON object
             containing the ID of the newly created glossary and a boolean flag that
             indicates if the created glossary can already be used in translate requests.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -947,6 +950,9 @@ paths:
       responses:
         204:
           description: Returns no content upon success.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -1033,6 +1039,9 @@ paths:
       responses:
         204:
           description: Returns no content upon success.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -1131,6 +1140,9 @@ paths:
           description: The function for creating a glossary returns a JSON object
             containing the ID of the newly created glossary and a boolean flag that
             indicates if the created glossary can already be used in translate requests.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
@@ -1257,6 +1269,9 @@ paths:
       responses:
         204:
           description: Returns no content upon success.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
         400:
           $ref: '#/components/responses/BadRequestGlossaries'
         401:
@@ -1927,6 +1942,9 @@ paths:
                       end_date: "2025-10-01T00:00:00"
         400:
           description: Bad request. Please check error message and your parameters.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
           content:
             application/json:
               schema:
