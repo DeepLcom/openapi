@@ -269,6 +269,7 @@ keys within an organization.
 ## [2.0.0]
 Initial release of the OpenAPI specification.
 
+[Unreleased]: https://github.com/DeepLcom/openapi/compare/v3.8.0...HEAD
 [3.8.0]: https://github.com/DeepLcom/openapi/compare/v3.7.0...v3.8.0
 [3.7.0]: https://github.com/DeepLcom/openapi/compare/v3.6.1...v3.7.0
 [3.6.1]: https://github.com/DeepLcom/openapi/compare/v3.6.0...v3.6.1
