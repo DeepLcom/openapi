@@ -1917,6 +1917,7 @@ paths:
                         text_translation_characters: 4892
                         document_translation_characters: 0
                         text_improvement_characters: 4727
+                        speech_to_text_milliseconds: 1800000
                       group_by: "key_and_day"
                       start_date: "2025-09-29T00:00:00"
                       end_date: "2025-10-01T00:00:00"
@@ -1929,6 +1930,7 @@ paths:
                           text_translation_characters: 159
                           document_translation_characters: 0
                           text_improvement_characters: 156
+                          speech_to_text_milliseconds: 1800000
                 withoutGrouping:
                   summary: Usage report without grouping
                   value:
@@ -1938,6 +1940,7 @@ paths:
                         text_translation_characters: 4892
                         document_translation_characters: 0
                         text_improvement_characters: 4727
+                        speech_to_text_milliseconds: 1800000
                       start_date: "2025-09-29T00:00:00"
                       end_date: "2025-10-01T00:00:00"
         400:
@@ -3432,6 +3435,10 @@ components:
           type: integer
           description: Number of characters used for text improvement.
           example: 4727
+        speech_to_text_milliseconds:
+          type: integer
+          description: Duration of speech-to-text usage in milliseconds.
+          example: 1800000
     GroupedUsageItem:
       type: object
       description: Usage statistics for a specific API key and optionally a specific date.
