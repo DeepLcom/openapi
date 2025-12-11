@@ -2003,17 +2003,33 @@
                       "products": [
                         {
                           "product_type": "write",
+                          "billing_unit": "characters",
+                          "api_key_unit_count": 0,
+                          "account_unit_count": 5643,
                           "api_key_character_count": 0,
                           "character_count": 5643
                         },
                         {
                           "product_type": "translate",
+                          "billing_unit": "characters",
+                          "api_key_unit_count": 636,
+                          "account_unit_count": 5941580,
                           "api_key_character_count": 636,
                           "character_count": 5941580
+                        },
+                        {
+                          "product_type": "speech_to_text",
+                          "billing_unit": "milliseconds",
+                          "api_key_unit_count": 1800000,
+                          "account_unit_count": 1800000,
+                          "api_key_character_count": 0,
+                          "character_count": 0
                         }
                       ],
                       "api_key_character_count": 636,
                       "api_key_character_limit": 1000000000000,
+                      "speech_to_text_milliseconds_count": 1800000,
+                      "speech_to_text_milliseconds_limit": 36000000,
                       "start_time": "2025-05-13T09:18:42Z",
                       "end_time": "2025-06-13T09:18:42Z"
                     }
@@ -3740,6 +3756,25 @@
                   "description": "The type of product (e.g., 'write', 'translate').",
                   "example": "write"
                 },
+                "billing_unit": {
+                  "type": "string",
+                  "enum": [
+                    "characters",
+                    "milliseconds"
+                  ],
+                  "description": "The billing unit for this product type.",
+                  "example": "characters"
+                },
+                "api_key_unit_count": {
+                  "type": "integer",
+                  "description": "Units used for this product by this API key in the current period.",
+                  "example": 0
+                },
+                "account_unit_count": {
+                  "type": "integer",
+                  "description": "Total units used for this product by the account in the current period.",
+                  "example": 5643
+                },
                 "api_key_character_count": {
                   "type": "integer",
                   "description": "Characters used for this product by this API key in the current period.",
@@ -3762,6 +3797,16 @@
             "type": "integer",
             "description": "Only present for API Pro users. Character limit for this API key in the current period.",
             "example": 1000000000000
+          },
+          "speech_to_text_milliseconds_count": {
+            "type": "integer",
+            "description": "Only present for API Pro users. Milliseconds of speech-to-text used in the current period.",
+            "example": 1800000
+          },
+          "speech_to_text_milliseconds_limit": {
+            "type": "integer",
+            "description": "Only present for API Pro users. Milliseconds of speech-to-text limit in the current period.",
+            "example": 36000000
           },
           "start_time": {
             "type": "string",
