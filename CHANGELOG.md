@@ -13,6 +13,12 @@ typos, schema fixes, or adding examples.
 ### Added
 * Document `X-Trace-ID` response header returned by all API endpoints for request tracking and debugging
 
+## [3.9.0] - 2025-12-11
+### Added
+* Add `speech_to_text_milliseconds` field to usage reports and analytics components
+* Add `speech_to_text_milliseconds_count` and `speech_to_text_milliseconds_limit` fields to `/v2/usage` response for API Pro users
+* Add `billing_unit`, `api_key_unit_count`, and `account_unit_count` fields to product usage items in `/v2/usage` response
+
 ## [3.8.0] - 2025-11-26
 ### Fixed
 * Fixes/development changes to the voice API. Note that this API is under active develpoment and not yet stable.
@@ -269,7 +275,8 @@ keys within an organization.
 ## [2.0.0]
 Initial release of the OpenAPI specification.
 
-[Unreleased]: https://github.com/DeepLcom/openapi/compare/v3.8.0...HEAD
+[Unreleased]: https://github.com/DeepLcom/openapi/compare/v3.9.0...HEAD
+[3.9.0]: https://github.com/DeepLcom/openapi/compare/v3.8.0...v3.9.0
 [3.8.0]: https://github.com/DeepLcom/openapi/compare/v3.7.0...v3.8.0
 [3.7.0]: https://github.com/DeepLcom/openapi/compare/v3.6.1...v3.7.0
 [3.6.1]: https://github.com/DeepLcom/openapi/compare/v3.6.0...v3.6.1
