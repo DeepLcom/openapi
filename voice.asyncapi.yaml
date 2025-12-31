@@ -1,8 +1,8 @@
 asyncapi: 3.0.0
 info:
   title: DeepL Voice API - WebSocket Streaming
-  version: '3.7.0'
-  description: |-
+  version: '3.9.0'
+  description: >
     WebSocket streaming API for real-time voice transcription and translation.
     After obtaining a streaming URL and token via the REST API, establish a WebSocket connection
     to stream audio data and receive real-time transcriptions and translations.
@@ -13,29 +13,35 @@ info:
 servers:
   production:
     host: api.deepl.com
-    pathname: /v1/voice/realtime/connect
+    pathname: /v3/voice/realtime/connect
     protocol: wss
-    description: DeepL Voice API WebSocket endpoint
+    description: DeepL Voice API WebSocket endpoint.
     variables:
       token:
-        description: Ephemeral authentication token obtained from the REST API
+        description: This is the ephemeral authentication token obtained from the REST API
         examples:
           - VGhpcyBpcyBhIGZha2UgdG9rZW4K
 
 channels:
   voiceStream:
-    address: /v1/voice/realtime/connect?token={token}
-    description: WebSocket channel for streaming audio and receiving transcriptions
+    address: /v3/voice/realtime/connect?token={token}
+    description: >
+        WebSocket channel for streaming audio and receiving transcriptions and translations.
+        Messages are exchanged in JSON format and WebSocket frames must be of type TEXT.
     parameters:
       token:
-        description: Ephemeral authentication token obtained from the POST /v1/voice/realtime endpoint. This token is valid for one-time use only and must be passed as a query parameter when establishing the WebSocket connection.
+        description: >
+          This is the ephemeral authentication token obtained from the
+          [Get Streaming URL](/api-reference/voice/get-streaming-url) endpoint.
+          The token is valid for one-time use only and must be passed as a query parameter when establishing
+          the WebSocket connection.
         examples:
           - VGhpcyBpcyBhIGZha2UgdG9rZW4K
     messages:
-      SourceDataChunk:
-        $ref: '#/components/messages/SourceDataChunk'
-      EndOfSourceData:
-        $ref: '#/components/messages/EndOfSourceData'
+      SourceMediaChunk:
+        $ref: '#/components/messages/SourceMediaChunk'
+      EndOfSourceMedia:
+        $ref: '#/components/messages/EndOfSourceMedia'
       SourceTranscriptUpdate:
         $ref: '#/components/messages/SourceTranscriptUpdate'
       TargetTranscriptUpdate:
@@ -44,10 +50,10 @@ channels:
         $ref: '#/components/messages/EndOfSourceTranscript'
       EndOfTargetTranscript:
         $ref: '#/components/messages/EndOfTargetTranscript'
+      EndOfStream:
+        $ref: '#/components/messages/EndOfStream'
       Error:
         $ref: '#/components/messages/Error'
-      Acknowledged:
-        $ref: '#/components/messages/Acknowledged'
 
 operations:
   sendAudioData:
@@ -63,8 +69,8 @@ operations:
       - $ref: '#/channels/voiceStream/messages/TargetTranscriptUpdate'
       - $ref: '#/channels/voiceStream/messages/EndOfSourceTranscript'
       - $ref: '#/channels/voiceStream/messages/EndOfTargetTranscript'
+      - $ref: '#/channels/voiceStream/messages/EndOfStream'
       - $ref: '#/channels/voiceStream/messages/Error'
-      - $ref: '#/channels/voiceStream/messages/Acknowledged'
   receiveTranscriptions:
     action: receive
     channel:
@@ -72,55 +78,64 @@ operations:
     summary: Receive transcriptions and translations
     description: |-
       Receive real-time transcription and translation messages from the server.
-      The server sends transcript updates, end of transcript notifications, errors, and acknowledgements.
+      The server sends transcript updates, end of transcript notifications and errors.
     messages:
-      - $ref: '#/channels/voiceStream/messages/SourceDataChunk'
-      - $ref: '#/channels/voiceStream/messages/EndOfSourceData'
+      - $ref: '#/channels/voiceStream/messages/SourceMediaChunk'
+      - $ref: '#/channels/voiceStream/messages/EndOfSourceMedia'
 
 components:
   messages:
-    SourceDataChunk:
-      name: SourceDataChunk
-      title: Source Data Chunk
-      summary: Send audio data chunk to server
-      description: |-
-        A binary chunk of audio data encoded according to the format specified in the session request.
-        Constraints: Max 100 KByte, max 1 second duration, recommended 50-250ms for low latency.
-        Minimum interval between chunks: half the duration of the preceding chunk.
+    SourceMediaChunk:
+      name: SourceMediaChunk
+      title: Source Media Chunk
+      description: "
+        The message contains a base64-encoded binary chunk of audio data.
+        The audio encoding must be the same that was specified in the [Get Streaming URL](/api-reference/voice/get-streaming-url) request.
+        \n\n
+        The chunk size must not be more than 100 kilobyte or one second in duration. The recommended duration is
+        50 - 250 milliseconds to achieve the best tradeoff between latency and quality.
+        The interval between chunks must not be less than half of the duration of the preceding chunk and not
+        exceed 30 seconds. Otherwise you will run into rate limits or the session will terminate due to timing out and the connection will be closed.
+        \n\n
+        For PCM data the chunk size must be a multiple of the frame size aka encoding unit."
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/SourceDataChunkPayload'
+        $ref: '#/components/schemas/SourceMediaChunkPayload'
       examples:
-        - name: AudioChunk
-          summary: Audio data chunk
+        - name: SourceMediaChunk
+          summary: Source media chunk
           payload:
-            source_data_chunk:
+            source_media_chunk:
               data: VGhpcyBpcyBhIGZha2UgYXVkaW8gY2h1bmsK
 
-    EndOfSourceData:
-      name: EndOfSourceData
-      title: End of Source Data
-      summary: Signal end of audio stream
-      description: |-
-        Indicates the end of source data. Causes finalization of tentative transcripts
-        and triggers emission of final transcript updates and end of transcript messages.
+    EndOfSourceMedia:
+      name: EndOfSourceMedia
+      title: End of Source Media
+      description: >
+        The message indicates the end of source media data. It causes the finalization of tentative transcript segments
+        and triggers the emission of final transcript updates, end of transcript messages and the end of stream message.
+        No more data chunks can be sent afterwards. It marks the end of the stream input.
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/EndOfSourceDataPayload'
+        $ref: '#/components/schemas/EndOfSourceMediaPayload'
       examples:
         - name: EndStream
           summary: End of audio stream
           payload:
-            end_of_source_data: {}
+            end_of_source_media: {}
 
     SourceTranscriptUpdate:
       name: SourceTranscriptUpdate
       title: Source Transcript Update
-      summary: Transcription of audio in source language
-      description: |-
-        Contains transcription of the supplied audio in the source language.
-        Each message is an update to the full source transcript with concluded (finalized)
-        and tentative (subject to change) text segments.
+      description: "
+        The message contains an update to the transcription of the supplied media in the *source* language.
+        \n\n
+        Each message is an incremental addition to the already received updates of the *source* transcript with concluded
+        and tentative text segments. Concluded segments are fixed and will only appear once, while tentative segments
+        may be updated in subsequent messages as more audio is processed.
+        \n\n
+        Clients should merge the concluded segments into a final transcript and update the tentative segments as
+        new updates arrive."
       contentType: application/json
       payload:
         $ref: '#/components/schemas/SourceTranscriptUpdatePayload'
@@ -143,10 +158,15 @@ components:
     TargetTranscriptUpdate:
       name: TargetTranscriptUpdate
       title: Target Transcript Update
-      summary: Translation of audio in target language
-      description: |-
-        Contains translation of the supplied audio in one of the configured target languages.
-        Each message updates a specific target language transcript with concluded and tentative segments.
+      description: "
+        The message contains an update to the transcription of the supplied media in the *target* language.
+        \n\n
+        Each message is an incremental addition to the already received updates of the *target* transcript with concluded
+        and tentative text segments. Concluded segments are fixed and will only appear once, while tentative segments
+        may be updated in subsequent messages as more audio is processed.
+        \n\n
+        Clients should merge the concluded segments into a final transcript and update the tentative segments
+        as new updates arrive."
       contentType: application/json
       payload:
         $ref: '#/components/schemas/TargetTranscriptUpdatePayload'
@@ -168,10 +188,9 @@ components:
     EndOfSourceTranscript:
       name: EndOfSourceTranscript
       title: End of Source Transcript
-      summary: Source transcript is complete
-      description: |-
-        Indicates the source transcript is complete and no further updates will be sent.
-        Emitted after client sends End of Source Data or after audio input timeout.
+      description: >
+        The message indicates that the *source* transcript is complete and no further updates will be sent.
+        It gets emitted after client sends End of Source Media.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/EndOfSourceTranscriptPayload'
@@ -184,10 +203,9 @@ components:
     EndOfTargetTranscript:
       name: EndOfTargetTranscript
       title: End of Target Transcript
-      summary: Target transcript is complete
-      description: |-
-        Indicates a target language transcript is complete and no further updates will be sent.
-        One message is sent for each configured target language.
+      description: >
+        This message indicates that the *target* transcript is complete and no further updates will be sent.
+        It gets emitted after client sends End of Source Media.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/EndOfTargetTranscriptPayload'
@@ -198,13 +216,30 @@ components:
             end_of_target_transcript:
               language: fr
 
+    EndOfStream:
+      name: EndOfStream
+      title: End of Stream
+      description: >
+        This message indicates that all outputs are complete and the stream ended.
+        It is the very last message the client will receive after it sends End of Source Media.
+        You can safely close the connection after you received this message.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EndOfStreamPayload'
+      examples:
+        - name: EndStream
+          summary: Stream ended
+          payload:
+            end_of_stream: {}
+
     Error:
       name: Error
       title: Error
-      summary: Error occurred during processing
-      description: |-
-        Reports errors encountered during audio processing or streaming.
-        Includes error code, reason code, and human-readable message.
+      description: >
+        This message reports errors encountered during audio processing or streaming.
+        It includes an error code, reason code, and a human-readable message.
+        After an error, the session is terminated and reconnection is not possible.
+        You need to request a new session.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/ErrorPayload'
@@ -213,35 +248,18 @@ components:
           summary: Audio format error
           payload:
             error:
-              request_type: source_data_chunk
+              request_type: source_media_chunk
               error_code: 400
               reason_code: 4000403
               error_message: Audio format not supported
 
-    Acknowledged:
-      name: Acknowledged
-      title: Acknowledged
-      summary: Message acknowledgement
-      description: |-
-        Confirms receipt of client messages. Every message sent to the server
-        receives an acknowledgement response.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/AcknowledgedPayload'
-      examples:
-        - name: ChunkAck
-          summary: Chunk acknowledged
-          payload:
-            acknowledged:
-              request_type: source_data_chunk
-
   schemas:
-    SourceDataChunkPayload:
+    SourceMediaChunkPayload:
       type: object
       required:
-        - source_data_chunk
+        - source_media_chunk
       properties:
-        source_data_chunk:
+        source_media_chunk:
           type: object
           required:
             - data
@@ -249,16 +267,16 @@ components:
             data:
               type: string
               format: byte
-              description: Base64-encoded audio data in the format specified during session initialization
+              description: Base64-encoded media data in the format specified during session initialization
 
-    EndOfSourceDataPayload:
+    EndOfSourceMediaPayload:
       type: object
       required:
-        - end_of_source_data
+        - end_of_source_media
       properties:
-        end_of_source_data:
+        end_of_source_media:
           type: object
-          description: Empty object signaling end of audio stream
+          description: Empty object signaling end of media stream
 
     TranscriptSegment:
       type: object
@@ -269,13 +287,17 @@ components:
       properties:
         text:
           type: string
-          description: Transcript or translation text
+          description: Source or target transcript text
         start_time:
           type: integer
-          description: Start time in milliseconds
+          description: Estimated start time of the segment in the input stream in milliseconds
+          examples:
+            - 1250
         end_time:
           type: integer
-          description: End time in milliseconds
+          description: Estimated end time of the segment in the input stream in milliseconds
+          examples:
+            - 1570
 
     SourceTranscriptSegment:
       allOf:
@@ -303,12 +325,14 @@ components:
           properties:
             concluded:
               type: array
-              description: Array of finalized transcript segments that will not change
+              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
+              description: Array of fixed transcript segments that will not change anymore. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language), `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/SourceTranscriptSegment'
             tentative:
               type: array
-              description: Array of preliminary transcript segments subject to change
+              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
+              description: Array of preliminary transcript segments that are subject to change. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language), `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/SourceTranscriptSegment'
 
@@ -331,12 +355,14 @@ components:
                 - es
             concluded:
               type: array
-              description: Array of finalized translation segments
+              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
+              description: Array of fixed transcript segments that will not change anymore. Array objects contain `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/TranscriptSegment'
             tentative:
               type: array
-              description: Array of preliminary translation segments
+              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
+              description: Array of preliminary transcript segments that are subject to change. Array objects contain `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/TranscriptSegment'
 
@@ -365,6 +391,11 @@ components:
               examples:
                 - fr
 
+    EndOfStreamPayload:
+      type: object
+      required:
+        - end_of_stream
+
     ErrorPayload:
       type: object
       required:
@@ -382,7 +413,7 @@ components:
               type: string
               description: The type of request that caused the error
               examples:
-                - source_data_chunk
+                - source_media_chunk
             error_code:
               type: integer
               description: HTTP-style error code
@@ -398,19 +429,3 @@ components:
               description: Human-readable error description
               examples:
                 - Audio format not supported
-
-    AcknowledgedPayload:
-      type: object
-      required:
-        - acknowledged
-      properties:
-        acknowledged:
-          type: object
-          required:
-            - request_type
-          properties:
-            request_type:
-              type: string
-              description: The type of request being acknowledged
-              examples:
-                - source_data_chunk

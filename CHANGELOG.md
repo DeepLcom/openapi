@@ -12,6 +12,18 @@ typos, schema fixes, or adding examples.
 ## [Unreleased]
 ### Added
 * Document `X-Trace-ID` response header returned by all API endpoints for request tracking and debugging
+* Add new parameters to the text translation API: `enable_beta_languages` and `custom_instructions`
+* Add new endpoint `/v3/style_rules`
+
+### Fixed
+* Fixes/development changes to the voice API.
+  * Changed the voice paths in the `voice.asyncapi.*` files to use `/v3/voice/*`
+  * Renamed `SourceDataChunk` and `EndOfSourceData` to `SourceMediaChunk` and `EndOfSourceMedia`
+  * 
+* Fixes the usage endpoint response object name. Should be `key_usages` and `key_and_day_usages` instead of `grouped_usage`
+
+### Deprecated
+* Removed the `openapi_gitbook.yaml` file due to redundancy. Please use `openapi.yaml` going forward
 
 ## [3.9.0] - 2025-12-11
 ### Added
