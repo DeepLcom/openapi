@@ -25,6 +25,10 @@ typos, schema fixes, or adding examples.
 ### Deprecated
 * Removed the `openapi_gitbook.yaml` file due to redundancy. Please use `openapi.yaml` going forward
 
+## [3.10.0] - 2025-01-27
+### Added
+* Add `speech_to_text_milliseconds` field to developer key usage limits in `/v2/admin/developer-keys/limits` endpoint and `ApiKey` response schema
+
 ## [3.9.0] - 2025-12-11
 ### Added
 * Add `speech_to_text_milliseconds` field to usage reports and analytics components
