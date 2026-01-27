@@ -1870,6 +1870,8 @@ paths:
                   $ref: '#/components/schemas/ApiKeyId'
                 characters:
                   $ref: '#/components/schemas/ApiKeyUsageCharacters'
+                speech_to_text_milliseconds:
+                  $ref: '#/components/schemas/ApiKeyUsageSpeechToTextMilliseconds'
       responses:
         200:
           description: The set usage limits function returns a JSON representation of the modified API key.
@@ -3733,6 +3735,13 @@ components:
         Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
       type: number
       example: 5000
+    ApiKeyUsageSpeechToTextMilliseconds:
+      description: |
+        Restricts the number of milliseconds of speech-to-text that can be consumed by an API key in a one-month usage period.
+        Setting the limit to `0` means the API key will not be able to consume speech-to-text milliseconds.
+        Setting the limit to `null` disables the limit, effectively allowing unlimited usage.
+      type: number
+      example: 3600000
     ApiKey:
       description: The API key.
       type: object
@@ -3759,6 +3768,8 @@ components:
           properties:
             characters:
               $ref: '#/components/schemas/ApiKeyUsageCharacters'
+            speech_to_text_milliseconds:
+              $ref: '#/components/schemas/ApiKeyUsageSpeechToTextMilliseconds'
     Context:
       description: |-
         The `context` parameter makes it possible to include additional context that can influence a translation but is not translated itself. 

@@ -2634,6 +2634,9 @@
                   },
                   "characters": {
                     "$ref": "#/components/schemas/ApiKeyUsageCharacters"
+                  },
+                  "speech_to_text_milliseconds": {
+                    "$ref": "#/components/schemas/ApiKeyUsageSpeechToTextMilliseconds"
                   }
                 }
               }
@@ -5095,6 +5098,11 @@
         "type": "number",
         "example": 5000
       },
+      "ApiKeyUsageSpeechToTextMilliseconds": {
+        "description": "Restricts the number of milliseconds of speech-to-text that can be consumed by an API key in a one-month usage period.\nSetting the limit to `0` means the API key will not be able to consume speech-to-text milliseconds.\nSetting the limit to `null` disables the limit, effectively allowing unlimited usage.\n",
+        "type": "number",
+        "example": 3600000
+      },
       "ApiKey": {
         "description": "The API key.",
         "type": "object",
@@ -5126,6 +5134,9 @@
             "properties": {
               "characters": {
                 "$ref": "#/components/schemas/ApiKeyUsageCharacters"
+              },
+              "speech_to_text_milliseconds": {
+                "$ref": "#/components/schemas/ApiKeyUsageSpeechToTextMilliseconds"
               }
             }
           }
