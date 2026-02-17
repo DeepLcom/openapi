@@ -21,6 +21,7 @@ typos, schema fixes, or adding examples.
   * Renamed `SourceDataChunk` and `EndOfSourceData` to `SourceMediaChunk` and `EndOfSourceMedia`
   * 
 * Fixes the usage endpoint response object name. Should be `key_usages` and `key_and_day_usages` instead of `grouped_usage`
+* Add all supported languages to Translate API `source_lang` and `target_lang` specs
 
 ### Deprecated
 * Removed the `openapi_gitbook.yaml` file due to redundancy. Please use `openapi.yaml` going forward
