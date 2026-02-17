@@ -22,6 +22,7 @@ typos, schema fixes, or adding examples.
   * 
 * Fixes the usage endpoint response object name. Should be `key_usages` and `key_and_day_usages` instead of `grouped_usage`
 * Add all supported languages to Translate API `source_lang` and `target_lang` specs
+* Merge redundant `SourceLanguageText` and `TargetLanguageText` schemas into `SourceLanguage` and `TargetLanguage` to eliminate duplication
 
 ### Deprecated
 * Removed the `openapi_gitbook.yaml` file due to redundancy. Please use `openapi.yaml` going forward
