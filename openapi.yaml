@@ -142,9 +142,9 @@ paths:
                     type: string
                     example: Hello, World!
                 source_lang:
-                  $ref: '#/components/schemas/SourceLanguageText'
+                  $ref: '#/components/schemas/SourceLanguage'
                 target_lang:
-                  $ref: '#/components/schemas/TargetLanguageText'
+                  $ref: '#/components/schemas/TargetLanguage'
                 context:
                   $ref: '#/components/schemas/Context'
                 show_billed_characters:
@@ -236,9 +236,9 @@ paths:
                   items:
                     type: string
                 source_lang:
-                  $ref: '#/components/schemas/SourceLanguageText'
+                  $ref: '#/components/schemas/SourceLanguage'
                 target_lang:
-                  $ref: '#/components/schemas/TargetLanguageText'
+                  $ref: '#/components/schemas/TargetLanguage'
                 context:
                   $ref: '#/components/schemas/Context'
                 show_billed_characters:
@@ -4253,144 +4253,124 @@ components:
     SourceLanguage:
       type: string
       description: |-
-        Language of the text to be translated. Options currently available:
-         * `AR` - Arabic
-         * `BG` - Bulgarian
-         * `CS` - Czech
-         * `DA` - Danish
-         * `DE` - German
-         * `EL` - Greek
-         * `EN` - English
-         * `ES` - Spanish
-         * `ET` - Estonian
-         * `FI` - Finnish
-         * `FR` - French
-         * `HU` - Hungarian
-         * `ID` - Indonesian
-         * `IT` - Italian
-         * `JA` - Japanese
-         * `KO` - Korean
-         * `LT` - Lithuanian
-         * `LV` - Latvian
-         * `NB` - Norwegian (Bokmål)
-         * `NL` - Dutch
-         * `PL` - Polish
-         * `PT` - Portuguese (all Portuguese varieties mixed)
-         * `RO` - Romanian
-         * `RU` - Russian
-         * `SK` - Slovak
-         * `SL` - Slovenian
-         * `SV` - Swedish
-         * `TR` - Turkish
-         * `UK` - Ukrainian
-         * `ZH` - Chinese
+        Language of the text to be translated. If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
 
-        If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
+        **Note:** Some languages only work with `model_type` set to `quality_optimized`. See [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) for more details.
       enum:
+      - ACE
+      - AF
+      - AN
       - AR
+      - AS
+      - AY
+      - AZ
+      - BA
+      - BE
       - BG
+      - BHO
+      - BN
+      - BR
+      - BS
+      - CA
+      - CEB
+      - CKB
       - CS
+      - CY
       - DA
       - DE
       - EL
       - EN
+      - EO
       - ES
       - ET
+      - EU
+      - FA
       - FI
       - FR
-      - HU
-      - ID
-      - IT
-      - JA
-      - KO
-      - LT
-      - LV
-      - NB
-      - NL
-      - PL
-      - PT
-      - RO
-      - RU
-      - SK
-      - SL
-      - SV
-      - TR
-      - UK
-      - ZH
-      example: EN
-    SourceLanguageText:
-      type: string
-      description: |-
-        Language of the text to be translated. Options currently available:
-         * `AR` - Arabic
-         * `BG` - Bulgarian
-         * `CS` - Czech
-         * `DA` - Danish
-         * `DE` - German
-         * `EL` - Greek
-         * `EN` - English
-         * `ES` - Spanish
-         * `ET` - Estonian
-         * `FI` - Finnish
-         * `FR` - French
-         * `HE` - Hebrew
-         * `HU` - Hungarian
-         * `ID` - Indonesian
-         * `IT` - Italian
-         * `JA` - Japanese
-         * `KO` - Korean
-         * `LT` - Lithuanian
-         * `LV` - Latvian
-         * `NB` - Norwegian (Bokmål)
-         * `NL` - Dutch
-         * `PL` - Polish
-         * `PT` - Portuguese (all Portuguese varieties mixed)
-         * `RO` - Romanian
-         * `RU` - Russian
-         * `SK` - Slovak
-         * `SL` - Slovenian
-         * `SV` - Swedish
-         * `TH` - Thai
-         * `TR` - Turkish
-         * `UK` - Ukrainian
-         * `VI` - Vietnamese
-         * `ZH` - Chinese
-
-        If this parameter is omitted, the API will attempt to detect the language of the text and translate it.
-      enum:
-      - AR
-      - BG
-      - CS
-      - DA
-      - DE
-      - EL
-      - EN
-      - ES
-      - ET
-      - FI
-      - FR
+      - GA
+      - GL
+      - GN
+      - GOM
+      - GU
+      - HA
       - HE
+      - HI
+      - HR
+      - HT
       - HU
+      - HY
       - ID
+      - IG
+      - IS
       - IT
       - JA
+      - JV
+      - KA
+      - KK
+      - KMR
       - KO
+      - KY
+      - LA
+      - LB
+      - LMO
+      - LN
       - LT
       - LV
+      - MAI
+      - MG
+      - MI
+      - MK
+      - ML
+      - MN
+      - MR
+      - MS
+      - MT
+      - MY
       - NB
+      - NE
       - NL
+      - OC
+      - OM
+      - PA
+      - PAG
+      - PAM
       - PL
+      - PRS
+      - PS
       - PT
+      - QU
       - RO
       - RU
+      - SA
+      - SCN
       - SK
       - SL
+      - SQ
+      - SR
+      - ST
+      - SU
       - SV
+      - SW
+      - TA
+      - TE
+      - TG
       - TH
+      - TK
+      - TL
+      - TN
       - TR
+      - TS
+      - TT
       - UK
+      - UR
+      - UZ
       - VI
+      - WO
+      - XH
+      - YI
+      - YUE
       - ZH
+      - ZU
       example: EN
     TagHandlingOption:
       description: |-
@@ -4606,164 +4586,131 @@ components:
     TargetLanguage:
       type: string
       description: |-
-        The language into which the text should be translated. Options currently available:
-         * `AR` - Arabic
-         * `BG` - Bulgarian
-         * `CS` - Czech
-         * `DA` - Danish
-         * `DE` - German
-         * `EL` - Greek
-         * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)
-         * `EN-GB` - English (British)
-         * `EN-US` - English (American)
-         * `ES` - Spanish
-         * `ES-419` - Spanish (Latin American)
-         * `ET` - Estonian
-         * `FI` - Finnish
-         * `FR` - French
-         * `HU` - Hungarian
-         * `ID` - Indonesian
-         * `IT` - Italian
-         * `JA` - Japanese
-         * `KO` - Korean
-         * `LT` - Lithuanian
-         * `LV` - Latvian
-         * `NB` - Norwegian (Bokmål)
-         * `NL` - Dutch
-         * `PL` - Polish
-         * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
-         * `PT-BR` - Portuguese (Brazilian)
-         * `PT-PT` - Portuguese (all Portuguese varieties excluding Brazilian Portuguese)
-         * `RO` - Romanian
-         * `RU` - Russian
-         * `SK` - Slovak
-         * `SL` - Slovenian
-         * `SV` - Swedish
-         * `TR` - Turkish
-         * `UK` - Ukrainian
-         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` instead)
-         * `ZH-HANS` - Chinese (simplified)
-         * `ZH-HANT` - Chinese (traditional)
+        The language into which the text should be translated.
+
+        **Note:** Some languages only work with `model_type` set to `quality_optimized`. See [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) for more details.
       enum:
+      - ACE
+      - AF
+      - AN
       - AR
+      - AS
+      - AY
+      - AZ
+      - BA
+      - BE
       - BG
+      - BHO
+      - BN
+      - BR
+      - BS
+      - CA
+      - CEB
+      - CKB
       - CS
+      - CY
       - DA
       - DE
       - EL
+      - EN
       - EN-GB
       - EN-US
+      - EO
       - ES
       - ES-419
       - ET
+      - EU
+      - FA
       - FI
       - FR
-      - HU
-      - ID
-      - IT
-      - JA
-      - KO
-      - LT
-      - LV
-      - NB
-      - NL
-      - PL
-      - PT-BR
-      - PT-PT
-      - RO
-      - RU
-      - SK
-      - SL
-      - SV
-      - TR
-      - UK
-      - ZH
-      - ZH-HANS
-      - ZH-HANT
-      example: DE
-    TargetLanguageText:
-      type: string
-      description: |-
-        The language into which the text should be translated. Options currently available:
-         * `AR` - Arabic
-         * `BG` - Bulgarian
-         * `CS` - Czech
-         * `DA` - Danish
-         * `DE` - German
-         * `EL` - Greek
-         * `EN` - English (unspecified variant for backward compatibility; please select `EN-GB` or `EN-US` instead)
-         * `EN-GB` - English (British)
-         * `EN-US` - English (American)
-         * `ES` - Spanish
-         * `ES-419` - Spanish (Latin American)
-         * `ET` - Estonian
-         * `FI` - Finnish
-         * `FR` - French
-         * `HE` - Hebrew
-         * `HU` - Hungarian
-         * `ID` - Indonesian
-         * `IT` - Italian
-         * `JA` - Japanese
-         * `KO` - Korean
-         * `LT` - Lithuanian
-         * `LV` - Latvian
-         * `NB` - Norwegian (Bokmål)
-         * `NL` - Dutch
-         * `PL` - Polish
-         * `PT` - Portuguese (unspecified variant for backward compatibility; please select `PT-BR` or `PT-PT` instead)
-         * `PT-BR` - Portuguese (Brazilian)
-         * `PT-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)
-         * `RO` - Romanian
-         * `RU` - Russian
-         * `SK` - Slovak
-         * `SL` - Slovenian
-         * `SV` - Swedish
-         * `TH` - Thai
-         * `TR` - Turkish
-         * `UK` - Ukrainian
-         * `VI` - Vietnamese
-         * `ZH` - Chinese (unspecified variant for backward compatibility; please select `ZH-HANS` or `ZH-HANT` instead)
-         * `ZH-HANS` - Chinese (simplified)
-         * `ZH-HANT` - Chinese (traditional)
-      enum:
-      - AR
-      - BG
-      - CS
-      - DA
-      - DE
-      - EL
-      - EN-GB
-      - EN-US
-      - ES
-      - ES-419
-      - ET
-      - FI
-      - FR
+      - GA
+      - GL
+      - GN
+      - GOM
+      - GU
+      - HA
       - HE
+      - HI
+      - HR
+      - HT
       - HU
+      - HY
       - ID
+      - IG
+      - IS
       - IT
       - JA
+      - JV
+      - KA
+      - KK
+      - KMR
       - KO
+      - KY
+      - LA
+      - LB
+      - LMO
+      - LN
       - LT
       - LV
+      - MAI
+      - MG
+      - MI
+      - MK
+      - ML
+      - MN
+      - MR
+      - MS
+      - MT
+      - MY
       - NB
+      - NE
       - NL
+      - OC
+      - OM
+      - PA
+      - PAG
+      - PAM
       - PL
+      - PRS
+      - PS
+      - PT
       - PT-BR
       - PT-PT
+      - QU
       - RO
       - RU
+      - SA
+      - SCN
       - SK
       - SL
+      - SQ
+      - SR
+      - ST
+      - SU
       - SV
+      - SW
+      - TA
+      - TE
+      - TG
       - TH
+      - TK
+      - TL
+      - TN
       - TR
+      - TS
+      - TT
       - UK
+      - UR
+      - UZ
       - VI
+      - WO
+      - XH
+      - YI
+      - YUE
       - ZH
       - ZH-HANS
       - ZH-HANT
+      - ZU
       example: DE
     TargetLanguageWrite:
       type: string
