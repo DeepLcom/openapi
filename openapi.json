@@ -3153,6 +3153,256 @@
           "type": "string",
           "example": "501c3d93cc0c4f11ae2f60a226c2f0f0"
         }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request. Please check error message and your parameters.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "BadRequestGlossaries": {
+        "description": "Bad request. Please check error message and your parameters.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "description": "Generic description of the error.",
+                  "type": "string"
+                },
+                "detail": {
+                  "description": "More specific description of the error.",
+                  "type": "string"
+                }
+              }
+            },
+            "example": {
+              "message": "Invalid glossary entries provided",
+              "detail": "Key with the index 1 (starting at position 13) duplicates key with the index 0 (starting at position 0)"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "ForbiddenGlossaries": {
+        "description": "Forbidden. The access to the requested resource is denied, because of insufficient access rights.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The requested resource could not be found.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "NotFound404DocTransDownload": {
+        "description": "Trying to download a document using a non-existing document ID or the wrong document key will result in a 404 error. As stated above, documents can only be downloaded once before they are deleted from the server and their document ID is invalidated.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DocumentTranslationError"
+            },
+            "examples": {
+              "NotFound": {
+                "summary": "Not Found",
+                "value": {
+                  "message": "Document not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PayloadTooLarge": {
+        "description": "The request size exceeds the limit.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "URITooLong": {
+        "description": "The request URL is too long. You can avoid this error by using a POST request instead of a GET request, and sending the parameters in the HTTP body.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "UnsupportedMediaTypeGlossaries": {
+        "description": "The requested entries format specified in the `Accept` header is not supported.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too many requests. Please wait and resend your request.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "QuotaExceeded": {
+        "description": "Quota exceeded. The character limit has been reached.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "QuotaExceededGlossaries": {
+        "description": "Quota exceeded. The glossary creation limit has been reached.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal error.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "Resource currently unavailable. Try again later.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        }
+      },
+      "ServiceUnavailable503DocTransDownload": {
+        "description": "A 503 result will be returned if the user tries to download a translated document that is currently being processed and is not yet ready for download.\nPlease make sure to check that the document status is 'done' before trying to send a download request.",
+        "headers": {
+          "X-Trace-ID": {
+            "$ref": "#/components/headers/X-Trace-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DocumentTranslationError"
+            },
+            "examples": {
+              "AlreadyDownloaded": {
+                "summary": "Already Downloaded",
+                "value": {
+                  "message": "Document already downloaded"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "auth_header": {
+        "type": "apiKey",
+        "description": "Authentication with `Authorization` header and `DeepL-Auth-Key` authentication scheme",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "ApiKeyId": {
+        "description": "API key ID. Consists of two valid GUIDs separated by a colon.",
+        "type": "string",
+        "example": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38"
+      },
+      "ApiKeyLabel": {
+        "description": "API key label. The default value is `DeepL API Key`.",
+        "type": "string",
+        "example": "developer key prod"
+      },
+      "ApiKeyUsageCharacters": {
+        "description": "Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.\nSetting the limit to `0` means the API key will not be able to consume characters.\nSetting the limit to `null` disables the limit, effectively allowing unlimited usage.\n",
+        "type": "number",
+        "example": 5000
+      },
+      "ApiKeyUsageSpeechToTextMilliseconds": {
+        "description": "Restricts the number of milliseconds of speech-to-text that can be consumed by an API key in a one-month usage period.\nSetting the limit to `0` means the API key will not be able to consume speech-to-text milliseconds.\nSetting the limit to `null` disables the limit, effectively allowing unlimited usage.\n",
+        "type": "number",
+        "example": 3600000
+      },
+      "ApiKey": {
+        "description": "The API key.",
+        "type": "object",
+        "properties": {
+          "key_id": {
+            "$ref": "#/components/schemas/ApiKeyId"
+          },
+          "label": {
+            "$ref": "#/components/schemas/ApiKeyLabel"
+          },
+          "creation_time": {
+            "description": "Timestamp when the key was created (ISO 8601 format)",
+            "type": "string",
+            "example": "2025-07-08T08:15:29.362Z"
+          },
+          "deactivated_time": {
+            "description": "Timestamp when the key was deactivated (ISO 8601 format). The default value is `null`.",
+            "type": "string",
+            "example": "2025-07-09T08:15:29.362Z"
+          },
+          "is_deactivated": {
+            "description": "Flag indicating whether the API key is deactivated. The default value is `false`.",
+            "type": "boolean",
+            "example": true
+          },
+          "usage_limits": {
+            "description": "Usage limits for the API key.",
+            "type": "object",
+            "properties": {
+              "characters": {
+                "$ref": "#/components/schemas/ApiKeyUsageCharacters"
+              },
+              "speech_to_text_milliseconds": {
+                "$ref": "#/components/schemas/ApiKeyUsageSpeechToTextMilliseconds"
+              }
+            }
+          }
+        }
       },
       "ConfiguredRules": {
         "description": "The enabled rules for the style rule list including what option was selected for each rule. This schema combines rules from all supported languages.",
@@ -4733,416 +4983,6 @@
         }
       },
       "Context": {
-        "description": "Additional context that can influence a translation but is not translated itself.\n\nCharacters included in the `context` parameter will not be counted toward billing.",
-        "type": "string",
-        "example": "This is context."
-      },
-      "CreateGlossaryParameters": {
-        "type": "object",
-        "required": [
-          "name",
-          "source_lang",
-          "target_lang",
-          "entries",
-          "entries_format"
-        ],
-        "properties": {
-          "name": {
-            "description": "Name to be associated with the glossary.",
-            "type": "string",
-            "example": "My Glossary"
-          },
-          "source_lang": {
-            "$ref": "#/components/schemas/GlossarySourceLanguage"
-          },
-          "target_lang": {
-            "$ref": "#/components/schemas/GlossaryTargetLanguage"
-          },
-          "entries": {
-            "description": "The entries of the glossary. The entries have to be specified in the format provided by the `entries_format` parameter.",
-            "type": "string",
-            "example": "Hello\tGuten Tag"
-          },
-          "entries_format": {
-            "description": "The format in which the glossary entries are provided. Formats currently available:\n- `tsv` (default) - tab-separated values\n- `csv` - comma-separated values\n\nSee [Supported Glossary Formats](https://developers.deepl.com/api-reference/glossaries#formats) for details about each format.",
-            "type": "string",
-            "enum": [
-              "tsv",
-              "csv"
-            ],
-            "example": "tsv",
-            "default": "tsv"
-          }
-        }
-      },
-      "CreateMultilingualGlossaryParameters": {
-        "type": "object",
-        "required": [
-          "name",
-          "dictionaries"
-        ],
-        "properties": {
-          "name": {
-            "description": "Name to be associated with the glossary.",
-            "type": "string",
-            "example": "My Glossary"
-          },
-          "dictionaries": {
-            "description": "Dictionaries to populate the glossary with.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GlossaryDictionary"
-            }
-          }
-        }
-      },
-      "CustomInstruction": {
-        "description": "All enabled custom instructions for the style rule list",
-        "type": "object",
-        "properties": {
-          "label": {
-            "type": "string",
-            "description": "Name associated with the custom instruction",
-            "example": "Currency custom instruction"
-          },
-          "prompt": {
-            "type": "string",
-            "description": "Prompt of the custom instruction",
-            "example": "Have currency symbols before the numerical value (e.g. $100, \u20ac100)"
-          },
-          "source_language": {
-            "type": "string",
-            "description": "Optional source language of the custom instruction",
-            "example": "en"
-          }
-        }
-      },
-      "StyleRuleList": {
-        "type": "object",
-        "required": [
-          "style_id",
-          "name",
-          "creation_time",
-          "updated_time",
-          "language",
-          "version"
-        ],
-        "properties": {
-          "style_id": {
-            "$ref": "#/components/schemas/StyleId"
-          },
-          "name": {
-            "$ref": "#/components/schemas/StyleRuleName"
-          },
-          "creation_time": {
-            "description": "The creation time of the style rule in the ISO 8601-1:2019 format (e.g.: `2021-08-03T14:16:18.329Z`).",
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_time": {
-            "description": "The time of the style rule when it was last updated in the ISO 8601-1:2019 format (e.g.: `2022-08-03T14:16:18.329Z`).",
-            "type": "string",
-            "format": "date-time"
-          },
-          "language": {
-            "$ref": "#/components/schemas/StyleRuleLanguage"
-          },
-          "version": {
-            "description": "The version of the style rule. Incremented when the style rule is updated.",
-            "type": "integer",
-            "example": 13
-          },
-          "configured_rules": {
-            "type": "array",
-            "description": "List of configured rules enabled for the style rule list.",
-            "items": {
-              "$ref": "#/components/schemas/ConfiguredRules"
-            }
-          },
-          "custom_instructions": {
-            "type": "array",
-            "description": "List of custom instructions enabled for the style rule list.",
-            "items": {
-              "$ref": "#/components/schemas/CustomInstruction"
-            }
-          }
-        }
-      },
-      "StyleId": {
-        "type": "string",
-        "description": "A unique ID assigned to a style rule.",
-        "example": "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
-      },
-      "StyleRuleLanguage": {
-        "description": "The language that the style rules are applied to.",
-        "type": "string",
-        "enum": [
-          "de",
-          "en",
-          "es",
-          "fr",
-          "it",
-          "ja",
-          "ko",
-          "zh"
-        ]
-      },
-      "StyleRuleName": {
-        "description": "Name associated with the style rule.",
-        "type": "string"
-      },
-      "DocumentTranslationError": null
-    },
-    "responses": {
-      "BadRequest": {
-        "description": "Bad request. Please check error message and your parameters.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "BadRequestGlossaries": {
-        "description": "Bad request. Please check error message and your parameters.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "description": "Generic description of the error.",
-                  "type": "string"
-                },
-                "detail": {
-                  "description": "More specific description of the error.",
-                  "type": "string"
-                }
-              }
-            },
-            "example": {
-              "message": "Invalid glossary entries provided",
-              "detail": "Key with the index 1 (starting at position 13) duplicates key with the index 0 (starting at position 0)"
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "Forbidden": {
-        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "ForbiddenGlossaries": {
-        "description": "Forbidden. The access to the requested resource is denied, because of insufficient access rights.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "NotFound": {
-        "description": "The requested resource could not be found.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "NotFound404DocTransDownload": {
-        "description": "Trying to download a document using a non-existing document ID or the wrong document key will result in a 404 error. As stated above, documents can only be downloaded once before they are deleted from the server and their document ID is invalidated.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/DocumentTranslationError"
-            },
-            "examples": {
-              "NotFound": {
-                "summary": "Not Found",
-                "value": {
-                  "message": "Document not found"
-                }
-              }
-            }
-          }
-        }
-      },
-      "PayloadTooLarge": {
-        "description": "The request size exceeds the limit.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "URITooLong": {
-        "description": "The request URL is too long. You can avoid this error by using a POST request instead of a GET request, and sending the parameters in the HTTP body.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "UnsupportedMediaTypeGlossaries": {
-        "description": "The requested entries format specified in the `Accept` header is not supported.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "TooManyRequests": {
-        "description": "Too many requests. Please wait and resend your request.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "QuotaExceeded": {
-        "description": "Quota exceeded. The character limit has been reached.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "QuotaExceededGlossaries": {
-        "description": "Quota exceeded. The glossary creation limit has been reached.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "InternalServerError": {
-        "description": "Internal error.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "ServiceUnavailable": {
-        "description": "Resource currently unavailable. Try again later.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        }
-      },
-      "ServiceUnavailable503DocTransDownload": {
-        "description": "A 503 result will be returned if the user tries to download a translated document that is currently being processed and is not yet ready for download.\nPlease make sure to check that the document status is 'done' before trying to send a download request.",
-        "headers": {
-          "X-Trace-ID": {
-            "$ref": "#/components/headers/X-Trace-ID"
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/DocumentTranslationError"
-            },
-            "examples": {
-              "AlreadyDownloaded": {
-                "summary": "Already Downloaded",
-                "value": {
-                  "message": "Document already downloaded"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "auth_header": {
-        "type": "apiKey",
-        "description": "Authentication with `Authorization` header and `DeepL-Auth-Key` authentication scheme",
-        "name": "Authorization",
-        "in": "header"
-      }
-    },
-    "schemas": {
-      "ApiKeyId": {
-        "description": "API key ID. Consists of two valid GUIDs separated by a colon.",
-        "type": "string",
-        "example": "ca7d5694-96eb-4263-a9a4-7f7e4211529e:20c2abcf-4c3c-4cd6-8ae8-8bd2a7d4da38"
-      },
-      "ApiKeyLabel": {
-        "description": "API key label. The default value is `DeepL API Key`.",
-        "type": "string",
-        "example": "developer key prod"
-      },
-      "ApiKeyUsageCharacters": {
-        "description": "Restricts the number of total characters (across text translation, document translation, and text improvement) that can be consumed by an API key in a one-month usage period.\nSetting the limit to `0` means the API key will not be able to consume characters.\nSetting the limit to `null` disables the limit, effectively allowing unlimited usage.\n",
-        "type": "number",
-        "example": 5000
-      },
-      "ApiKeyUsageSpeechToTextMilliseconds": {
-        "description": "Restricts the number of milliseconds of speech-to-text that can be consumed by an API key in a one-month usage period.\nSetting the limit to `0` means the API key will not be able to consume speech-to-text milliseconds.\nSetting the limit to `null` disables the limit, effectively allowing unlimited usage.\n",
-        "type": "number",
-        "example": 3600000
-      },
-      "ApiKey": {
-        "description": "The API key.",
-        "type": "object",
-        "properties": {
-          "key_id": {
-            "$ref": "#/components/schemas/ApiKeyId"
-          },
-          "label": {
-            "$ref": "#/components/schemas/ApiKeyLabel"
-          },
-          "creation_time": {
-            "description": "Timestamp when the key was created (ISO 8601 format)",
-            "type": "string",
-            "example": "2025-07-08T08:15:29.362Z"
-          },
-          "deactivated_time": {
-            "description": "Timestamp when the key was deactivated (ISO 8601 format). The default value is `null`.",
-            "type": "string",
-            "example": "2025-07-09T08:15:29.362Z"
-          },
-          "is_deactivated": {
-            "description": "Flag indicating whether the API key is deactivated. The default value is `false`.",
-            "type": "boolean",
-            "example": true
-          },
-          "usage_limits": {
-            "description": "Usage limits for the API key.",
-            "type": "object",
-            "properties": {
-              "characters": {
-                "$ref": "#/components/schemas/ApiKeyUsageCharacters"
-              },
-              "speech_to_text_milliseconds": {
-                "$ref": "#/components/schemas/ApiKeyUsageSpeechToTextMilliseconds"
-              }
-            }
-          }
-        }
-      },
-      "Context": {
         "description": "The `context` parameter makes it possible to include additional context that can influence a translation but is not translated itself. \nThis additional context can potentially improve translation quality when translating short, low-context source texts such \nas product names on an e-commerce website, article headlines on a news website, or UI elements.\n\n\nFor example...\n  - When translating a product name, you might pass the product description as context. \n  - When translating a news article headline, you might pass the first few sentences or a summary of the article as context.\n\n\nFor best results, we recommend sending a few complete sentences of context in the same language as the source text. \nThere is no size limit for the `context` parameter itself, but the request body size limit of 128 KiB still applies to \nall text translation requests. \n\n\nIf you send a request with multiple `text` parameters, the `context` parameter will be applied to each one. \n\n\nCharacters included in the `context` parameter will not be counted toward billing (i.e. there is no additional \ncost for using the `context` parameter, and only characters sent in the text parameter(s) will be counted toward \nbilling for text translation even when the `context` parameter is included in a request).",
         "type": "string"
       },
@@ -5202,6 +5042,27 @@
             ],
             "example": "tsv",
             "default": "tsv"
+          }
+        }
+      },
+      "CustomInstruction": {
+        "description": "All enabled custom instructions for the style rule list",
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Name associated with the custom instruction",
+            "example": "Currency custom instruction"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Prompt of the custom instruction",
+            "example": "Have currency symbols before the numerical value (e.g. $100, \u20ac100)"
+          },
+          "source_language": {
+            "type": "string",
+            "description": "Optional source language of the custom instruction",
+            "example": "en"
           }
         }
       },
@@ -5667,6 +5528,80 @@
           "ZU"
         ],
         "example": "EN"
+      },
+      "StyleRuleList": {
+        "type": "object",
+        "required": [
+          "style_id",
+          "name",
+          "creation_time",
+          "updated_time",
+          "language",
+          "version"
+        ],
+        "properties": {
+          "style_id": {
+            "$ref": "#/components/schemas/StyleId"
+          },
+          "name": {
+            "$ref": "#/components/schemas/StyleRuleName"
+          },
+          "creation_time": {
+            "description": "The creation time of the style rule in the ISO 8601-1:2019 format (e.g.: `2021-08-03T14:16:18.329Z`).",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_time": {
+            "description": "The time of the style rule when it was last updated in the ISO 8601-1:2019 format (e.g.: `2022-08-03T14:16:18.329Z`).",
+            "type": "string",
+            "format": "date-time"
+          },
+          "language": {
+            "$ref": "#/components/schemas/StyleRuleLanguage"
+          },
+          "version": {
+            "description": "The version of the style rule. Incremented when the style rule is updated.",
+            "type": "integer",
+            "example": 13
+          },
+          "configured_rules": {
+            "type": "array",
+            "description": "List of configured rules enabled for the style rule list.",
+            "items": {
+              "$ref": "#/components/schemas/ConfiguredRules"
+            }
+          },
+          "custom_instructions": {
+            "type": "array",
+            "description": "List of custom instructions enabled for the style rule list.",
+            "items": {
+              "$ref": "#/components/schemas/CustomInstruction"
+            }
+          }
+        }
+      },
+      "StyleId": {
+        "type": "string",
+        "description": "A unique ID assigned to a style rule.",
+        "example": "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
+      },
+      "StyleRuleLanguage": {
+        "description": "The language that the style rules are applied to.",
+        "type": "string",
+        "enum": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ja",
+          "ko",
+          "zh"
+        ]
+      },
+      "StyleRuleName": {
+        "description": "Name associated with the style rule.",
+        "type": "string"
       },
       "TagHandlingOption": {
         "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
