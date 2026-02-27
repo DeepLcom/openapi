@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: DeepL Agent API
+  description: >
+    API for triggering and monitoring agentic workflows. These endpoints allow users to trigger
+    workflows with custom inputs and poll for task completion status.
+  version: 1.0.0
+servers:
+  - url: https://api.deepl.com
+    description: Production server
+tags:
+  - name: agent
+    description: DeepL Agent workflow operations
+
+paths:
+  /v1/unstable/agent/workflows/{workflowId}/trigger:
+    post:
+      summary: Trigger a workflow
+      description: >
+        Triggers an agentic workflow with the specified ID. The workflow will be executed
+        asynchronously, and a task ID will be returned to poll for status updates.
+      operationId: trigger_workflow
+      tags:
+        - agent
+      security:
+        - auth_header: []
+      parameters:
+        - name: workflowId
+          in: path
+          description: Unique identifier of the workflow to trigger
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "e1d78ccb-22e0-4a42-90e4-61884cf10af2"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - workflow_request
+              properties:
+                workflow_request:
+                  type: string
+                  description: JSON string containing the workflow input parameters
+                  example: '{"input": {"language": "American English"}}'
+      responses:
+        200:
+          description: Successfully triggered the workflow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerWorkflowResponse'
+              example:
+                task_id: "e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+                ui_url: "https://agent.deepl.com/static/chat/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+                polling_url: "/v1/unstable/agent/tasks/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+                last_modified_date: "2025-12-04T10:30:00Z"
+        400:
+          description: Bad request - invalid workflow_request JSON or missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Invalid JSON in workflow_request field"
+        401:
+          description: Unauthorized - invalid or missing API key, or account is not configured for agentic API use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Workflow not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Workflow with ID 'e1d78ccb-22e0-4a42-90e4-61884cf10af2' not found"
+
+  /v1/unstable/agent/tasks/{taskId}:
+    get:
+      summary: Get task status
+      description: >
+        Retrieves the current status and result of a previously triggered workflow task.
+        Use this endpoint to poll for task completion after triggering a workflow.
+      operationId: get_task_status
+      tags:
+        - agent
+      security:
+        - auth_header: []
+      parameters:
+        - name: taskId
+          in: path
+          description: Unique identifier of the task to retrieve
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+      responses:
+        200:
+          description: Successfully retrieved task status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTaskResponse'
+              examples:
+                in_progress:
+                  summary: Task in progress
+                  value:
+                    status: "InProgress"
+                    last_modified_date: "2025-12-04T10:30:00Z"
+                    ui_url: "https://agent.deepl.com/static/chat/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+                    result: {}
+                completed:
+                  summary: Task completed
+                  value:
+                    status: "Completed"
+                    last_modified_date: "2026-02-27T09:57:50.863818+00:00"
+                    ui_url: "https://agent.deepl.com/static/chat/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+                    result:
+                      screenshot: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjlhMjg1NmJmLTUzMzMtNGZkOC05NTAwLTNlYTI2N2I3MjliNiIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.686af5947238ed6920c29d83436bfc98c9d6c4015da0594e56007fff234f06e8"
+                      response: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjUzOGU4OWFmLTNkN2QtNGEwZi04MDYxLWMyOTUzZjExZWEzOCIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.c88919cdc7bb9f7fc22ac7bd9b23c5c325a772d31310f437d4a04672c86cba32"
+                      data: null
+                    result_data:
+                      - artifactId: "9a2856bf-5333-4fd8-9500-3ea267b729b6"
+                        contentUrl: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjlhMjg1NmJmLTUzMzMtNGZkOC05NTAwLTNlYTI2N2I3MjliNiIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.686af5947238ed6920c29d83436bfc98c9d6c4015da0594e56007fff234f06e8"
+                        name: "final_screenshot"
+                        description: "Final browser screenshot"
+                        schema: null
+                      - artifactId: "5e381ed3-1642-40f7-b8de-69338fc4698f"
+                        contentUrl: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjVlMzgxZWQzLTE2NDItNDBmNy1iOGRlLTY5MzM4ZmM0Njk4ZiIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.f8bd75650b8112fff05b6bef8eae83d2472db96266b795f36c6820659c1feaf2"
+                        name: "Vodafone_News_Last_7_Days.md"
+                        description: "Top 10 news articles about Vodafone from the last 7 days"
+                        schema: null
+        401:
+          description: Unauthorized - invalid or missing API key, or account is not configured for agentic API use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: "Task with ID 'e634159a-3414-4f66-a5cd-a1d48ff42ce3' not found"
+
+components:
+  schemas:
+    TriggerWorkflowResponse:
+      type: object
+      required:
+        - task_id
+        - last_modified_date
+      properties:
+        task_id:
+          type: string
+          description: Unique identifier for the triggered workflow task
+          example: "e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+        ui_url:
+          type: string
+          nullable: true
+          description: URL to view the task in the agentic system user interface
+          example: "https://agent.deepl.com/static/chat/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+        polling_url:
+          type: string
+          nullable: true
+          description: Relative URL endpoint to poll for task status updates
+          example: "/v1/unstable/agent/tasks/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+        last_modified_date:
+          type: string
+          format: date-time
+          description: Timestamp of when the task was last modified (ISO 8601 format)
+          example: "2025-12-04T10:30:00Z"
+
+    GetTaskResponse:
+      type: object
+      required:
+        - status
+        - last_modified_date
+        - result
+      properties:
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        last_modified_date:
+          type: string
+          format: date-time
+          description: Timestamp of when the task was last modified (ISO 8601 format)
+          example: "2025-12-04T10:35:00Z"
+        ui_url:
+          type: string
+          nullable: true
+          description: URL to view the task in the agentic UI
+          example: "https://agent.deepl.com/static/chat/e634159a-3414-4f66-a5cd-a1d48ff42ce3"
+        result:
+          type: object
+          description: Workflow result containing presigned URLs to retrieve output artifacts. Present in all responses; empty object `{}` while the task is in progress.
+          properties:
+            response:
+              type: string
+              nullable: true
+              description: Presigned URL to retrieve the primary workflow result content. Valid for five minutes.
+              example: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjUzOGU4OWFmLTNkN2QtNGEwZi04MDYxLWMyOTUzZjExZWEzOCIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.c88919cdc7bb9f7fc22ac7bd9b23c5c325a772d31310f437d4a04672c86cba32"
+            screenshot:
+              type: string
+              nullable: true
+              description: Presigned URL to retrieve a screenshot artifact from the workflow. Valid for five minutes.
+              example: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjlhMjg1NmJmLTUzMzMtNGZkOC05NTAwLTNlYTI2N2I3MjliNiIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.686af5947238ed6920c29d83436bfc98c9d6c4015da0594e56007fff234f06e8"
+            data:
+              nullable: true
+              description: Additional workflow result data. Structure is workflow-specific.
+        result_data:
+          type: array
+          nullable: true
+          description: List of all artifacts produced by the workflow, with metadata and presigned content URLs.
+          items:
+            $ref: '#/components/schemas/ResultArtifact'
+
+    TaskStatus:
+      type: string
+      description: Current status of the task
+      enum:
+        - Archived
+        - InProgress
+        - Completed
+        - Canceled
+        - Error
+        - FeedbackNeeded
+      example: "Completed"
+
+    ResultArtifact:
+      type: object
+      required:
+        - artifactId
+        - contentUrl
+        - name
+        - description
+      properties:
+        artifactId:
+          type: string
+          format: uuid
+          description: Unique identifier of the artifact.
+          example: "9a2856bf-5333-4fd8-9500-3ea267b729b6"
+        contentUrl:
+          type: string
+          description: Presigned URL to retrieve the artifact content. Valid for five minutes.
+          example: "https://agent.deepl.com/api/experimental/content/eyJhcnRpZmFjdF9pZCI6IjlhMjg1NmJmLTUzMzMtNGZkOC05NTAwLTNlYTI2N2I3MjliNiIsInZlcnNpb24iOjEsIm93bmVyX2lkIjoiNWM3YmIyNTQtZTU3NC00MjcyLTk0NTktZGJjN2JiM2JiMmVhIiwiZXhwaXJlcyI6MTc3MjE4NjYyM30=.686af5947238ed6920c29d83436bfc98c9d6c4015da0594e56007fff234f06e8"
+        name:
+          type: string
+          description: Filename or identifier of the artifact.
+          example: "final_screenshot"
+        description:
+          type: string
+          description: Human-readable description of the artifact.
+          example: "Final browser screenshot"
+        schema:
+          nullable: true
+          description: Optional schema describing the artifact's data structure.
+
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Workflow with ID 'e1d78ccb-22e0-4a42-90e4-61884cf10af2' not found"
+
+  securitySchemes:
+    auth_header:
+      type: apiKey
+      description: >
+        Authentication with `Authorization` header and 
+        `DeepL-Auth-Key` authentication scheme. Example: 
+        `DeepL-Auth-Key <api-key>`
+      name: Authorization
+      in: header
