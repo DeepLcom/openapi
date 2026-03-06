@@ -4330,8 +4330,8 @@ components:
          * `v1`: Traditional algorithm (default until December 2025).
       type: string
       enum:
-      - v1
       - v2
+      - v1
     UsageResponse:
       type: object
       properties:
