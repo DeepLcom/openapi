@@ -2555,17 +2555,6 @@ components:
               - replace_at_symbol_with_english_word_at_in_parentheses_with_space_on_either_side
               - replace_at_symbol_with_english_word_at_with_space_on_either_side
               - use_standard_format
-            email_address_website_url:
-              type: string
-              description: Formatting options for Email Address Website Url
-              enum:
-              - use_lowercase_for_email_addresses_and_website_urls_except_when_url_includes_case_sensitive_elements
-            headings_case_style:
-              type: string
-              description: Formatting options for Headings Case Style
-              enum:
-              - use_sentence_case_for_titles_and_headings
-              - use_title_case_for_titles_and_headings
             phone_number_country_code_format:
               type: string
               description: Formatting options for Phone Number Country Code Format
@@ -2604,12 +2593,6 @@ components:
                 And Arabic Numerals
               enum:
               - do_not_use
-            titles_headings_punctuation:
-              type: string
-              description: Formatting options for Titles Headings Punctuation
-              enum:
-              - do_not_use_colon_at_end_of_titles_or_headings
-              - do_not_use_colons_or_periods_at_end_of_titles_or_headings
         numbers:
           type: object
           properties:
@@ -3423,11 +3406,6 @@ components:
               - avoid_binary_representation_of_gender_when_gender_neutral_language_can_be_used
               - replace_binary_representations_of_gender_with_gender_neutral_language
               - use_neutral_pronouns
-            call_to_action:
-              type: string
-              description: Formatting options for Call To Action
-              enum:
-              - use_calls_to_action
             complex_sentences:
               type: string
               description: Formatting options for Complex Sentences
@@ -3461,17 +3439,6 @@ components:
               enum:
               - do_not_use_second_person_pronouns
               - use_second_person_pronouns
-            default_third_person_singular_pronoun:
-              type: string
-              description: Formatting options for Default Third Person Singular Pronoun
-              enum:
-              - use_feminine_pronoun
-              - use_he_him
-              - use_he_or_she_him_or_her
-              - use_masculine_pronoun
-              - use_masculine_pronoun_german_word_oder_feminine_pronoun
-              - use_she_her
-              - use_they_them
             directional_language:
               type: string
               description: Formatting options for Directional Language
@@ -3543,12 +3510,6 @@ components:
               description: Formatting options for Modal Verbs
               enum:
               - avoid_modal_verbs
-            person_vs_identity_first_language:
-              type: string
-              description: Formatting options for Person Vs Identity First Language
-              enum:
-              - use_identity_first_language
-              - use_person_first_language
             personal_vs_impersonal_style:
               type: string
               description: Formatting options for Personal Vs Impersonal Style
@@ -3597,11 +3558,6 @@ components:
               description: Formatting options for Simple Words And Sentences
               enum:
               - use_simple_words_and_sentences_avoid_hard_to_translate_words_and_figures_of_speech
-            specialized_language:
-              type: string
-              description: Formatting options for Specialized Language
-              enum:
-              - avoid_specialized_language_unless_text_is_aimed_at_experts
             text_position_references:
               type: string
               description: Formatting options for Text Position References
