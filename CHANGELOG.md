@@ -13,7 +13,7 @@ typos, schema fixes, or adding examples.
 ### Added
 * Document `X-Trace-ID` response header returned by all API endpoints for request tracking and debugging
 * Add new parameters to the text translation API: `enable_beta_languages` and `custom_instructions`
-* Add new endpoint `/v3/style_rules`
+* Add new CRUD endpoints for `/v3/style_rules`
 
 ### Fixed
 * Fixes/development changes to the voice API.
