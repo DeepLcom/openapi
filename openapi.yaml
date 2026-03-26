@@ -3680,11 +3680,6 @@ components:
               - do_not_use_contractions
               - use_contractions
               - use_contractions_but_avoid_negative_contractions
-            email_address_website_url:
-              type: string
-              description: Formatting options for Email Address Website Url
-              enum:
-              - use_lowercase_for_email_addresses_and_website_urls_except_when_url_includes_case_sensitive_elements
             established_loanwords:
               type: string
               description: Formatting options for Established Loanwords
