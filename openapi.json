@@ -6525,7 +6525,7 @@
       },
       "TargetLanguageWrite": {
         "type": "string",
-        "description": "The language for the text improvement. Options currently available:\n * `de` - German\n * `en` - English (unspecified variant, defaults to `en-US`)\n * `en-GB` - English (British)\n * `en-US` - English (American)\n * `es` - Spanish\n * `fr` - French\n * `it` - Italian\n * `pt` - Portuguese (unspecified variant, defaults to `pt-PT`)\n * `pt-BR` - Portuguese (Brazilian)\n * `pt-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)",
+        "description": "The language for the text improvement. Options currently available:\n * `de` - German\n * `en` - English (unspecified variant, defaults to `en-US`)\n * `en-GB` - English (British)\n * `en-US` - English (American)\n * `es` - Spanish\n * `fr` - French\n * `it` - Italian\n * `ja` - Japanese\n * `ko` - Korean\n * `pt` - Portuguese (unspecified variant, defaults to `pt-PT`)\n * `pt-BR` - Portuguese (Brazilian)\n * `pt-PT` - Portuguese (all Portuguese variants excluding Brazilian Portuguese)\n * `zh` - Chinese (unspecified variant, defaults to `zh-Hans`)\n * `zh-Hans` - Chinese (simplified)",
         "enum": [
           "de",
           "en",
@@ -6533,9 +6533,13 @@
           "en-US",
           "fr",
           "it",
+          "ja",
+          "ko",
           "pt",
           "pt-BR",
-          "pt-PT"
+          "pt-PT",
+          "zh",
+          "zh-Hans"
         ],
         "example": "de"
       },
