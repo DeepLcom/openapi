@@ -54,6 +54,10 @@
       "description": "The *style rules* functions allow you to create, inspect, edit and delete style rules.\nStyle rules can be used in translate requests by specifying the `style_id` parameter, allowing you to\nselect a set of rules to apply when translating text. These rules make changes to your text according\nto the selected formatting and spelling conventions.\n\nIf you encounter issues, please let us know at support@DeepL.com."
     },
     {
+      "name": "TranslationMemories",
+      "description": "The translation memory endpoints allow you to interact with your account's translation memories, used to store\nand reuse previously created translations. Translation memories can be used in text translation requests by\nspecifying the `translation_memory_id` parameter to denote a specific translation memory and the\n`translation_memory_threshold` which defines the minimum matching percentage required for a translation memory\nsegment to be applied (recommended to be 75% or higher)."
+    },
+    {
       "name": "VoiceAPI",
       "description": "The Voice API provides real-time voice transcription and translation services.\nUse a two-step flow: first request a streaming URL via REST, then establish a WebSocket connection for streaming audio and receiving transcriptions."
     }
@@ -120,6 +124,12 @@
                         "type": "string"
                       }
                     ]
+                  },
+                  "translation_memory_id": {
+                    "$ref": "#/components/schemas/TranslationMemoryId"
+                  },
+                  "translation_memory_threshold": {
+                    "$ref": "#/components/schemas/TranslationMemoryThreshold"
                   },
                   "custom_instructions": {
                     "description": "Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.\n\n**Important:**  The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.\n\n**Note:** Any request with the `custom_instructions` parameter enabled will default to use the `quality_optimized` model type. Requests combining `custom_instructions` and `model_type: latency_optimized` will be rejected.",
@@ -240,6 +250,12 @@
                       }
                     ],
                     "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang` parameter to be set and the language pair of the glossary has to match the language pair of the request."
+                  },
+                  "translation_memory_id": {
+                    "$ref": "#/components/schemas/TranslationMemoryId"
+                  },
+                  "translation_memory_threshold": {
+                    "$ref": "#/components/schemas/TranslationMemoryThreshold"
                   },
                   "tag_handling": {
                     "$ref": "#/components/schemas/TagHandlingOption"
@@ -3574,6 +3590,118 @@
         ]
       }
     },
+    "/v3/translation_memories": {
+      "get": {
+        "tags": [
+          "TranslationMemories"
+        ],
+        "summary": "List translation memories",
+        "operationId": "listTranslationMemories",
+        "description": "Retrieve a list of translation memories associated with the authenticated account.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "The index of the first page to return. Use with `page_size` to get the next page of translation memories."
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 25
+            },
+            "description": "The maximum number of translation memories to return."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of translation memories.",
+            "headers": {
+              "X-Trace-ID": {
+                "$ref": "#/components/headers/X-Trace-ID"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translation_memories": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TranslationMemory"
+                      }
+                    },
+                    "total_count": {
+                      "type": "integer",
+                      "description": "The total number of translation memories available.",
+                      "example": 2
+                    }
+                  }
+                },
+                "examples": {
+                  "Basic": {
+                    "value": {
+                      "translation_memories": [
+                        {
+                          "translation_memory_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+                          "name": "Legal",
+                          "source_language": "en",
+                          "target_languages": [
+                            "es",
+                            "de"
+                          ],
+                          "segment_count": 3542
+                        },
+                        {
+                          "translation_memory_id": "855d36ab-6112-4ef5-8868-0d69bc4d826a",
+                          "name": "Medical terms",
+                          "source_language": "de",
+                          "target_languages": [
+                            "fr",
+                            "ja",
+                            "zh"
+                          ],
+                          "segment_count": 23
+                        }
+                      ],
+                      "total_count": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        },
+        "security": [
+          {
+            "auth_header": []
+          }
+        ]
+      }
+    },
     "/v3/voice/realtime": {
       "post": {
         "tags": [
@@ -6202,6 +6330,7 @@
       },
       "StyleId": {
         "type": "string",
+        "format": "uuid",
         "description": "A unique ID assigned to a style rule.",
         "example": "bd0a38f3-1831-440b-a8dd-2c702e2325ab"
       },
@@ -6222,6 +6351,93 @@
       "StyleRuleName": {
         "description": "Name associated with the style rule.",
         "type": "string"
+      },
+      "TranslationMemory": {
+        "type": "object",
+        "required": [
+          "translation_memory_id",
+          "name",
+          "source_language",
+          "target_languages",
+          "segment_count"
+        ],
+        "properties": {
+          "translation_memory_id": {
+            "$ref": "#/components/schemas/TranslationMemoryId"
+          },
+          "name": {
+            "description": "Name associated with the translation memory.",
+            "type": "string",
+            "example": "Legal"
+          },
+          "source_language": {
+            "$ref": "#/components/schemas/TranslationMemorySourceLanguage"
+          },
+          "target_languages": {
+            "description": "The list of target languages available in the translation memory.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TranslationMemoryTargetLanguage"
+            },
+            "example": [
+              "es",
+              "de"
+            ]
+          },
+          "segment_count": {
+            "description": "The number of segments stored in the translation memory.",
+            "type": "integer",
+            "example": 34
+          }
+        }
+      },
+      "TranslationMemoryId": {
+        "type": "string",
+        "format": "uuid",
+        "description": "A unique ID assigned to a translation memory.\n\n**Note:** Requests with the `translation_memory_id` parameter must use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.",
+        "example": "a74d88fb-ed2a-4943-a664-a4512398b994"
+      },
+      "TranslationMemorySourceLanguage": {
+        "description": "The source language of the translation memory.",
+        "type": "string",
+        "enum": [
+          "de",
+          "en",
+          "es",
+          "fr",
+          "it",
+          "ja",
+          "ko",
+          "zh"
+        ],
+        "example": "en"
+      },
+      "TranslationMemoryTargetLanguage": {
+        "description": "The list of target languages available in the translation memory. A translation memory's target language must be compatible with the `target_lang` specified in a translation request.",
+        "type": "string",
+        "enum": [
+          "de",
+          "en",
+          "en-gb",
+          "en-us",
+          "es",
+          "es-419",
+          "fr",
+          "it",
+          "ja",
+          "ko",
+          "zh",
+          "zh-hans"
+        ],
+        "example": "es"
+      },
+      "TranslationMemoryThreshold": {
+        "type": "integer",
+        "description": "The minimum matching percentage required for a translation memory segment to be applied (recommended to be 75% or higher).",
+        "minimum": 0,
+        "maximum": 100,
+        "default": 75,
+        "example": 75
       },
       "TagHandlingOption": {
         "description": "Sets which kind of tags should be handled. Options currently available:\n * `xml`: Enable XML tag handling; see [XML Handling](https://www.deepl.com/docs-api/xml).\n * `html`: Enable HTML tag handling; see [HTML Handling](https://www.deepl.com/docs-api/html).",
