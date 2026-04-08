@@ -3992,7 +3992,8 @@
         "type": "apiKey",
         "description": "Authentication with `Authorization` header and `DeepL-Auth-Key` authentication scheme",
         "name": "Authorization",
-        "in": "header"
+        "in": "header",
+        "x-default": "DeepL-Auth-Key "
       }
     },
     "schemas": {
