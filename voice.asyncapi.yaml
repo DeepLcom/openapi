@@ -1,11 +1,22 @@
 asyncapi: 3.0.0
 info:
   title: DeepL Voice API - WebSocket Streaming
-  version: '3.9.0'
+  version: '1.0.0'
   description: >
     WebSocket streaming API for real-time voice transcription and translation.
     After obtaining a streaming URL and token via the REST API, establish a WebSocket connection
     to stream audio data and receive real-time transcriptions and translations.
+
+    The API supports two message encoding formats: JSON (default) and MessagePack.
+    The encoding format is configured via the message_format parameter when requesting a session.
+    JSON format uses TEXT WebSocket frames. Fields with binary data (such as audio chunks) are base64-encoded strings,
+    while MessagePack format uses BINARY WebSocket frames where fields with binary data contain raw binary data.
+    Compared to JSON, MessagePack typically reduces bandwidth usage by 25-30% and improves message
+    encoding/decoding speed by 2x-4x.
+
+    When using MessagePack encoding, messages must be encoded as maps with string keys, not as arrays.
+    The message structure must match the JSON schema exactly, with all field names preserved as string keys.
+    Array-based or integer-keyed encoding is not supported.
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
@@ -27,12 +38,14 @@ channels:
     address: /v3/voice/realtime/connect?token={token}
     description: >
         WebSocket channel for streaming audio and receiving transcriptions and translations.
-        Messages are exchanged in JSON format and WebSocket frames must be of type TEXT.
+        Messages are exchanged in JSON or MessagePack format.
+        WebSocket messages are exchanged in TEXT frames when using JSON format and in BINARY frames when using
+        MessagePack format. Sending the wrong frame type will result in connection errors.
     parameters:
       token:
         description: >
           This is the ephemeral authentication token obtained from the
-          [Get Streaming URL](/api-reference/voice/get-streaming-url) endpoint.
+          [Request Session](/api-reference/voice/request-session) endpoint.
           The token is valid for one-time use only and must be passed as a query parameter when establishing
           the WebSocket connection.
         examples:
@@ -46,10 +59,14 @@ channels:
         $ref: '#/components/messages/SourceTranscriptUpdate'
       TargetTranscriptUpdate:
         $ref: '#/components/messages/TargetTranscriptUpdate'
+      TargetMediaChunk:
+        $ref: '#/components/messages/TargetMediaChunk'
       EndOfSourceTranscript:
         $ref: '#/components/messages/EndOfSourceTranscript'
       EndOfTargetTranscript:
         $ref: '#/components/messages/EndOfTargetTranscript'
+      EndOfTargetMedia:
+        $ref: '#/components/messages/EndOfTargetMedia'
       EndOfStream:
         $ref: '#/components/messages/EndOfStream'
       Error:
@@ -67,8 +84,10 @@ operations:
     messages:
       - $ref: '#/channels/voiceStream/messages/SourceTranscriptUpdate'
       - $ref: '#/channels/voiceStream/messages/TargetTranscriptUpdate'
+      - $ref: '#/channels/voiceStream/messages/TargetMediaChunk'
       - $ref: '#/channels/voiceStream/messages/EndOfSourceTranscript'
       - $ref: '#/channels/voiceStream/messages/EndOfTargetTranscript'
+      - $ref: '#/channels/voiceStream/messages/EndOfTargetMedia'
       - $ref: '#/channels/voiceStream/messages/EndOfStream'
       - $ref: '#/channels/voiceStream/messages/Error'
   receiveTranscriptions:
@@ -78,7 +97,7 @@ operations:
     summary: Receive transcriptions and translations
     description: |-
       Receive real-time transcription and translation messages from the server.
-      The server sends transcript updates, end of transcript notifications and errors.
+      The server sends transcript updates, translated audio chunks, end of transcript notifications and errors.
     messages:
       - $ref: '#/channels/voiceStream/messages/SourceMediaChunk'
       - $ref: '#/channels/voiceStream/messages/EndOfSourceMedia'
@@ -89,13 +108,18 @@ components:
       name: SourceMediaChunk
       title: Source Media Chunk
       description: "
-        The message contains a base64-encoded binary chunk of audio data.
-        The audio encoding must be the same that was specified in the [Get Streaming URL](/api-reference/voice/get-streaming-url) request.
+        The message contains a chunk of audio data.
+        The audio encoding must be the same that was specified in the
+        [Request Session](/api-reference/voice/request-session) request.
+        \n\n
+        When using JSON format, the audio data is base64-encoded. When using MessagePack format, the audio data is
+        raw binary data.
         \n\n
         The chunk size must not be more than 100 kilobyte or one second in duration. The recommended duration is
         50 - 250 milliseconds to achieve the best tradeoff between latency and quality.
-        The interval between chunks must not be less than half of the duration of the preceding chunk and not
-        exceed 30 seconds. Otherwise you will run into rate limits or the session will terminate due to timing out and the connection will be closed.
+        The interval between chunks must not be less than half of the duration of the preceding chunk and not exceed
+        30 seconds. Otherwise you will run into rate limits or the session will terminate due to timing out and the
+        connection will be closed.
         \n\n
         For PCM data the chunk size must be a multiple of the frame size aka encoding unit."
       contentType: application/json
@@ -185,6 +209,75 @@ components:
                   start_time: 1500
                   end_time: 2000
 
+    TargetMediaChunk:
+      name: TargetMediaChunk
+      title: Target Media Chunk
+      description: "
+        (closed beta) The message contains translated audio data in the target language.
+        \n\n
+        The audio data is provided as an array of base64-encoded indivisible chunks (e.g., codec packets or container
+        pages/clusters). The first message of this type includes the content type and optional headers field.
+        The `headers` field (when present) indicates how many packets at the start of the `data` array contain
+        initialization/header data required by the decoder. For containerized formats, all packets can be passed
+        directly to the demuxer. For raw codec formats with headers, the header packets must be used to initialize
+        the decoder before processing subsequent audio packets. When `headers` is `null` or absent, all packets in the
+        `data` array are audio data.
+        \n\n
+        The audio stream contains only synthesized speech segments, without silence or padding.
+        \n\n
+        Clients should decode and play back the audio chunks in the order received and sequence given in `data`.
+        For subtitle synchronization, use the `text` field to identify subtitle segments and accumulate `duration`
+        values to calculate total playback time for each subtitle."
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TargetMediaChunkPayload'
+      examples:
+        - name: TargetMediaChunkFirst
+          summary: First target media chunk with headers
+          payload:
+            target_media_chunk:
+              language: de
+              content_type: audio/webm;codecs=opus;
+              headers: 1
+              data:
+                - GkXfo59ChoEBQveBAULygQRC84EIQoKEd0VFSUgBU0WIQo17hEgBc0WjgQBBxYWIAvLhEKBjYEfA
+                - H0O2dBUMRQyBElkIBE9nZ1MAAgAAAAAAAAAAtJhTXAAAAAAAoyC5AQAAAAA=
+                - H0O2dBUMRQyBElkIBE9nZ1MAAAAAAAAAAAAAtJhTXAIAAAAAamZ0BwE=
+              duration: 2400
+              text: Hallo, wie geht es dir heute?
+        - name: TargetMediaChunkSubsequent
+          summary: Subsequent target media chunk
+          payload:
+            target_media_chunk:
+              language: de
+              data:
+                - H0O2dBUMRQyBElkIBE9nZ1MAAQAAAAAAAAAAtJhTXAMAAAAAcGh1CAE=
+                - H0O2dBUMRQyBElkIBE9nZ1MAAgAAAAAAAAAAtJhTXAQAAAAAdGltZQkB
+              duration: 1800
+        - name: TargetMediaChunkRawOpus
+          summary: Raw Opus with RFC 7845 header
+          payload:
+            target_media_chunk:
+              language: de
+              content_type: audio/opus
+              headers: 1
+              data:
+                - T3B1c0hlYWQBAgA8AABAC0AAAAAA
+                - z/nldGFnAAAAAAAAAAAAAAAAAAAA
+                - KP9J1XN0YXJ0IG9mIGF1ZGlvIGRhdGE=
+              duration: 3200
+              text: Guten Tag
+        - name: TargetMediaChunkRawPCM
+          summary: Raw PCM without headers
+          payload:
+            target_media_chunk:
+              language: de
+              content_type: audio/pcm;encoding=s16le;rate=24000
+              data:
+                - AAEAAgADAAQABQAGAAcACAAJAAoACwAMAA0ADgAPABAAEQASABMAFAAVABYAFw==
+              duration: 1500
+              text: Willkommen
+
     EndOfSourceTranscript:
       name: EndOfSourceTranscript
       title: End of Source Transcript
@@ -215,6 +308,23 @@ components:
           payload:
             end_of_target_transcript:
               language: fr
+
+    EndOfTargetMedia:
+      name: EndOfTargetMedia
+      title: End of Target Media
+      description: >
+        (closed beta) This message indicates that the *target* media stream is complete and no further audio chunks will be
+        sent for this target language. It gets emitted after client sends End of Source Media and all target audio
+        has been sent.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EndOfTargetMediaPayload'
+      examples:
+        - name: EndTargetMedia
+          summary: Target media complete
+          payload:
+            end_of_target_media:
+              language: es
 
     EndOfStream:
       name: EndOfStream
@@ -266,8 +376,10 @@ components:
           properties:
             data:
               type: string
-              format: byte
-              description: Base64-encoded media data in the format specified during session initialization
+              format: binary
+              description: >
+                Audio data in the audio format specified during session initialization.
+                Encoded as base64 string when using JSON. Raw binary data when using MessagePack.
 
     EndOfSourceMediaPayload:
       type: object
@@ -325,14 +437,26 @@ components:
           properties:
             concluded:
               type: array
-              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
-              description: Array of fixed transcript segments that will not change anymore. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language), `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
+              # list properties of referenced items here because there is a bug in mintlify that does not render
+              # them properly for array types
+              description: >
+                Array of fixed transcript segments that will not change anymore. Array objects contain
+                `language` property of type `string` (IETF BCP 47 language tag of the detected source language),
+                `text` property of type `string` (Source or target transcript text), `start_time` property of type
+                `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time`
+                property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/SourceTranscriptSegment'
             tentative:
               type: array
-              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
-              description: Array of preliminary transcript segments that are subject to change. Array objects contain `language` property of type `string` (IETF BCP 47 language tag of the detected source language), `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
+              # list properties of referenced items here because there is a bug in mintlify that does not render
+              # them properly for array types
+              description: >
+                Array of preliminary transcript segments that are subject to change. Array objects contain
+                `language` property of type `string` (IETF BCP 47 language tag of the detected source language),
+                `text` property of type `string` (Source or target transcript text), `start_time` property of type
+                `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time`
+                property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/SourceTranscriptSegment'
 
@@ -355,16 +479,85 @@ components:
                 - es
             concluded:
               type: array
-              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
-              description: Array of fixed transcript segments that will not change anymore. Array objects contain `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
+              # list properties of referenced items here because there is a bug in mintlify that does not render
+              # them properly for array types
+              description: >
+                Array of fixed transcript segments that will not change anymore. Array objects contain
+                `text` property of type `string` (Source or target transcript text), `start_time` property of type
+                `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time`
+                property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/TranscriptSegment'
             tentative:
               type: array
-              # list properties of referenced items here because there is a bug in mintlify that does not render them properly for array types
-              description: Array of preliminary transcript segments that are subject to change. Array objects contain `text` property of type `string` (Source or target transcript text), `start_time` property of type `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time` property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
+              # list properties of referenced items here because there is a bug in mintlify that does not render
+              # them properly for array types
+              description: >
+                Array of preliminary transcript segments that are subject to change. Array objects contain
+                `text` property of type `string` (Source or target transcript text), `start_time` property of type
+                `integer` (Estimated start time of the segment in the input stream in milliseconds) and `end_time`
+                property of type `integer` (Estimated end time of the segment in the input stream in milliseconds).
               items:
                 $ref: '#/components/schemas/TranscriptSegment'
+
+    TargetMediaChunkPayload:
+      type: object
+      required:
+        - target_media_chunk
+      properties:
+        target_media_chunk:
+          type: object
+          required:
+            - language
+            - data
+            - duration
+          properties:
+            language:
+              type: string
+              description: IETF BCP 47 language tag of the target media language
+              examples:
+                - de
+            content_type:
+              type: string
+              description: (Optional) MIME type of the audio stream. Only present in the first message of this type.
+              examples:
+                - audio/webm;codecs=opus;
+            headers:
+              type: integer
+              description: (Optional) Number of packets at the start of the data array that contain
+                initialization/header data. Only present in the first message of this type. When present, the first N
+                elements in the data array (where N equals the headers value) contain header/initialization data
+                required by the decoder, and subsequent elements contain audio packets. For containerized formats, all
+                packets can be passed directly to the demuxer. For raw codec formats, header packets must be used to
+                initialize the decoder before processing audio packets. When null or absent, all packets are audio data.
+              examples:
+                - 1
+            data:
+              type: array
+              description: Array of indivisible chunks of audio data (e.g., codec packets or container pages/clusters).
+                Each element is encoded as base64 string when using JSON message format, or raw binary data when using
+                MessagePack message format. When the headers field is present, the first N elements contain header data,
+                and subsequent elements contain audio packets.
+              items:
+                type: string
+                format: byte
+            duration:
+              type: integer
+              description: The total playback duration of all audio data in this chunk, measured in milliseconds.
+                Accumulate duration values across chunks belonging to the same text segment to determine the total
+                playback time for that subtitle. Also useful for synchronization, buffering calculations, and
+                determining the timing of subsequent chunks.
+              examples:
+                - 2400
+            text:
+              type: string
+              description: (Optional) The target transcript segment from which this audio was synthesized. Present only
+                in the first audio chunk belonging to a new transcript segment. Subsequent audio chunks for
+                the same transcript segment will have this field set to null. Multiple audio chunks can belong to
+                the same text segment. The cumulative content of this field across all chunks matches the cumulative
+                target transcript received via target transcript updates. This allows clients to associate audio chunks
+                with their corresponding transcript segments and display synchronized captions or subtitles during
+                playback.
 
     EndOfSourceTranscriptPayload:
       type: object
@@ -391,10 +584,30 @@ components:
               examples:
                 - fr
 
+    EndOfTargetMediaPayload:
+      type: object
+      required:
+        - end_of_target_media
+      properties:
+        end_of_target_media:
+          type: object
+          required:
+            - language
+          properties:
+            language:
+              type: string
+              description: IETF BCP 47 language tag indicating which target media stream has ended
+              examples:
+                - es
+
     EndOfStreamPayload:
       type: object
       required:
         - end_of_stream
+      properties:
+        end_of_stream:
+          type: object
+          description: Empty object indicating all outputs are complete
 
     ErrorPayload:
       type: object
