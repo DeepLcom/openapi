@@ -60,6 +60,10 @@
     {
       "name": "VoiceAPI",
       "description": "The Voice API provides real-time voice transcription and translation services.\nUse a two-step flow: first request a streaming URL via REST, then establish a WebSocket connection for streaming audio and receiving transcriptions."
+    },
+    {
+      "name": "VoiceTranslateJob",
+      "description": "**Alpha.** Async voice translation jobs. This API may change without notice."
     }
   ],
   "x-hideTryItPanel": true,
@@ -609,9 +613,10 @@
                     "$ref": "#/components/schemas/OutlineDetectionOption"
                   },
                   "enable_beta_languages": {
-                    "description": "No languages are currently in beta. This parameter is maintained for backward compatibility and has no effect.",
+                    "description": "This parameter is maintained for backward compatibility and has no effect.",
                     "type": "boolean",
-                    "default": false
+                    "default": false,
+                    "deprecated": true
                   },
                   "non_splitting_tags": {
                     "description": "Comma-separated list of XML tags which never split sentences.",
@@ -698,9 +703,10 @@
                     "$ref": "#/components/schemas/OutlineDetectionOptionStr"
                   },
                   "enable_beta_languages": {
-                    "description": "No languages are currently in Beta. This parameter is maintained for backward compatibility and has no effect. Previously enabled 81 languages that are now part of the standard language list. See the [full list](/docs/getting-started/supported-languages).",
+                    "description": "This parameter is maintained for backward compatibility and has no effect.",
                     "type": "boolean",
-                    "default": false
+                    "default": false,
+                    "deprecated": true
                   },
                   "non_splitting_tags": {
                     "description": "Comma-separated list of XML tags which never split sentences.",
@@ -884,9 +890,10 @@
                     "$ref": "#/components/schemas/GlossaryId"
                   },
                   "enable_beta_languages": {
-                    "description": "No languages are currently in Beta. This parameter is maintained for backward compatibility and has no effect. Previously enabled 81 languages that are now part of the standard language list. See the [full list](/docs/getting-started/supported-languages).",
+                    "description": "This parameter is maintained for backward compatibility and has no effect.",
                     "type": "boolean",
-                    "default": false
+                    "default": false,
+                    "deprecated": true
                   }
                 }
               }
@@ -2854,16 +2861,16 @@
         ]
       }
     },
-    "/v3/languages/products": {
+    "/v3/languages/resources": {
       "get": {
         "tags": [
           "MetaInformation",
           "beta"
         ],
         "x-beta": true,
-        "summary": "Retrieve Language Products",
-        "operationId": "getLanguageProducts",
-        "description": "Returns all DeepL API products, including the API endpoints they expose, and the features they support.\n\nFor each feature, the response indicates which languages must support it for the feature to be\navailable — source only (`required_on_source`), target only (`required_on_target`), or both.\nThis allows clients to determine feature availability for a language pair by checking the\nappropriate language's `features` array returned by `GET /v3/languages`.",
+        "summary": "Retrieve Language Resources",
+        "operationId": "getLanguageResources",
+        "description": "Returns all DeepL API resources and the features they support.\n\nFor each feature, the response indicates which languages must support it for the feature to be\navailable — source only (`needs_source_support`), target only (`needs_target_support`), or both.\nThis allows clients to determine feature availability for a language pair by checking the\nappropriate language's `features` object returned by `GET /v3/languages`.",
         "responses": {
           "200": {
             "description": "JSON array where each item represents a DeepL API product.",
@@ -2880,12 +2887,11 @@
                     "type": "object",
                     "required": [
                       "name",
-                      "endpoints",
                       "features"
                     ],
                     "properties": {
                       "name": {
-                        "description": "The product identifier.",
+                        "description": "The resource identifier.",
                         "type": "string",
                         "enum": [
                           "translate_text",
@@ -2897,18 +2903,8 @@
                         ],
                         "example": "translate_text"
                       },
-                      "endpoints": {
-                        "description": "API endpoints associated with this product.",
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "example": [
-                          "v2/translate"
-                        ]
-                      },
                       "features": {
-                        "description": "Features supported by this product. Each feature indicates which languages\nmust support it for the feature to be available — source, target, or both.",
+                        "description": "Features supported by this resource. Each feature indicates which languages\nmust support it for the feature to be available — source, target, or both.",
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -2917,22 +2913,23 @@
                           ],
                           "properties": {
                             "name": {
-                              "description": "The feature identifier, corresponding to values in the `features` array returned by `GET /v3/languages`.",
+                              "description": "The feature identifier, corresponding to keys in the `features` object returned by `GET /v3/languages`.",
                               "type": "string",
                               "enum": [
                                 "formality",
-                                "custom_instructions",
+                                "style_rules",
                                 "tag_handling",
                                 "glossary",
                                 "writing_style",
-                                "tone"
+                                "tone",
+                                "auto_detection"
                               ]
                             },
-                            "required_on_source": {
+                            "needs_source_support": {
                               "description": "If `true`, the source language must support this feature for it to be available. Defaults to `false` if absent.",
                               "type": "boolean"
                             },
-                            "required_on_target": {
+                            "needs_target_support": {
                               "description": "If `true`, the target language must support this feature for it to be available. Defaults to `false` if absent.",
                               "type": "boolean"
                             }
@@ -2945,48 +2942,43 @@
                 "example": [
                   {
                     "name": "translate_text",
-                    "endpoints": [
-                      "v2/translate"
-                    ],
                     "features": [
                       {
                         "name": "formality",
-                        "required_on_target": true
+                        "needs_target_support": true
                       },
                       {
-                        "name": "custom_instructions",
-                        "required_on_target": true
+                        "name": "style_rules",
+                        "needs_target_support": true
                       },
                       {
                         "name": "tag_handling",
-                        "required_on_source": true,
-                        "required_on_target": true
+                        "needs_source_support": true,
+                        "needs_target_support": true
                       },
                       {
                         "name": "glossary",
-                        "required_on_source": true,
-                        "required_on_target": true
+                        "needs_source_support": true,
+                        "needs_target_support": true
+                      },
+                      {
+                        "name": "auto_detection",
+                        "needs_source_support": true
                       }
                     ]
                   },
                   {
                     "name": "voice",
-                    "endpoints": [
-                      "v3/voice/realtime"
-                    ],
                     "features": [
                       {
                         "name": "glossary",
-                        "required_on_source": true,
-                        "required_on_target": true
+                        "needs_source_support": true,
+                        "needs_target_support": true
                       }
                     ]
                   },
                   {
                     "name": "style_rules",
-                    "endpoints": [
-                      "v3/style_rules"
-                    ],
                     "features": []
                   }
                 ]
@@ -3028,10 +3020,10 @@
         "x-beta": true,
         "summary": "Retrieve Languages",
         "operationId": "getLanguages",
-        "description": "Returns languages supported by the specified DeepL API product. Each language indicates whether it can\nbe used as a source language, a target language, or both, along with the features it supports for that\nproduct.",
+        "description": "Returns languages supported by the specified DeepL API resource. Each language indicates whether it can\nbe used as a source language, a target language, or both, along with the features it supports for that\nresource.",
         "parameters": [
           {
-            "name": "product",
+            "name": "resource",
             "in": "query",
             "required": true,
             "schema": {
@@ -3046,7 +3038,25 @@
               ]
             },
             "example": "translate_text",
-            "description": "The product to retrieve languages for. Supported values: `translate_text`, `translate_document`,\n`glossary`, `voice`, `write`, `style_rules`."
+            "description": "The resource to retrieve languages for. Supported values: `translate_text`, `translate_document`,\n`glossary`, `voice`, `write`, `style_rules`."
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "beta",
+                  "external"
+                ]
+              }
+            },
+            "style": "form",
+            "explode": true,
+            "description": "Controls which languages and features are included in the response. By default, only stable\nlanguages and features are returned. Values can be combined with repeated parameters\n(e.g. `?include=beta&include=external`).\n\n- `beta`: Include languages and features in beta, in addition to stable\n- `external`: Include features that rely on third-party service providers"
           }
         ],
         "responses": {
@@ -3068,7 +3078,8 @@
                       "name",
                       "usable_as_source",
                       "usable_as_target",
-                      "features"
+                      "features",
+                      "status"
                     ],
                     "properties": {
                       "lang": {
@@ -3082,32 +3093,54 @@
                         "example": "German"
                       },
                       "usable_as_source": {
-                        "description": "Whether this language can be used as a source language with the specified product.",
+                        "description": "Whether this language can be used as a source language with the specified resource.",
                         "type": "boolean"
                       },
                       "usable_as_target": {
-                        "description": "Whether this language can be used as a target language with the specified product.",
+                        "description": "Whether this language can be used as a target language with the specified resource.",
                         "type": "boolean"
                       },
+                      "status": {
+                        "description": "Availability status of this language.",
+                        "type": "string",
+                        "enum": [
+                          "stable",
+                          "beta",
+                          "early_access"
+                        ],
+                        "example": "stable"
+                      },
                       "features": {
-                        "description": "Features supported for this language with the specified product. Always present;\nempty array if no optional features are supported. Consult `/v3/languages/products`\nto determine whether a feature must be present on the source language, target language,\nor both for a given product.",
-                        "type": "array",
-                        "items": {
-                          "type": "string",
-                          "enum": [
-                            "formality",
-                            "custom_instructions",
-                            "tag_handling",
-                            "glossary",
-                            "writing_style",
-                            "tone"
-                          ]
+                        "description": "Features supported for this language with the specified resource. Always present;\nempty object if no optional features are supported. Each key is a feature name;\nthe value is an object with at least a `status` field. Consult `GET /v3/languages/resources`\nto determine whether a feature must be present on the source language, target language,\nor both for a given resource.",
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "required": [
+                            "status"
+                          ],
+                          "properties": {
+                            "status": {
+                              "description": "Availability status of this feature for this language.",
+                              "type": "string",
+                              "enum": [
+                                "stable",
+                                "beta",
+                                "early_access"
+                              ]
+                            }
+                          }
                         },
-                        "example": [
-                          "formality",
-                          "tag_handling",
-                          "glossary"
-                        ]
+                        "example": {
+                          "formality": {
+                            "status": "stable"
+                          },
+                          "tag_handling": {
+                            "status": "stable"
+                          },
+                          "glossary": {
+                            "status": "stable"
+                          }
+                        }
                       }
                     }
                   }
@@ -3121,31 +3154,48 @@
                         "name": "German",
                         "usable_as_source": true,
                         "usable_as_target": true,
-                        "features": [
-                          "formality",
-                          "tag_handling",
-                          "glossary"
-                        ]
+                        "status": "stable",
+                        "features": {
+                          "formality": {
+                            "status": "stable"
+                          },
+                          "tag_handling": {
+                            "status": "stable"
+                          },
+                          "glossary": {
+                            "status": "stable"
+                          }
+                        }
                       },
                       {
                         "lang": "en",
                         "name": "English",
                         "usable_as_source": true,
                         "usable_as_target": false,
-                        "features": [
-                          "tag_handling",
-                          "glossary"
-                        ]
+                        "status": "stable",
+                        "features": {
+                          "tag_handling": {
+                            "status": "stable"
+                          },
+                          "glossary": {
+                            "status": "stable"
+                          }
+                        }
                       },
                       {
                         "lang": "en-US",
                         "name": "English (American)",
                         "usable_as_source": false,
                         "usable_as_target": true,
-                        "features": [
-                          "tag_handling",
-                          "glossary"
-                        ]
+                        "status": "stable",
+                        "features": {
+                          "tag_handling": {
+                            "status": "stable"
+                          },
+                          "glossary": {
+                            "status": "stable"
+                          }
+                        }
                       }
                     ]
                   }
@@ -4335,6 +4385,214 @@
           }
         ]
       }
+    },
+    "/v1/jobs/voice/translate": {
+      "post": {
+        "tags": [
+          "VoiceTranslateJob"
+        ],
+        "operationId": "createVoiceTranslateJob",
+        "summary": "Create a voice translation job",
+        "description": "Creates an async voice translation job. The response includes an upload URL for the source audio file.",
+        "security": [
+          {
+            "auth_header": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/VoiceTranslateJobIncludeParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoiceTranslateCreateJobRequest"
+              },
+              "example": {
+                "source_file": {
+                  "name": "podcast-episode-42.mp3",
+                  "content_type": "audio/mpeg",
+                  "content_length": 15728640
+                },
+                "parameters": {
+                  "source_language": "en"
+                },
+                "targets": [
+                  {
+                    "language": "de",
+                    "type": "text/plain"
+                  },
+                  {
+                    "language": "es",
+                    "type": "audio/pcm;encoding=s16le;rate=16000"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceTranslateCreateJobResponse"
+                },
+                "example": {
+                  "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+                  "upload_url": "https://assets.deepl.com/collections/a74d88fb-ed2a-4943-a664-a4512398b994/assets/b1c2d3e4-f5a6-7890-abcd-ef1234567890",
+                  "signature": "eyJhbGciOiJIUzI1NiIs..."
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/VoiceTranslateJobBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v1/jobs/voice/translate/{job_id}": {
+      "get": {
+        "tags": [
+          "VoiceTranslateJob"
+        ],
+        "operationId": "getVoiceTranslateJobStatus",
+        "summary": "Get voice translation job status",
+        "description": "Returns the current status of a voice translation job, including per-target result statuses.\n\nWhen a target's status is `complete`, the response includes a `download_url` and `signature` for that target. Results are returned in the same order as the targets in the create request.",
+        "security": [
+          {
+            "auth_header": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/VoiceTranslateJobIdParam"
+          },
+          {
+            "$ref": "#/components/parameters/VoiceTranslateJobIncludeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job status retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoiceTranslateJobStatusResponse"
+                },
+                "examples": {
+                  "processing": {
+                    "summary": "Job still processing",
+                    "value": {
+                      "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+                      "product": "voice",
+                      "operation": "translate",
+                      "created_at": "2026-10-01T01:03:03.444Z",
+                      "updated_at": "2026-10-01T04:03:03.333Z",
+                      "usage": {
+                        "storage_used": 31457280
+                      },
+                      "source_file": {
+                        "name": "podcast-episode-42.mp3",
+                        "content_type": "audio/mpeg",
+                        "content_length": 15728640
+                      },
+                      "parameters": {
+                        "source_language": "en"
+                      },
+                      "targets": [
+                        {
+                          "language": "de",
+                          "type": "text/plain"
+                        },
+                        {
+                          "language": "es",
+                          "type": "audio/pcm;encoding=s16le;rate=16000"
+                        }
+                      ],
+                      "results": [
+                        {
+                          "status": "processing"
+                        },
+                        {
+                          "status": "processing"
+                        }
+                      ]
+                    }
+                  },
+                  "complete": {
+                    "summary": "Job with mixed results",
+                    "value": {
+                      "job_id": "a74d88fb-ed2a-4943-a664-a4512398b994",
+                      "product": "voice",
+                      "operation": "translate",
+                      "created_at": "2026-10-01T01:03:03.444Z",
+                      "updated_at": "2026-10-01T04:03:03.333Z",
+                      "usage": {
+                        "storage_used": 31457280
+                      },
+                      "source_file": {
+                        "name": "podcast-episode-42.mp3",
+                        "content_type": "audio/mpeg",
+                        "content_length": 15728640
+                      },
+                      "parameters": {
+                        "source_language": "en"
+                      },
+                      "targets": [
+                        {
+                          "language": "de",
+                          "type": "text/plain"
+                        },
+                        {
+                          "language": "es",
+                          "type": "audio/pcm;encoding=s16le;rate=16000"
+                        }
+                      ],
+                      "results": [
+                        {
+                          "status": "complete",
+                          "download_url": "https://assets.deepl.com/collections/a74d88fb/assets/c3d4e5f6",
+                          "signature": "eyJhbGciOiJIUzI1NiIs..."
+                        },
+                        {
+                          "status": "failed",
+                          "error": {
+                            "message": "processing failed"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4357,6 +4615,34 @@
           "type": "string"
         },
         "example": "04DE5AD98A02647D83285A36021911C6"
+      },
+      "VoiceTranslateJobIdParam": {
+        "name": "job_id",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier of the job, returned by the create job endpoint.",
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "a74d88fb-ed2a-4943-a664-a4512398b994"
+        }
+      },
+      "VoiceTranslateJobIncludeParam": {
+        "name": "include",
+        "in": "query",
+        "required": false,
+        "description": "Additional fields to include in the response.\n- `signed_url`: Include pre-signed URLs (`signed_upload_url` on create, `signed_download_url` on status) that can be used without an authorization header.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "signed_url"
+            ]
+          }
+        },
+        "style": "form",
+        "explode": true
       },
       "GlossaryID": {
         "name": "glossary_id",
@@ -4384,6 +4670,19 @@
       }
     },
     "responses": {
+      "VoiceTranslateJobBadRequest": {
+        "description": "Bad request. Check the error message and request parameters.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "message": "/targets/0/type: Value is not valid"
+            }
+          }
+        }
+      },
       "BadRequest": {
         "description": "Bad request. Please check error message and your parameters."
       },
@@ -7303,6 +7602,348 @@
           },
           "usage": {
             "$ref": "#/components/schemas/UsageBreakdown"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A human-readable description of the error."
+          },
+          "code": {
+            "type": "string",
+            "description": "A machine-readable identifier for the error, when available. Clients should match on this value rather than on `message` when branching on error types.",
+            "example": "invalid_content_type"
+          }
+        }
+      },
+      "VoiceTranslateJobSourceContentType": {
+        "type": "string",
+        "description": "The MIME type of the source audio file.",
+        "enum": [
+          "audio/mpeg",
+          "audio/wav",
+          "audio/ogg",
+          "audio/flac",
+          "audio/mp4",
+          "audio/webm"
+        ]
+      },
+      "JobSourceFileRequest": {
+        "type": "object",
+        "description": "Metadata about the source audio file to be uploaded.",
+        "required": [
+          "name",
+          "content_type",
+          "content_length"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The file name of the source audio file.",
+            "example": "podcast-episode-42.mp3"
+          },
+          "content_type": {
+            "$ref": "#/components/schemas/VoiceTranslateJobSourceContentType"
+          },
+          "content_length": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "maximum": 1073741824,
+            "description": "The size of the source audio file in bytes. Maximum 1 GB (1,073,741,824 bytes).",
+            "example": 15728640
+          }
+        }
+      },
+      "JobSourceFileResponse": {
+        "type": "object",
+        "description": "Metadata about the uploaded source audio file.",
+        "required": [
+          "name",
+          "content_type",
+          "content_length"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The file name of the source audio file."
+          },
+          "content_type": {
+            "type": "string",
+            "description": "The MIME type of the source audio file."
+          },
+          "content_length": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The size of the source audio file in bytes."
+          }
+        }
+      },
+      "VoiceTranslateJobTargetOutputType": {
+        "type": "string",
+        "description": "The desired output format for the translation target.",
+        "enum": [
+          "text/plain",
+          "application/x-subrip",
+          "audio/opus",
+          "audio/flac",
+          "audio/pcm;encoding=s16le;rate=16000",
+          "audio/pcm;encoding=s16le;rate=24000",
+          "audio/pcm;encoding=ulaw;rate=8000",
+          "audio/pcm;encoding=alaw;rate=8000",
+          "audio/x-matroska;codecs=aac",
+          "audio/x-matroska;codecs=flac",
+          "audio/x-matroska;codecs=opus",
+          "audio/x-matroska;codecs=pcm_s16le;rate=16000",
+          "audio/x-matroska;codecs=pcm_s16le;rate=24000",
+          "video/mp2t;codecs=aac",
+          "video/mp2t;codecs=opus",
+          "audio/ogg;codecs=flac",
+          "audio/ogg;codecs=opus",
+          "audio/webm;codecs=opus"
+        ]
+      },
+      "VoiceTranslateJobParametersRequest": {
+        "type": "object",
+        "description": "Processing parameters for the voice translation job.",
+        "properties": {
+          "source_language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceLanguage"
+              },
+              {
+                "description": "Language of the source audio. If omitted, the language is detected automatically."
+              }
+            ]
+          }
+        }
+      },
+      "VoiceTranslateJobParametersResponse": {
+        "type": "object",
+        "description": "Processing parameters as applied to the voice translation job.",
+        "properties": {
+          "source_language": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceLanguage"
+              },
+              {
+                "description": "Language of the source audio."
+              }
+            ]
+          }
+        }
+      },
+      "VoiceTranslateJobTargetRequest": {
+        "type": "object",
+        "description": "A translation target specifying the desired output language and format.",
+        "required": [
+          "language",
+          "type"
+        ],
+        "properties": {
+          "language": {
+            "$ref": "#/components/schemas/TargetLanguage"
+          },
+          "type": {
+            "$ref": "#/components/schemas/VoiceTranslateJobTargetOutputType"
+          }
+        }
+      },
+      "VoiceTranslateJobTargetResponse": {
+        "type": "object",
+        "description": "A translation target as recorded on the job.",
+        "required": [
+          "language",
+          "type"
+        ],
+        "properties": {
+          "language": {
+            "$ref": "#/components/schemas/TargetLanguage"
+          },
+          "type": {
+            "$ref": "#/components/schemas/VoiceTranslateJobTargetOutputType"
+          }
+        }
+      },
+      "VoiceTranslateCreateJobRequest": {
+        "type": "object",
+        "required": [
+          "source_file",
+          "targets"
+        ],
+        "properties": {
+          "source_file": {
+            "$ref": "#/components/schemas/JobSourceFileRequest"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/VoiceTranslateJobParametersRequest"
+          },
+          "targets": {
+            "type": "array",
+            "minItems": 1,
+            "description": "One or more translation targets. Each target produces a separate result.",
+            "items": {
+              "$ref": "#/components/schemas/VoiceTranslateJobTargetRequest"
+            }
+          }
+        }
+      },
+      "VoiceTranslateCreateJobResponse": {
+        "type": "object",
+        "required": [
+          "job_id",
+          "upload_url",
+          "signature"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the created job."
+          },
+          "upload_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to upload the source audio file to via `PUT` with `Content-Type: application/octet-stream`.\nRequires the `Authorization: DeepL-Signature {signature}` header.\nSee [Upload File](/api-reference/jobs-voice-translate#upload-file) for details."
+          },
+          "signature": {
+            "type": "string",
+            "description": "A short-lived token used to authorize the file upload. Pass it via the `Authorization` header as `DeepL-Signature {signature}` when uploading to the `upload_url`."
+          },
+          "signed_upload_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "A pre-signed upload URL that does not require an authorization header. Only present when `?include=signed_url` is specified."
+          }
+        }
+      },
+      "JobUsage": {
+        "type": "object",
+        "properties": {
+          "storage_used": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Total storage used by this job in bytes, including source and output files."
+          }
+        }
+      },
+      "ResultStatus": {
+        "type": "string",
+        "description": "The processing status of a target result.\n- `pending`: Job created, awaiting file upload.\n- `uploaded`: File uploaded, awaiting processing.\n- `processing`: Translation in progress.\n- `complete`: Translation complete, result available for download.\n- `downloaded`: Result has been downloaded. Assets are marked for deletion.\n- `failed`: Processing failed. See the `error` field for details.",
+        "enum": [
+          "pending",
+          "uploaded",
+          "processing",
+          "complete",
+          "downloaded",
+          "failed"
+        ]
+      },
+      "VoiceTranslateJobTargetResult": {
+        "type": "object",
+        "description": "The processing result for a single translation target.",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ResultStatus"
+          },
+          "download_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to download the translated result via `GET`.\nRequires the `Authorization: DeepL-Signature {signature}` header.\nOnly present when `status` is `complete`.\nSee [Download Result](/api-reference/jobs-voice-translate#download-result) for details."
+          },
+          "signature": {
+            "type": "string",
+            "description": "A short-lived token used to authorize the result download. Only present when `status` is `complete`."
+          },
+          "signed_download_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "A pre-signed download URL that does not require an authorization header. Only present when `status` is `complete` and `?include=signed_url` is specified."
+          },
+          "error": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorResponse"
+              }
+            ],
+            "description": "Details about the processing failure. Only present when `status` is `failed`."
+          }
+        }
+      },
+      "VoiceTranslateJobStatusResponse": {
+        "type": "object",
+        "required": [
+          "job_id",
+          "product",
+          "operation",
+          "created_at",
+          "updated_at",
+          "usage",
+          "source_file",
+          "parameters",
+          "targets",
+          "results"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the job."
+          },
+          "product": {
+            "type": "string",
+            "description": "The product identifier.",
+            "example": "voice"
+          },
+          "operation": {
+            "type": "string",
+            "description": "The operation identifier.",
+            "example": "translate"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the job was created (ISO 8601)."
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the job was last updated (ISO 8601)."
+          },
+          "usage": {
+            "$ref": "#/components/schemas/JobUsage"
+          },
+          "source_file": {
+            "$ref": "#/components/schemas/JobSourceFileResponse"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/VoiceTranslateJobParametersResponse"
+          },
+          "targets": {
+            "type": "array",
+            "description": "The translation targets as specified in the create request.",
+            "items": {
+              "$ref": "#/components/schemas/VoiceTranslateJobTargetResponse"
+            }
+          },
+          "results": {
+            "type": "array",
+            "description": "Per-target processing results, in the same order as the `targets` array.",
+            "items": {
+              "$ref": "#/components/schemas/VoiceTranslateJobTargetResult"
+            }
           }
         }
       }
