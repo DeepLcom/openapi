@@ -438,10 +438,10 @@ paths:
                   example: def3a26b-3e84-45b3-84ae-0c0aaf3525f7
                 style_id:
                   description: |-
-                    Specify the [style rule list](/api-reference/style-rules) to use for the translation. 
+                    Specify the [style rule list](/api-reference/style-rules) to use for the translation.
 
-                    **Important:**  The target language has to match the language of the style rule list. 
-                    
+                    **Important:**  The target language has to match the language of the style rule list.
+
                     **Note:** Any request with the `style_id` parameter enabled will use `quality_optimized` models. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.
                   type: string
                   example: 7ff9bfd6-cd85-4190-8503-d6215a321519
@@ -928,10 +928,15 @@ paths:
         - auth_header: [ ]
   /v2/glossary-language-pairs:
     get:
+      deprecated: true
       tags:
         - ManageGlossaries
       summary: List Language Pairs Supported by Glossaries
-      description: Retrieve the list of language pairs supported by the glossary feature.
+      description: |-
+        **Deprecated.** Use `GET /v3/languages?resource=glossary` instead, which returns per-language
+        availability including source and target roles.
+
+        Retrieve the list of language pairs supported by the glossary feature.
       operationId: listGlossaryLanguages
       responses:
         200:
@@ -1830,10 +1835,15 @@ paths:
         - auth_header: [ ]
   /v2/languages:
     get:
+      deprecated: true
       tags:
         - MetaInformation
       summary: Retrieve Supported Languages
-      operationId: getLanguages
+      description: |-
+        **Deprecated.** Use `GET /v3/languages?resource=translate_text` (or the appropriate resource)
+        instead. See the [migration guide](https://developers.deepl.com/api-reference/languages/migrate-from-v2-languages)
+        for details.
+      operationId: getLanguagesV2
       parameters:
         - name: type
           in: query
@@ -1970,8 +1980,6 @@ paths:
     get:
       tags:
         - MetaInformation
-        - beta
-      x-beta: true
       summary: Retrieve Language Resources
       operationId: getLanguageResources
       description: |-
@@ -2075,8 +2083,6 @@ paths:
     get:
       tags:
         - MetaInformation
-        - beta
-      x-beta: true
       summary: Retrieve Languages
       operationId: getLanguages
       description: |-
@@ -3247,8 +3253,8 @@ components:
     auth_header:
       type: apiKey
       description: >
-        Authentication with `Authorization` header and 
-        `DeepL-Auth-Key` authentication scheme. Example: 
+        Authentication with `Authorization` header and
+        `DeepL-Auth-Key` authentication scheme. Example:
         `DeepL-Auth-Key <api-key>`
       name: Authorization
       in: header
@@ -4662,8 +4668,8 @@ components:
     Formality:
       description: |-
         Sets whether the translated text should lean towards formal or informal language.
-        This feature is only available for certain target languages. Setting this parameter 
-        with a target language that does not support formality will fail, unless one of the 
+        This feature is only available for certain target languages. Setting this parameter
+        with a target language that does not support formality will fail, unless one of the
         `prefer_...` options are used.
         Possible options are:
           * `default` (default)
@@ -4893,15 +4899,15 @@ components:
           $ref: '#/components/schemas/GlossaryEntryCount'
     OutlineDetectionOption:
       description: |-
-        Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
-        to `false` and selecting the tags that should be considered structure tags. This will split sentences 
+        Disable the automatic detection of XML structure by setting the `outline_detection` parameter
+        to `false` and selecting the tags that should be considered structure tags. This will split sentences
         using the `splitting_tags` parameter.
       type: boolean
       default: true
     OutlineDetectionOptionStr:
       description: |-
-        Disable the automatic detection of XML structure by setting the `outline_detection` parameter 
-        to `false` and selecting the tags that should be considered structure tags. This will split sentences 
+        Disable the automatic detection of XML structure by setting the `outline_detection` parameter
+        to `false` and selecting the tags that should be considered structure tags. This will split sentences
         using the `splitting_tags` parameter.
       type: string
       default: '1'
@@ -4919,13 +4925,13 @@ components:
             $ref: '#/components/schemas/GlossaryDictionary'
     PreserveFormattingOption:
       description: |-
-        Sets whether the translation engine should respect the original formatting, even if it would usually 
+        Sets whether the translation engine should respect the original formatting, even if it would usually
         correct some aspects.
       type: boolean
       default: false
     PreserveFormattingOptionStr:
       description: |-
-        Sets whether the translation engine should respect the original formatting, even if it would usually 
+        Sets whether the translation engine should respect the original formatting, even if it would usually
         correct some aspects.
       type: string
       enum:
@@ -4934,12 +4940,12 @@ components:
       default: '0'
     ShowBilledCharacters:
       description: |-
-        When true, the response will include the billed_characters parameter, giving the 
+        When true, the response will include the billed_characters parameter, giving the
         number of characters from the request that will be counted by DeepL for billing purposes.
       type: boolean
     SplitSentencesOption:
       description: |-
-        Sets whether the translation engine should first split the input into sentences. 
+        Sets whether the translation engine should first split the input into sentences.
 
         Possible values are:
           * 0 - no splitting at all, whole input is treated as one sentence
@@ -4958,7 +4964,7 @@ components:
         Language of the text to be translated. If this parameter is omitted, the API will attempt to
         detect the language of the text and translate it.
 
-        For the full list of supported source languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource) (beta).
+        For the full list of supported source languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource).
       example: EN
     TranslationMemory:
       type: object
@@ -5130,7 +5136,7 @@ components:
       description: |-
         The language into which the text should be translated.
 
-        For the full list of supported target languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource) (beta).
+        For the full list of supported target languages, see [supported languages](https://developers.deepl.com/docs/getting-started/supported-languages) or query the [`GET /v3/languages` endpoint](https://developers.deepl.com/api-reference/languages/retrieve-supported-languages-by-resource).
       example: DE
     TargetLanguageWrite:
       type: string
