@@ -2845,6 +2845,8 @@ paths:
                   $ref: '#/components/schemas/VoiceTargetMediaContentType'
                 target_media_voice:
                   $ref: '#/components/schemas/VoiceTargetMediaVoice'
+                spoken_terms_id:
+                  $ref: '#/components/schemas/SpokenTermsId'
                 glossary_id:
                   $ref: '#/components/schemas/GlossaryId'
                 formality:
@@ -2859,7 +2861,7 @@ paths:
                   target_languages: ['de', 'fr', 'es']
                   message_format: 'json'
               with_glossary:
-                summary: With glossary and formality
+                summary: With glossary and formality to customize translation
                 value:
                   source_media_content_type: 'audio/pcm; encoding=s16le; rate=16000'
                   source_language: 'en'
@@ -2868,6 +2870,14 @@ paths:
                   message_format: 'msgpack'
                   glossary_id: 'def3a26b-3e84-45b3-84ae-0c0aaf3525f7'
                   formality: 'formal'
+              with_spoken_terms:
+                summary: With spoken terms to inform transcription
+                value:
+                  source_media_content_type: 'audio/pcm; encoding=s16le; rate=16000'
+                  source_language: 'en'
+                  source_language_mode: 'fixed'
+                  target_languages: ['de']
+                  spoken_terms_id: '7c4f1080-cfe2-41d4-8269-0e6ec15a0354'
               with_tts:
                 summary: With translated audio (default format)
                 value:
@@ -4802,6 +4812,11 @@ components:
       - vi
       - zh
       example: de
+    SpokenTermsId:
+      type: string
+      format: uuid
+      description: (beta) The ID of a spoken terms list used to inform transcription.
+      example: 7c4f1080-cfe2-41d4-8269-0e6ec15a0354
     ModelType:
       type: string
       description: Specifies which DeepL model should be used for translation.
@@ -5262,7 +5277,7 @@ components:
       default: json
       example: json
     VoiceTargetMediaVoice:
-      description: (EAP) Target audio voice selection for synthesized speech. The default voice is language dependent.
+      description: (closed beta) Target audio voice selection for synthesized speech. The default voice is language dependent.
       type: string
       enum:
       - male
@@ -5448,7 +5463,7 @@ components:
     VoiceTargetMediaLanguages:
       type: array
       description: >
-        (EAP) List of target languages for which to generate synthesized audio.
+        (closed beta) List of target languages for which to generate synthesized audio.
         Languages specified here will automatically be added to target_languages if not already present,
         ensuring you receive both text translation and audio synthesis for these languages.
         If omitted, only text transcription and translation will be provided (no audio synthesis).
@@ -5499,7 +5514,7 @@ components:
     VoiceTargetMediaContentType:
       type: string
       description: "
-        (EAP) The audio format for synthesized target media streaming.\n
+        (closed beta) The audio format for synthesized target media streaming.\n
         Specifies container, codec, and encoding parameters for the audio returned in target_media_chunk messages.\n
         If not specified, defaults to audio/webm;codecs=opus.\n
         Only applies when target_media_languages is specified.\n
