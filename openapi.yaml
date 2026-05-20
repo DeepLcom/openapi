@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.9.0
+  version: 3.10.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -87,6 +87,8 @@ tags:
     Use a two-step flow: first request a streaming URL via REST, then establish a WebSocket connection for streaming audio and receiving transcriptions.
 - name: VoiceTranslateJob
   description: "**Alpha.** Async voice translation jobs. This API may change without notice."
+- name: AdminApi
+  description: Endpoints for organization administrators to manage API keys and retrieve usage analytics.
 x-hideTryItPanel: true
 x-codeSamples: false
 paths:
@@ -197,6 +199,131 @@ paths:
                   summary: Invalid group_by parameter value
                   value:
                     message: "Value for 'group_by' not supported. Allowed: '', 'key', 'key_and_day'."
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - auth_header: [ ]
+  /v2/admin/analytics/custom-tags:
+    get:
+      tags:
+        - AdminApi
+      summary: Get custom tag usage statistics as an admin
+      operationId: adminGetCustomTagAnalytics
+      description: |-
+        Retrieve usage statistics broken down by custom tags within a specified date range.
+        Optionally aggregate results by day or over the entire period.
+        Results are paginated; use the `page` parameter with the `next_page` value from
+        a previous response to retrieve subsequent pages.
+      parameters:
+      - name: start_date
+        in: query
+        required: true
+        description: Start date for the usage report (ISO 8601 date format).
+        schema:
+          type: string
+          format: date
+        example: "2026-05-17"
+      - name: end_date
+        in: query
+        required: true
+        description: End date for the usage report (ISO 8601 date format).
+        schema:
+          type: string
+          format: date
+        example: "2026-05-18"
+      - name: aggregate_by
+        in: query
+        required: false
+        description: |-
+          Optional parameter to control aggregation of usage statistics. Possible values:
+           * `period` - Aggregate usage over the entire date range (default)
+           * `day` - Group usage by individual day
+        schema:
+          type: string
+          enum:
+          - period
+          - day
+          default: period
+        example: "day"
+      - name: page
+        in: query
+        required: false
+        description: |-
+          Page number for pagination. Use the integer value returned in `next_page` from
+          a previous response to retrieve the next page of results.
+        schema:
+          type: integer
+        example: 2
+      responses:
+        200:
+          description: The custom tag usage statistics for the specified date range.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomTagUsageReport'
+              examples:
+                aggregateByPeriod:
+                  summary: Usage report aggregated over the full period
+                  value:
+                    custom_tag_usage_report:
+                      aggregate_by: "period"
+                      start_date: "2026-05-03T00:00:00"
+                      end_date: "2026-05-05T00:00:00"
+                      next_page: null
+                      usage:
+                      - custom_tag: "example-custom-tag"
+                        breakdown:
+                          total_characters: 380
+                          text_translation_characters: 380
+                          text_improvement_characters: 0
+                      - custom_tag: "example-custom-tag-2"
+                        breakdown:
+                          total_characters: 475
+                          text_translation_characters: 475
+                          text_improvement_characters: 0
+                aggregateByDay:
+                  summary: Usage report aggregated by day
+                  value:
+                    custom_tag_usage_report:
+                      aggregate_by: "day"
+                      start_date: "2026-05-17T00:00:00"
+                      end_date: "2026-05-18T00:00:00"
+                      next_page: 2
+                      usage:
+                      - custom_tag: "example-custom-tag"
+                        breakdown:
+                          total_characters: 190
+                          text_translation_characters: 190
+                          text_improvement_characters: 0
+        400:
+          description: Bad request. Please check error message and your parameters.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing the issue.
+              examples:
+                dateRangeExceeded:
+                  summary: Date range exceeds maximum allowed
+                  value:
+                    message: "Bad request. Reason: Date range cannot exceed 366 days"
+                invalidAggregateBy:
+                  summary: Invalid aggregate_by parameter value
+                  value:
+                    message: "Value for 'aggregate_by' not supported. Allowed: '', 'period', 'day'."
         403:
           $ref: '#/components/responses/Forbidden'
         404:
@@ -5711,6 +5838,69 @@ components:
           example: "DeepL API Key Prod"
         usage:
           $ref: '#/components/schemas/UsageBreakdown'
+    CustomTagUsageReport:
+      type: object
+      description: The response for admin custom tag usage statistics.
+      properties:
+        custom_tag_usage_report:
+          $ref: '#/components/schemas/CustomTagUsageReportData'
+    CustomTagUsageReportData:
+      type: object
+      description: Contains the detailed custom tag usage statistics for the specified date range.
+      properties:
+        aggregate_by:
+          type: string
+          description: The aggregation method used.
+          enum:
+          - period
+          - day
+          example: "period"
+        start_date:
+          type: string
+          format: date-time
+          description: Start date of the usage report period.
+          example: "2026-05-03T00:00:00"
+        end_date:
+          type: string
+          format: date-time
+          description: End date of the usage report period.
+          example: "2026-05-05T00:00:00"
+        next_page:
+          type: integer
+          nullable: true
+          description: Cursor for the next page of results. Null if there are no further pages.
+          example: 2
+        usage:
+          type: array
+          description: List of custom tag usage entries.
+          items:
+            $ref: '#/components/schemas/CustomTagUsageItem'
+    CustomTagUsageItem:
+      type: object
+      description: Usage statistics for a specific custom tag.
+      properties:
+        custom_tag:
+          type: string
+          description: The custom tag identifier.
+          example: "example-custom-tag"
+        breakdown:
+          $ref: '#/components/schemas/CustomTagBreakdown'
+    CustomTagBreakdown:
+      type: object
+      description: Breakdown of character usage by category for a custom tag.
+      properties:
+        total_characters:
+          type: integer
+          description: Total number of characters used.
+          example: 380
+        text_translation_characters:
+          type: integer
+          description: Number of characters used for text translation.
+          example: 380
+        text_improvement_characters:
+          type: integer
+          description: Number of characters used for text improvement.
+          example: 0
     ErrorResponse:
       type: object
       required:
