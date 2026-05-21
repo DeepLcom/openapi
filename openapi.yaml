@@ -293,14 +293,21 @@ paths:
                   value:
                     custom_tag_usage_report:
                       aggregate_by: "day"
-                      start_date: "2026-05-17T00:00:00"
-                      end_date: "2026-05-18T00:00:00"
-                      next_page: 2
+                      start_date: "2026-05-03T00:00:00"
+                      end_date: "2026-05-15T00:00:00"
+                      next_page: null
                       usage:
                       - custom_tag: "example-custom-tag"
+                        usage_date: "2026-05-04T00:00:00Z"
                         breakdown:
-                          total_characters: 190
-                          text_translation_characters: 190
+                          total_characters: 380
+                          text_translation_characters: 380
+                          text_improvement_characters: 0
+                      - custom_tag: "example-custom-tag"
+                        usage_date: "2026-05-11T00:00:00Z"
+                        breakdown:
+                          total_characters: 595
+                          text_translation_characters: 595
                           text_improvement_characters: 0
         400:
           description: Bad request. Please check error message and your parameters.
@@ -5883,6 +5890,11 @@ components:
           type: string
           description: The custom tag identifier.
           example: "example-custom-tag"
+        usage_date:
+          type: string
+          format: date-time
+          description: The day the usage was recorded. Only returned when `aggregate_by` is `day`.
+          example: "2026-05-04T00:00:00Z"
         breakdown:
           $ref: '#/components/schemas/CustomTagBreakdown'
     CustomTagBreakdown:
