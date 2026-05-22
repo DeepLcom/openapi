@@ -39,6 +39,10 @@ tags:
 - name: RephraseText
   description: |-
     The `rephrase` endpoint  is used to make corrections and adjustments to texts based on style or tone.
+- name: CorrectText
+  description: |-
+    The `correct` endpoint fixes spelling and grammar errors without broader rephrasing. Use it when you want
+    a minimal-change correction pass rather than the broader rewriting performed by `rephrase`.
 - name: ManageMultilingualGlossaries
   description: |-
     The *glossary* functions allow you to create, inspect, edit and delete glossaries.
@@ -1825,7 +1829,7 @@ paths:
     post:
       tags:
         - RephraseText
-      summary: Request text improvement
+      summary: Improve text
       operationId: rephraseText
       requestBody:
         required: true
@@ -1889,10 +1893,103 @@ paths:
                           description: The language detected in the source text.
                           type: string
                           example: en
+                        target_language:
+                          description: The target language specified by the request.
+                          type: string
+                          example: en-US
                         text:
                           description: The improved text.
                           type: string
                           example: This is a sample sentence to improve.
+      security:
+        - auth_header: [ ]
+  /v2/write/correct:
+    post:
+      tags:
+        - CorrectText
+      summary: Correct text
+      description: |-
+        Fix spelling and grammar errors in one or more texts. Unlike `/v2/write/rephrase`, this endpoint applies
+        a minimal-change correction pass and does not rewrite the text for style or tone.
+      operationId: correctText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+              properties:
+                text:
+                  description: Text to be corrected. Only UTF-8-encoded plain text is supported. Corrections are
+                    returned in the same order as they are requested.
+                  type: array
+                  items:
+                    type: string
+                    example: this is a example sentence to imprve
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguageWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - text
+              properties:
+                text:
+                  description: Text to be corrected. Only UTF-8-encoded plain text is supported. Corrections are
+                    returned in the same order as they are requested.
+                  type: array
+                  items:
+                    type: string
+                    example: this is a example sentence to imprve
+                target_lang:
+                  $ref: '#/components/schemas/TargetLanguageWrite'
+      responses:
+        200:
+          description: Successful text correction.
+          headers:
+            X-Trace-ID:
+              $ref: '#/components/headers/X-Trace-ID'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  improvements:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        detected_source_language:
+                          description: The language detected in the source text.
+                          type: string
+                          example: en
+                        target_language:
+                          description: The target language specified by the request.
+                          type: string
+                          example: en-US
+                        text:
+                          description: The corrected text.
+                          type: string
+                          example: This is a sample sentence to improve.
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        413:
+          $ref: '#/components/responses/PayloadTooLarge'
+        415:
+          description: Unsupported Content-Type. Use `application/json` or `application/x-www-form-urlencoded`.
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        456:
+          $ref: '#/components/responses/QuotaExceeded'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        504:
+          $ref: '#/components/responses/ServiceUnavailable'
       security:
         - auth_header: [ ]
   /v2/usage:
