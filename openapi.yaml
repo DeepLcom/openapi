@@ -3115,7 +3115,7 @@ paths:
                   source_media_content_type: 'audio/ogg;codecs=opus'
                   source_language: 'en'
                   target_languages: ['de', 'fr', 'es']
-                  target_media_languages: ['de', 'fr']
+                  target_media_languages: ['de']
                   target_media_content_type: 'audio/webm;codecs=opus'
                   target_media_voice: 'female'
               with_tts_short_form:
@@ -3124,7 +3124,7 @@ paths:
                   source_media_content_type: 'audio/webm'
                   source_language: 'en'
                   target_languages: ['de', 'es']
-                  target_media_languages: ['de', 'es']
+                  target_media_languages: ['de']
                   target_media_content_type: 'audio/ogg'
               with_tts_high_quality:
                 summary: With translated audio using high-quality PCM
@@ -5638,7 +5638,7 @@ components:
       type: array
       description: >
         List of target languages for translation. The stream will emit translations for each language.
-        The maximum allowed target languages per stream is 5. Language identifiers must comply with IETF BCP 47.
+        Language identifiers must comply with IETF BCP 47.
         See the [supported languages table](/api-reference/voice#show-supported-languages) for details.
       items:
         type: string
@@ -5698,7 +5698,6 @@ components:
         Languages specified here will automatically be added to target_languages if not already present,
         ensuring you receive both text translation and audio synthesis for these languages.
         If omitted, only text transcription and translation will be provided (no audio synthesis).
-        The maximum allowed target media languages per stream is 5.
         Language identifiers must comply with IETF BCP 47.
 
         Note: Some translated audio languages are provided through external service partners.
@@ -5739,9 +5738,9 @@ components:
           - zh
           - zh-HANS
           - zh-HANT
-      maxItems: 5
+      maxItems: 1
       default: []
-      example: ["de", "en-GB"]
+      example: ["de"]
     VoiceTargetMediaContentType:
       type: string
       description: "
