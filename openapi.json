@@ -5025,7 +5025,14 @@
         }
       },
       "BadRequest": {
-        "description": "Bad request. Please check error message and your parameters."
+        "description": "Bad request. Please check error message and your parameters.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "BadRequestGlossaries": {
         "description": "Bad request. Please check error message and your parameters.",
@@ -5052,16 +5059,37 @@
         }
       },
       "Unauthorized": {
-        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header."
+        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "Forbidden": {
-        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header."
+        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "ForbiddenGlossaries": {
         "description": "Forbidden. The access to the requested resource is denied, because of insufficient access rights."
       },
       "NotFound": {
-        "description": "The requested resource could not be found."
+        "description": "The requested resource could not be found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "NotFound404DocTransDownload": {
         "description": "Trying to download a document using a non-existing document ID or the wrong document key will result in a 404 error. As stated above, documents can only be downloaded once before they are deleted from the server and their document ID is invalidated.",
@@ -5082,7 +5110,14 @@
         }
       },
       "PayloadTooLarge": {
-        "description": "The request size exceeds the limit."
+        "description": "The request size exceeds the limit.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "URITooLong": {
         "description": "The request URL is too long. You can avoid this error by using a POST request instead of a GET request, and sending the parameters in the HTTP body."
@@ -5091,10 +5126,24 @@
         "description": "The requested entries format specified in the `Accept` header is not supported."
       },
       "TooManyRequests": {
-        "description": "Too many requests. Please wait and resend your request."
+        "description": "Too many requests. Please wait and resend your request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "QuotaExceeded": {
-        "description": "Quota exceeded. The character limit has been reached."
+        "description": "Quota exceeded. The character limit has been reached.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       },
       "QuotaExceededGlossaries": {
         "description": "Quota exceeded. Too many requests were made to the glossary endpoints recently."
