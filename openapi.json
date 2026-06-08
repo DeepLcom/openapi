@@ -1050,6 +1050,25 @@
                     "file": "@document.docx",
                     "glossary_id": "[yourGlossaryId]"
                   }
+                },
+                "StyleRule": {
+                  "summary": "Using a Style Rule List",
+                  "value": {
+                    "source_lang": "EN",
+                    "target_lang": "DE",
+                    "file": "@document.docx",
+                    "style_id": "[yourStyleId]"
+                  }
+                },
+                "TranslationMemory": {
+                  "summary": "Using a Translation Memory",
+                  "value": {
+                    "source_lang": "EN",
+                    "target_lang": "DE",
+                    "file": "@document.docx",
+                    "translation_memory_id": "[yourTranslationMemoryId]",
+                    "translation_memory_threshold": 75
+                  }
                 }
               },
               "schema": {
@@ -1083,6 +1102,17 @@
                   },
                   "glossary_id": {
                     "$ref": "#/components/schemas/GlossaryId"
+                  },
+                  "style_id": {
+                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:** The target language has to match the language of the style rule list.",
+                    "type": "string",
+                    "example": "7ff9bfd6-cd85-4190-8503-d6215a321519"
+                  },
+                  "translation_memory_id": {
+                    "$ref": "#/components/schemas/TranslationMemoryId"
+                  },
+                  "translation_memory_threshold": {
+                    "$ref": "#/components/schemas/TranslationMemoryThreshold"
                   },
                   "enable_beta_languages": {
                     "description": "This parameter is maintained for backward compatibility and has no effect.",
