@@ -72,6 +72,10 @@
     {
       "name": "AdminApi",
       "description": "Endpoints for organization administrators to manage API keys and retrieve usage analytics."
+    },
+    {
+      "name": "QualityEvaluation",
+      "description": "**Closed alpha.** Evaluate translation quality. Submit source/target segment pairs and retrieve per-segment quality issues categorized by error type and severity, with character spans pointing to where each issue occurs."
     }
   ],
   "x-hideTryItPanel": true,
@@ -4985,6 +4989,278 @@
           }
         }
       }
+    },
+    "/v1/quality-evaluation": {
+      "post": {
+        "tags": [
+          "QualityEvaluation"
+        ],
+        "summary": "Submit an evaluation job",
+        "operationId": "submitQualityEvaluation",
+        "description": "Starts an evaluation job for the given segments. Returns a `poll_url` that can be used to retrieve the result.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QualityEvaluationRequest"
+              },
+              "example": {
+                "metadata": {
+                  "source_language": "en",
+                  "target_language": "de"
+                },
+                "segments": [
+                  {
+                    "source": "Our Q3 revenue came in 5% above forecast.",
+                    "target": "Unser Q3-Umsatz lag 5 % unter der Prognose."
+                  },
+                  {
+                    "source": "Please share these results with your teams by Friday.",
+                    "target": "Bitte teilen Sie diese Ergebnisse mit Ihrem Team."
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Job accepted. Use the returned `poll_url` to retrieve the result.",
+            "headers": {
+              "Retry-After": {
+                "description": "Suggested number of seconds to wait before polling.",
+                "schema": {
+                  "type": "integer"
+                },
+                "example": 5
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityEvaluationJobCreated"
+                },
+                "example": {
+                  "job_id": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19",
+                  "poll_url": "/v1/quality-evaluation/f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request validation failed. Common causes:\n- `metadata.source_language`, `metadata.target_language`, or `segments` is missing or empty.\n- `segments` contains more than 500 entries.\n- A segment's `source` or `target` exceeds 10,000 characters.\n- The `source_language` / `target_language` combination is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityEvaluationApiError"
+                },
+                "example": {
+                  "message": "segments[0].source is required."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed. Common causes:\n- The API key does not have access to the Quality Evaluation feature.\n- A free-tier key is used against the paid endpoint, or vice versa.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityEvaluationApiError"
+                },
+                "example": {
+                  "message": "Forbidden"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "security": [
+          {
+            "auth_header": []
+          }
+        ]
+      }
+    },
+    "/v1/quality-evaluation/{job_id}": {
+      "get": {
+        "tags": [
+          "QualityEvaluation"
+        ],
+        "summary": "Poll for the evaluation result",
+        "operationId": "pollQualityEvaluation",
+        "description": "Returns the current state of an evaluation job. While the job is in progress the response contains only status information. Once complete the response includes the full evaluation report.",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "description": "The job identifier returned by `POST /v1/quality-evaluation`. Must be a valid UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Polling result. The response shape depends on the `status` field. `done` returns the full evaluation report; `error` returns error details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/QualityEvaluationDone"
+                    },
+                    {
+                      "$ref": "#/components/schemas/QualityEvaluationFailed"
+                    }
+                  ]
+                },
+                "example": {
+                  "job_id": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19",
+                  "status": "done",
+                  "segments": [
+                    {
+                      "segment_index": 0,
+                      "errors": [
+                        {
+                          "type": "Accuracy",
+                          "sub_type": "Mistranslation",
+                          "severity": "Critical",
+                          "explanation": "The source says revenue was '5% above forecast' but the translation says '5 % unter der Prognose' (5% below forecast). This completely reverses the meaning and has financial implications.",
+                          "source_spans": [
+                            {
+                              "start": 23,
+                              "end": 31
+                            }
+                          ],
+                          "target_spans": [
+                            {
+                              "start": 20,
+                              "end": 29
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "segment_index": 1,
+                      "errors": [
+                        {
+                          "type": "Accuracy",
+                          "sub_type": "Omission",
+                          "severity": "Major",
+                          "explanation": "The source specifies the deadline 'by Friday' but the translation omits this temporal information entirely.",
+                          "source_spans": [
+                            {
+                              "start": 43,
+                              "end": 52
+                            }
+                          ],
+                          "target_spans": []
+                        },
+                        {
+                          "type": "Accuracy",
+                          "sub_type": "Mistranslation",
+                          "severity": "Minor",
+                          "explanation": "The source says 'your teams' (plural) but the translation says 'Ihrem Team' (singular). This changes the scope of the instruction.",
+                          "source_spans": [
+                            {
+                              "start": 32,
+                              "end": 42
+                            }
+                          ],
+                          "target_spans": [
+                            {
+                              "start": 38,
+                              "end": 48
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "summary": {
+                    "granular_counts": {
+                      "Accuracy": {
+                        "Mistranslation": {
+                          "Critical": 1,
+                          "Minor": 1
+                        },
+                        "Omission": {
+                          "Major": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Job is still processing. Continue polling after the time suggested by the `Retry-After` header.",
+            "headers": {
+              "Retry-After": {
+                "description": "Suggested number of seconds to wait before polling again.",
+                "schema": {
+                  "type": "integer"
+                },
+                "example": 5
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityEvaluationProcessing"
+                },
+                "example": {
+                  "job_id": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19",
+                  "status": "processing"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid `job_id` format. The `job_id` must be a valid UUID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityEvaluationApiError"
+                },
+                "example": {
+                  "message": "job_id must be a valid UUID."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Job not found. The `job_id` is well-formed but no job exists with that ID, or it has expired. Jobs are retained for 24 hours after reaching `done` or `error` state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualityEvaluationApiError"
+                },
+                "example": {
+                  "message": "Quality estimation job not found."
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        },
+        "security": [
+          {
+            "auth_header": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -8480,6 +8756,328 @@
             "items": {
               "$ref": "#/components/schemas/VoiceTranslateJobTargetResult"
             }
+          }
+        }
+      },
+      "QualityEvaluationRequest": {
+        "type": "object",
+        "required": [
+          "metadata",
+          "segments"
+        ],
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "required": [
+              "source_language",
+              "target_language"
+            ],
+            "description": "Job-level metadata.",
+            "properties": {
+              "source_language": {
+                "type": "string",
+                "description": "Language code of the source text. See [Supported language pairs](/api-reference/quality-evaluation/submit#supported-language-pairs).",
+                "example": "en"
+              },
+              "target_language": {
+                "type": "string",
+                "description": "Language code of the translated text. See [Supported language pairs](/api-reference/quality-evaluation/submit#supported-language-pairs).",
+                "example": "de"
+              }
+            }
+          },
+          "segments": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 500,
+            "description": "The segment pairs to evaluate. Up to 500 segments per request.",
+            "items": {
+              "type": "object",
+              "required": [
+                "source",
+                "target"
+              ],
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "maxLength": 10000,
+                  "description": "The original text in the source language.",
+                  "example": "Our Q3 revenue came in 5% above forecast."
+                },
+                "target": {
+                  "type": "string",
+                  "maxLength": 10000,
+                  "description": "The translated text in the target language.",
+                  "example": "Unser Q3-Umsatz lag 5 % unter der Prognose."
+                }
+              }
+            }
+          }
+        }
+      },
+      "QualityEvaluationJobCreated": {
+        "type": "object",
+        "required": [
+          "job_id",
+          "poll_url"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The job identifier. Use it with `GET /v1/quality-evaluation/{job_id}` to poll for the result.",
+            "example": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+          },
+          "poll_url": {
+            "type": "string",
+            "description": "Relative URL you can use to poll for the result.",
+            "example": "/v1/quality-evaluation/f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+          }
+        }
+      },
+      "QualityEvaluationProcessing": {
+        "type": "object",
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "processing"
+            ],
+            "example": "processing"
+          }
+        }
+      },
+      "QualityEvaluationDone": {
+        "title": "Done",
+        "type": "object",
+        "required": [
+          "job_id",
+          "status",
+          "segments",
+          "summary"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "done"
+            ],
+            "example": "done"
+          },
+          "segments": {
+            "type": "array",
+            "description": "One entry per submitted segment, in request order.",
+            "items": {
+              "$ref": "#/components/schemas/QualityEvaluationSegment"
+            }
+          },
+          "summary": {
+            "type": "object",
+            "required": [
+              "granular_counts"
+            ],
+            "description": "Aggregate counts of issues across all segments.",
+            "properties": {
+              "granular_counts": {
+                "type": "object",
+                "description": "Nested counts keyed by `type`, then `sub_type`, then `severity`. Leaf values are integer counts.",
+                "additionalProperties": true,
+                "example": {
+                  "Accuracy": {
+                    "Mistranslation": {
+                      "Critical": 1,
+                      "Minor": 1
+                    },
+                    "Omission": {
+                      "Major": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "QualityEvaluationFailed": {
+        "title": "Error",
+        "type": "object",
+        "required": [
+          "job_id",
+          "status",
+          "error"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "f3a8c5e1-9b7d-4e62-a1c4-8f5d2b6e3c19"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "error"
+            ],
+            "example": "error"
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Machine-readable error code. Currently always `evaluation_failed`.",
+                "example": "evaluation_failed"
+              },
+              "message": {
+                "type": "string",
+                "description": "Error message.",
+                "example": "The evaluation pipeline encountered an unexpected error."
+              }
+            }
+          }
+        }
+      },
+      "QualityEvaluationSegment": {
+        "type": "object",
+        "required": [
+          "segment_index",
+          "errors"
+        ],
+        "properties": {
+          "segment_index": {
+            "type": "integer",
+            "description": "Zero-based index matching the position of this segment in the request.",
+            "example": 0
+          },
+          "errors": {
+            "type": "array",
+            "description": "Quality issues identified in this segment. Empty if no issues were found.",
+            "items": {
+              "$ref": "#/components/schemas/QualityEvaluationIssue"
+            }
+          }
+        }
+      },
+      "QualityEvaluationIssue": {
+        "type": "object",
+        "required": [
+          "type",
+          "sub_type",
+          "severity",
+          "explanation",
+          "source_spans",
+          "target_spans"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Top-level category of the issue. See [Type and sub-type values](/api-reference/quality-evaluation/poll#type-and-sub-type-values).",
+            "enum": [
+              "Accuracy",
+              "Fluency",
+              "Style",
+              "Miscellaneous"
+            ],
+            "example": "Accuracy"
+          },
+          "sub_type": {
+            "type": "string",
+            "description": "Finer-grained category within `type`. See [Type and sub-type values](/api-reference/quality-evaluation/poll#type-and-sub-type-values).",
+            "enum": [
+              "Addition",
+              "Omission",
+              "Mistranslation",
+              "Over-translation",
+              "Under-translation",
+              "Untranslated text",
+              "Punctuation",
+              "Spelling",
+              "Grammar",
+              "Grammatical register",
+              "Inconsistency",
+              "Character encoding",
+              "Awkward",
+              "Inconsistent style"
+            ],
+            "example": "Mistranslation"
+          },
+          "severity": {
+            "type": "string",
+            "description": "How serious the issue is. See [Severity values](/api-reference/quality-evaluation/poll#severity-values).",
+            "enum": [
+              "Critical",
+              "Major",
+              "Minor"
+            ],
+            "example": "Critical"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Description of the issue. May span multiple sentences.",
+            "example": "The source says revenue was '5% above forecast' but the translation says '5 % unter der Prognose' (5% below forecast). This completely reverses the meaning and has financial implications."
+          },
+          "source_spans": {
+            "type": "array",
+            "description": "Spans on the segment's source text where this issue applies. Empty if no source-side highlight. See [About span ranges](/api-reference/quality-evaluation/poll#about-span-ranges).",
+            "items": {
+              "$ref": "#/components/schemas/QualityEvaluationSpan"
+            }
+          },
+          "target_spans": {
+            "type": "array",
+            "description": "Spans on the segment's target text where this issue applies. Empty if no target-side highlight. See [About span ranges](/api-reference/quality-evaluation/poll#about-span-ranges).",
+            "items": {
+              "$ref": "#/components/schemas/QualityEvaluationSpan"
+            }
+          }
+        }
+      },
+      "QualityEvaluationSpan": {
+        "type": "object",
+        "required": [
+          "start",
+          "end"
+        ],
+        "description": "A half-open `[start, end)` range of Unicode code points within a segment's source or target text. See [About span ranges](/api-reference/quality-evaluation/poll#about-span-ranges).",
+        "properties": {
+          "start": {
+            "type": "integer",
+            "description": "Inclusive start index. A 0-based Unicode code-point offset.",
+            "example": 23
+          },
+          "end": {
+            "type": "integer",
+            "description": "Exclusive end index. A 0-based Unicode code-point offset.",
+            "example": 31
+          }
+        }
+      },
+      "QualityEvaluationApiError": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message."
           }
         }
       }
