@@ -3520,6 +3520,7 @@ paths:
                           - start: 38
                             end: 48
                 summary:
+                  overall_score: 72
                   granular_counts:
                     Accuracy:
                       Mistranslation:
@@ -6618,9 +6619,16 @@ components:
         summary:
           type: object
           required:
+            - overall_score
             - granular_counts
-          description: Aggregate counts of issues across all segments.
+          description: Aggregate quality results across all segments.
           properties:
+            overall_score:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: Overall translation quality, from 0 (lowest) to 100 (highest). See [Summary](/api-reference/quality-evaluation/poll#summary).
+              example: 72
             granular_counts:
               type: object
               description: Nested counts keyed by `type`, then `sub_type`, then `severity`. Leaf values are integer counts.
