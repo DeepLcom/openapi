@@ -993,7 +993,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -1165,7 +1165,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -1320,7 +1320,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -1413,7 +1413,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound404DocTransDownload"
@@ -2743,7 +2743,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "413": {
             "$ref": "#/components/responses/PayloadTooLarge"
@@ -2872,7 +2872,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "413": {
             "$ref": "#/components/responses/PayloadTooLarge"
@@ -2975,7 +2975,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -3217,7 +3217,7 @@
             "$ref": "#/components/responses/BadRequest"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -3377,7 +3377,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -3593,7 +3593,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -3705,7 +3705,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -3787,7 +3787,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -3903,7 +3903,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -3960,7 +3960,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4033,7 +4033,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4084,7 +4084,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4162,7 +4162,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4256,7 +4256,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4325,7 +4325,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4422,7 +4422,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -4479,7 +4479,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden"
+            "$ref": "#/components/responses/ForbiddenScoped"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -5406,8 +5406,18 @@
           }
         }
       },
+      "ForbiddenScoped": {
+        "description": "Authorization failed. Please supply a valid `DeepL-Auth-Key` via the `Authorization` header. This error is also returned when the API key is scoped but does not include the scope required for this endpoint.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
       "ForbiddenGlossaries": {
-        "description": "Forbidden. The access to the requested resource is denied, because of insufficient access rights."
+        "description": "Forbidden. The access to the requested resource is denied, because of insufficient access rights. This error is also returned when the API key is scoped but does not include the scope required for this endpoint."
       },
       "NotFound": {
         "description": "The requested resource could not be found.",
