@@ -749,6 +749,9 @@
                   "text": {
                     "description": "Text to be translated. Only UTF-8-encoded plain text is supported. The parameter may be specified\nmany times in a single request, within the request size limit (128KiB). Translations are returned\nin the same order as they are requested. Each text in the array is translated independently — texts\ndo not share context with each other.",
                     "type": "array",
+                    "x-default": [
+                      "Hello, World!"
+                    ],
                     "items": {
                       "type": "string",
                       "example": "Hello, World!"
@@ -758,7 +761,8 @@
                     "$ref": "#/components/schemas/SourceLanguage"
                   },
                   "target_lang": {
-                    "$ref": "#/components/schemas/TargetLanguage"
+                    "$ref": "#/components/schemas/TargetLanguage",
+                    "x-default": "DE"
                   },
                   "context": {
                     "$ref": "#/components/schemas/Context"
@@ -2651,6 +2655,9 @@
                   "text": {
                     "description": "Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested.",
                     "type": "array",
+                    "x-default": [
+                      "this is a example sentence to imprve"
+                    ],
                     "items": {
                       "type": "string",
                       "example": "this is a example sentence to imprve"
@@ -2678,6 +2685,9 @@
                   "text": {
                     "description": "Text to be improved. Only UTF-8-encoded plain text is supported. Improvements are returned in the same order as they are requested.",
                     "type": "array",
+                    "x-default": [
+                      "this is a example sentence to imprve"
+                    ],
                     "items": {
                       "type": "string",
                       "example": "this is a example sentence to imprve"
@@ -2792,6 +2802,9 @@
                   "text": {
                     "description": "Text to be corrected. Only UTF-8-encoded plain text is supported. Corrections are returned in the same order as they are requested.",
                     "type": "array",
+                    "x-default": [
+                      "this is a example sentence to imprve"
+                    ],
                     "items": {
                       "type": "string",
                       "example": "this is a example sentence to imprve"
@@ -2813,6 +2826,9 @@
                   "text": {
                     "description": "Text to be corrected. Only UTF-8-encoded plain text is supported. Corrections are returned in the same order as they are requested.",
                     "type": "array",
+                    "x-default": [
+                      "this is a example sentence to imprve"
+                    ],
                     "items": {
                       "type": "string",
                       "example": "this is a example sentence to imprve"
@@ -3421,6 +3437,7 @@
               ]
             },
             "example": "translate_text",
+            "x-default": "translate_text",
             "description": "The resource to retrieve languages for. Supported values: `translate_text`, `translate_document`,\n`glossary`, `voice`, `write`, `style_rules`."
           },
           {
@@ -3820,10 +3837,12 @@
                 ],
                 "properties": {
                   "name": {
-                    "$ref": "#/components/schemas/StyleRuleName"
+                    "$ref": "#/components/schemas/StyleRuleName",
+                    "x-default": "My style rules"
                   },
                   "language": {
-                    "$ref": "#/components/schemas/StyleRuleLanguage"
+                    "$ref": "#/components/schemas/StyleRuleLanguage",
+                    "x-default": "de"
                   },
                   "configured_rules": {
                     "$ref": "#/components/schemas/ConfiguredRules"
@@ -4213,12 +4232,14 @@
                   "label": {
                     "type": "string",
                     "description": "Label for the custom instruction",
-                    "maxLength": 100
+                    "maxLength": 100,
+                    "x-default": "Currency custom instruction"
                   },
                   "prompt": {
                     "type": "string",
                     "description": "Instruction text",
-                    "maxLength": 300
+                    "maxLength": 300,
+                    "x-default": "Have currency symbols before the numerical value (e.g. $100, €100)"
                   },
                   "source_language": {
                     "type": "string",
