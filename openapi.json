@@ -788,7 +788,7 @@
                     "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
                   },
                   "style_id": {
-                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:**  The target language has to match the language of the style rule list.\n\n**Note:** Any request with the `style_id` parameter enabled will use `quality_optimized` models. Requests combining `style_id` and `model_type: latency_optimized` will be rejected.",
+                    "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:**  The target language has to match the language of the style rule list.\n\nAll `model_type` values are supported.",
                     "type": "string",
                     "example": "7ff9bfd6-cd85-4190-8503-d6215a321519"
                   },
@@ -799,7 +799,7 @@
                     "$ref": "#/components/schemas/TranslationMemoryThreshold"
                   },
                   "custom_instructions": {
-                    "description": "Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.\n\n**Important:**  The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.\n\n**Note:** Any request with the `custom_instructions` parameter enabled will default to use the `quality_optimized` model type. Requests combining `custom_instructions` and `model_type: latency_optimized` will be rejected.",
+                    "description": "Specify a list of instructions to customize the translation behavior. Up to 10 custom instructions can be specified, each with a maximum of 300 characters.\n\n**Important:**  The target language must be `de`, `en`, `es`, `fr`, `it`, `ja`, `ko`, `zh` or any variants of these languages.",
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -7685,7 +7685,7 @@
       "TranslationMemoryId": {
         "type": "string",
         "format": "uuid",
-        "description": "A unique ID assigned to a translation memory.\n\n**Note:** Requests with the `translation_memory_id` parameter must use the `quality_optimized` model type. Requests combining `translation_memory_id` and `model_type: latency_optimized` will be rejected.",
+        "description": "A unique ID assigned to a translation memory.",
         "example": "a74d88fb-ed2a-4943-a664-a4512398b994"
       },
       "TranslationMemorySourceLanguage": {
