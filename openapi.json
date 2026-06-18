@@ -3300,7 +3300,8 @@
                           "glossary",
                           "voice",
                           "write",
-                          "style_rules"
+                          "style_rules",
+                          "translation_memory"
                         ],
                         "example": "translate_text"
                       },
@@ -3323,7 +3324,11 @@
                                 "glossary",
                                 "writing_style",
                                 "tone",
-                                "auto_detection"
+                                "auto_detection",
+                                "transcription",
+                                "translated_speech",
+                                "spoken_terms",
+                                "translation_memory"
                               ]
                             },
                             "needs_source_support": {
@@ -3433,12 +3438,13 @@
                 "glossary",
                 "voice",
                 "write",
-                "style_rules"
+                "style_rules",
+                "translation_memory"
               ]
             },
             "example": "translate_text",
             "x-default": "translate_text",
-            "description": "The resource to retrieve languages for. Supported values: `translate_text`, `translate_document`,\n`glossary`, `voice`, `write`, `style_rules`."
+            "description": "The resource to retrieve languages for. Supported values: `translate_text`, `translate_document`,\n`glossary`, `voice`, `write`, `style_rules`, `translation_memory`."
           },
           {
             "name": "include",

@@ -2298,6 +2298,7 @@ paths:
                         - voice
                         - write
                         - style_rules
+                        - translation_memory
                       example: translate_text
                     features:
                       description: |-
@@ -2320,6 +2321,10 @@ paths:
                               - writing_style
                               - tone
                               - auto_detection
+                              - transcription
+                              - translated_speech
+                              - spoken_terms
+                              - translation_memory
                           needs_source_support:
                             description: If `true`, the source language must support this feature for it to be available. Defaults to `false` if absent.
                             type: boolean
@@ -2385,11 +2390,12 @@ paths:
               - voice
               - write
               - style_rules
+              - translation_memory
           example: translate_text
           x-default: translate_text
           description: |-
             The resource to retrieve languages for. Supported values: `translate_text`, `translate_document`,
-            `glossary`, `voice`, `write`, `style_rules`.
+            `glossary`, `voice`, `write`, `style_rules`, `translation_memory`.
         - name: include
           in: query
           required: false
