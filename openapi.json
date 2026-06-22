@@ -984,6 +984,15 @@
                             "description": "Indicates the translation model used. Only present if model_type parameter is included in the request.",
                             "type": "string",
                             "example": "quality_optimized"
+                          },
+                          "tag_handling_version": {
+                            "description": "The version of the tag handling algorithm used for the translation. Only present when the `tag_handling` parameter (`xml` or `html`) is set. If you don't specify `tag_handling_version`, this shows the default that was applied.",
+                            "type": "string",
+                            "enum": [
+                              "v2",
+                              "v1"
+                            ],
+                            "example": "v2"
                           }
                         }
                       }
