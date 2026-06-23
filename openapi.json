@@ -783,9 +783,18 @@
                     "$ref": "#/components/schemas/ModelType"
                   },
                   "glossary_id": {
-                    "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang`\nparameter to be set. The language pair of the glossary has to match the language pair of the\nrequest.",
+                    "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang`\nparameter to be set. The language pair of the glossary has to match the language pair of the\nrequest.\n\nCannot be used together with `glossary_ids`.",
                     "type": "string",
                     "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                  },
+                  "glossary_ids": {
+                    "description": "Specify up to 5 glossaries to use for the translation, as an array of glossary IDs. Each glossary's matching terms are applied to the translation.\n\n**Important:** This requires the `source_lang` parameter to be set. Every listed glossary must contain a dictionary for the requested language pair.\n\nCannot be used together with `glossary_id`.",
+                    "type": "array",
+                    "maxItems": 5,
+                    "items": {
+                      "type": "string",
+                      "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                    }
                   },
                   "style_id": {
                     "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:**  The target language has to match the language of the style rule list.\n\nAll `model_type` values are supported.",
@@ -889,9 +898,18 @@
                     "$ref": "#/components/schemas/ModelType"
                   },
                   "glossary_id": {
-                    "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang`\nparameter to be set. The language pair of the glossary has to match the language pair of the\nrequest.",
+                    "description": "Specify the glossary to use for the translation. **Important:** This requires the `source_lang`\nparameter to be set. The language pair of the glossary has to match the language pair of the\nrequest.\n\nCannot be used together with `glossary_ids`.",
                     "type": "string",
                     "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                  },
+                  "glossary_ids": {
+                    "description": "Comma-separated list of up to 5 glossary IDs to use for the translation. Each glossary's matching terms are applied to the translation. May also be sent as a repeated parameter.\n\n**Important:** This requires the `source_lang` parameter to be set. Every listed glossary must contain a dictionary for the requested language pair.\n\nCannot be used together with `glossary_id`.",
+                    "type": "array",
+                    "maxItems": 5,
+                    "items": {
+                      "type": "string",
+                      "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                    }
                   },
                   "translation_memory_id": {
                     "$ref": "#/components/schemas/TranslationMemoryId"
@@ -1068,6 +1086,15 @@
                     "glossary_id": "[yourGlossaryId]"
                   }
                 },
+                "MultipleGlossaries": {
+                  "summary": "Using Multiple Glossaries",
+                  "value": {
+                    "source_lang": "EN",
+                    "target_lang": "DE",
+                    "file": "@document.docx",
+                    "glossary_ids": "[yourGlossaryId1],[yourGlossaryId2]"
+                  }
+                },
                 "StyleRule": {
                   "summary": "Using a Style Rule List",
                   "value": {
@@ -1118,7 +1145,18 @@
                     "$ref": "#/components/schemas/Formality"
                   },
                   "glossary_id": {
-                    "$ref": "#/components/schemas/GlossaryId"
+                    "description": "A unique ID assigned to a glossary. To check glossary support for a language pair, call `GET /v3/languages?resource=translate_document` and verify the `glossary` feature key is present on both the source and target language.\n\nCannot be used together with `glossary_ids`.",
+                    "type": "string",
+                    "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                  },
+                  "glossary_ids": {
+                    "description": "Comma-separated list of up to 5 glossary IDs to use for the translation. Each glossary's matching terms are applied to the translated document. May also be sent as a repeated parameter.\n\n**Important:** This requires the `source_lang` parameter to be set. Every listed glossary must contain a dictionary for the requested language pair.\n\nCannot be used together with `glossary_id`.",
+                    "type": "array",
+                    "maxItems": 5,
+                    "items": {
+                      "type": "string",
+                      "example": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+                    }
                   },
                   "style_id": {
                     "description": "Specify the [style rule list](/api-reference/style-rules) to use for the translation.\n\n**Important:** The target language has to match the language of the style rule list.",
