@@ -9,7 +9,7 @@ info:
   contact:
     name: DeepL - Contact us
     url: https://www.deepl.com/contact-us
-  version: 3.10.0
+  version: 3.11.0
 externalDocs:
   description: DeepL Pro - Plans and pricing
   url: https://www.deepl.com/pro#developer
@@ -2146,16 +2146,18 @@ paths:
                         account_unit_count: 5941580
                         api_key_character_count: 636
                         character_count: 5941580
-                      - product_type: speech_to_text
-                        billing_unit: milliseconds
-                        api_key_unit_count: 1800000
-                        account_unit_count: 1800000
+                      - product_type: speechToText
+                        billing_unit: minutes
+                        api_key_unit_count: 30
+                        account_unit_count: 30
                         api_key_character_count: 0
                         character_count: 0
                     api_key_character_count: 636
                     api_key_character_limit: 1000000000000
-                    speech_to_text_milliseconds_count: 1800000
-                    speech_to_text_milliseconds_limit: 36000000
+                    speech_to_text_milliseconds_count: 0
+                    speech_to_text_milliseconds_limit: 0
+                    speech_to_text_minutes_count: 30
+                    speech_to_text_minutes_limit: 600
                     start_time: '2025-05-13T09:18:42Z'
                     end_time: '2025-06-13T09:18:42Z'
         400:
@@ -5766,7 +5768,7 @@ components:
                 type: string
                 enum:
                   - characters
-                  - milliseconds
+                  - minutes
                 description: The billing unit for this product type.
                 example: characters
               api_key_unit_count:
@@ -5797,12 +5799,22 @@ components:
           example: 1000000000000
         speech_to_text_milliseconds_count:
           type: integer
-          description: Only present for API Pro users. Milliseconds of speech-to-text used in the current period.
-          example: 1800000
+          deprecated: true
+          description: Deprecated. Always returns 0. Use speech_to_text_minutes_count instead.
+          example: 0
         speech_to_text_milliseconds_limit:
           type: integer
-          description: Only present for API Pro users. Milliseconds of speech-to-text limit in the current period.
-          example: 36000000
+          deprecated: true
+          description: Deprecated. Always returns 0. Use speech_to_text_minutes_limit instead.
+          example: 0
+        speech_to_text_minutes_count:
+          type: integer
+          description: Only present for API Pro users. Minutes of speech-to-text used in the current period. Milliseconds are rounded up to the nearest minute.
+          example: 30
+        speech_to_text_minutes_limit:
+          type: integer
+          description: Only present for API Pro users. Maximum minutes of speech-to-text that can be used in the current billing period.
+          example: 600
         start_time:
           type: string
           format: date-time
